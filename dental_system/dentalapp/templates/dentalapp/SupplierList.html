@@ -1,0 +1,38 @@
+
+{%block content %}
+<p>List of suppliers</p>
+<a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:supplier_form' %}">Add New Supplier</a>
+<table class = "tbale table-borderless">
+    <thead class= "border-bottom font-weight-bold">
+        <tr>
+            <td>Contact Number</td>
+            <td>Contact Person</td>
+            <td>Address Line 1</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for supplier in supplierList %}
+        <tr>
+            <td>{{supplier.contact_number}}</td>
+            <td>{{supplier.contact_person}}</td>
+            <td>{{supplier.address1}}</td>
+            <td>
+                <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:supplier_update' supplier.id %}">Edit</a>
+            </td>
+            <td>
+                {% csrf_token %}
+                <form action="{% url 'dentalapp:supplier_delete' supplier.id %}" method='post'>
+                    <button type = 'submit' class='btn'>
+                        <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:supplier_delete' supplier.id %}">Delete</a>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+<a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a>
+
+{% endblock content %}
