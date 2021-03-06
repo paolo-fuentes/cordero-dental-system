@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dentalapp.apps.DentalappConfig',
+
+    #third-party library
+    'bootstrap_toolkit',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cordero_dentalsystems',
         'USER' : 'root',
-        'PASSWORD' : 'hello123',
+        'PASSWORD' : '',
         'PORT' : '3306',
         'HOST' : 'localhost',
     }
@@ -124,3 +128,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap'
