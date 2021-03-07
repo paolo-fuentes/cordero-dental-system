@@ -13,6 +13,15 @@ class SupplierForm(forms.ModelForm):
             'special_notes': 'Special Notes'
         }
 
+        widgets = {
+            'contact_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Hello World'}),
+            'business_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact_person': forms.TextInput(attrs={'class': 'form-control'}),
+            'address1': forms.TextInput(attrs={'class': 'form-control'}),
+            'address2': forms.TextInput(attrs={'class': 'form-control'}),
+            'special_notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
+
 
     def __init__(self,*args,**kwargs):
         super(SupplierForm,self).__init__(*args, **kwargs)

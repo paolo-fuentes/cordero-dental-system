@@ -11,5 +11,5 @@ class Supplier(models.Model):
     contact_person=models.CharField(max_length=40, default=None)
     address1=models.CharField(max_length=40,  default=None)
     address2=models.CharField(max_length=40, default=None)
-    special_notes=models.CharField(max_length=100, default=None)
+    special_notes=models.TextField(max_length=100, default=None)
 

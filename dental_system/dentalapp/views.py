@@ -12,6 +12,8 @@ def supplierList(request):
     return render(request,"dentalapp/SupplierList.html", context)
 
 def supplierForm(request,id=0):
+    model = Supplier
+    form_class = SupplierForm
     if request.method == "GET":
         if id == 0: 
             form = SupplierForm()
