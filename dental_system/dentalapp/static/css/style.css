@@ -22,7 +22,7 @@ body{
     left: 45px;
     height: 45px;
     width: 45px;
-    background: #1b1b1b;
+    background: #3EAEB8;
     border-radius: 3px;
     cursor: pointer;
     transition: left 0.4s ease;
@@ -34,7 +34,7 @@ body{
 }
 
 .toggleNavBtn span {
-    color: white;
+    color: #F6F5F7;
     font-size: 28px;
     line-height: 45px;
 }
@@ -48,13 +48,14 @@ body{
     width: 250px;
     height: 100%;
     left: -250px;
-    background: gray;
+    background-color: #3EAEB8;
     transition: left 0.4s ease;
 }
 
 .sidebar.show,
 .sidebar.active {
     left:0px;
+    background-color: #3EAEB8
 
 }
 
@@ -86,7 +87,7 @@ nav ul li a {
     display: block;
     width: 100%;
     text-decoration: none;
-    color: #000000;
+    color: #F6F5F7;
     font-weight: 500;
     font-size: 18px;
     padding-left: 40px;
@@ -94,8 +95,8 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: white;
-    background: cyan;
+    color: #F6F5F7;
+    background: #3EAEB8;
     border-left-color: black;
 }
 
@@ -181,12 +182,12 @@ nav ul li a:hover span {
     right: 0;
     width: 60px;
     height: 60px;
-    background: #330748;
+    background: #3EAEB8;
     cursor: pointer;
 }
 
 .toggle.active {
-    background: #ea1d63;
+    background: #F6F5F7;
 }
 
 .toggle:before {

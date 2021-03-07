@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 85vh;
+    min-height: 70vh;
 }
 </style>
 
@@ -24,7 +24,7 @@
         <div>
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
-                    {{ form|crispy }}
+                    {{ form.as_p }}
 
                     <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:supplier_list' %}">Cancel</a>
 
