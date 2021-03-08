@@ -14,7 +14,7 @@ class SupplierForm(forms.ModelForm):
         }
 
         widgets = {
-            'contact_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Hello World'}),
+            'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
             'business_name': forms.TextInput(attrs={'class': 'form-control'}),
             'contact_person': forms.TextInput(attrs={'class': 'form-control'}),
             'address1': forms.TextInput(attrs={'class': 'form-control'}),
