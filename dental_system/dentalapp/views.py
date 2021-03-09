@@ -3,9 +3,21 @@ from django.http import HttpResponse
 #from dentalapp.models import Supplier
 from .forms import SupplierForm
 from .models import Supplier
+import json
+from django.http import JsonResponse
+
 # Create your views here.
 def dentalapp(request):
     return render(request, 'dentalapp/home.html')
+
+def search_supplier(request):
+    if request.method=='POST':
+        search_str=json.loads(request.body).get('searchText')
+
+        supplier = Supplier.objects.filter(contact_person__istartswith=search_str)
+
+        data = supplier.values()
+        return JsonResponse(list(data), safe=False)
 
 def supplierList(request):
     context = {'supplierList' : Supplier.objects.all()}
