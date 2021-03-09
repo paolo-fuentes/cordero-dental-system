@@ -14,7 +14,7 @@ def search_supplier(request):
     if request.method=='POST':
         search_str=json.loads(request.body).get('searchText')
 
-        supplier = Supplier.objects.filter(contact_person__istartswith=search_str)
+        supplier = Supplier.objects.filter(contact_person__icontains=search_str)
 
         data = supplier.values()
         return JsonResponse(list(data), safe=False)
