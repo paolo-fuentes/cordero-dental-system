@@ -149,6 +149,7 @@ nav ul li a:hover span {
     /*padding-left: 20rem; */
     padding-top: 5rem;
     font-family: "Roboto", sans-serif;
+    overflow-x: auto;
 }
 
 .table-container table {
@@ -174,11 +175,14 @@ nav ul li a:hover span {
     border-bottom: 2px solid #C4C4C4;
 }
 
+.searchContainer {
+    display: flex;
+    margin: 0 10%;
+    justify-content: flex-end;
+}
+
 .searchBar {
-    position: fixed;
-    left: 70%;
-    top: 10%;
-    margin-bottom: 2rem;
+    
 }
 
 .toggle {
@@ -213,9 +217,9 @@ nav ul li a:hover span {
 /* MEDIA QUERIES */
 
 @media (max-width: 580px) {
-    .searchBar {
-       top: 15%;
-    }
+    /*.searchBar {
+        top: 15%;
+    }*/
 
     .table-container table {
         margin-top: 3rem;
