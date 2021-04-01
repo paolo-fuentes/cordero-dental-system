@@ -109,6 +109,10 @@ nav ul .feat-show.show {
     display: block;
 }
 
+nav ul .delivery-show.show2 {
+    display: block;
+}
+
 nav ul ul li {
     line-height: 42px;
     border-bottom: none;
