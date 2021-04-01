@@ -1,0 +1,83 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+<h1 class="pageHeading">View Suppliers</h1>
+
+<div class="searchContainer">
+    <div class="searchBar form-group">
+        <input type="text" class="form-control" id="searchField" placeholder="Search">
+    </div>
+
+</div>
+
+<div class="table-container">
+    
+    <div class="app-table">
+        <table class = "table table-borderless">
+
+                <thead class= "border-bottom font-weight-bold">
+                    <tr>
+                        <th>Contact Person</th>
+                        <th>Contact Number</th>
+                        <th>Address Line 1</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </div>
+
+            <tbody>
+                {% for supplier in supplierList %}
+                <tr>
+                    <td data-heading="Contact Person">{{supplier.contact_person}}</td>
+                    <td data-heading="Contact Number">{{supplier.contact_number}}</td>
+                    <td data-heading="Address Line 1">{{supplier.address1}}</td>
+                    <td data-heading="Edit Supplier">
+                        <a class="" href="{% url 'dentalapp:supplier_update' supplier.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                    </td>
+                    <td data-heading="Delete Supplier">
+                        {% csrf_token %}
+                        <!-- <form action="{% url 'dentalapp:supplier_delete' supplier.id %}" method='post'> -->
+                            <!--<button type = 'submit' class='btn'>-->
+                                <a class="" href="{% url 'dentalapp:supplier_delete' supplier.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                            <!--</button>-->
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        
+        </table>
+    </div>
+
+    <div class="table-output">
+
+        <table class = "table table-borderless">
+            <thead class= "border-bottom font-weight-bold">
+                <tr>
+                    <th>Contact Person</th>
+                    <th>Contact Number</th>
+                    <th>Address Line 1</th>
+                    <th>Edit Supplier</th>
+                    <th>Delete Supplier</th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                
+                
+            </tbody>
+        
+        </table>
+
+
+    </div>
+</div>
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}
