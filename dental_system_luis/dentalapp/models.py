@@ -36,6 +36,11 @@ class Material(models.Model):
     threshold_value = models.IntegerField(default=None)
     threshold_value_unit = models.CharField(max_length=10, default=None)
     current_quantity = models.IntegerField(default=None)
+    m_type = [
+        ('Perishable', 'Perishable'),
+        ('Non-Perishable', 'Non-Perishable')
+    ]
+    material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
     Supply =[
     ('Low','Low Supply'),
     ('Mid', 'In-Supply (Med)'),

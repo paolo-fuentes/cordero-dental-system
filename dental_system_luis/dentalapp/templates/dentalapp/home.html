@@ -52,7 +52,7 @@
             <a href="#" class="delivery-btn">Deliveries
                 <span class="fas fa-caret-down"></span>
             </a>
-            <ul class="del-show">
+            <ul class="delivery-show">
                 <li><a href="{% url 'dentalapp:delivery_list' %}">View Deliveries</a></li>
                 <li><a href="{% url 'dentalapp:delivery_form' %}">Add Delivery</a></li>
             </ul>
@@ -86,12 +86,15 @@
             $(this).toggleClass("click");
             $('.sidebar').toggleClass("show");
         });
+
         $('.supplier-btn').click(function(){
             $('nav ul .feat-show').toggleClass("show");
         });
+
         $('.delivery-btn').click(function(){
-            $('nav ul .del-show').toggleClass("show");
+            $('nav ul .delivery-show').toggleClass("show2");
         });
+
         $('.cus-btn').click(function(){
             $('nav ul .cus-show').toggleClass("show1");
         });
