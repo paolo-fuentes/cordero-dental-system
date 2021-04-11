@@ -49,17 +49,35 @@
         </li>
 
         <li>
+            <a href="#" class="mat-btn">Materials
+                <span class="fas fa-caret-down fourth"></span>
+            </a>
+            <ul class="mat-show">
+                <li><a href="{% url 'dentalapp:material_list' %}">View Materials</a></li>
+                <li><a href="{% url 'dentalapp:material_form' %}">Add Materials</a></li>
+            </ul>
+        </li>
+        <li>
+        </li>
+
+        <li>
             <a href="#" class="delivery-btn">Deliveries
                 <span class="fas fa-caret-down"></span>
             </a>
             <ul class="delivery-show">
-                <li><a href="#">View Deliveries</a></li>
-                <li><a href="#">Add Delivery</a></li>
+                <li><a href="{% url 'dentalapp:delivery_list' %}">View Deliveries</a></li>
+                <li><a href="{% url 'dentalapp:delivery_form' %}">Add Delivery</a></li>
             </ul>
         </li>
 
         <li>
-            <a href="#">Customers</a>
+            <a href="#" class="cus-btn">Customers
+                <span class="fas fa-caret-down third"></span>
+            </a>
+            <ul class="cus-show">
+                <li><a href="{% url 'dentalapp:customer_list' %}">View Customers</a></li>
+                <li><a href="{% url 'dentalapp:customer_form' %}">Add Customer</a></li>
+            </ul>
         </li>
 
         <li>
@@ -86,6 +104,13 @@
 
         $('.delivery-btn').click(function(){
             $('nav ul .delivery-show').toggleClass("show2");
+        });
+
+        $('.cus-btn').click(function(){
+            $('nav ul .cus-show').toggleClass("show1");
+        });
+        $('.mat-btn').click(function(){
+            $('nav ul .mat-show').toggleClass("show3");
         });
 
         function toggleMenu(){

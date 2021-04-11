@@ -113,6 +113,14 @@ nav ul .delivery-show.show2 {
     display: block;
 }
 
+nav ul .cus-show.show1 {
+    display: block;
+}
+
+nav ul .mat-show.show3 {
+    display: block;
+}
+
 nav ul ul li {
     line-height: 42px;
     border-bottom: none;

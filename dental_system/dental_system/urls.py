@@ -19,6 +19,8 @@ from dentalapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('dentalapp.urls'))
+    path('',include('dentalapp.urls')),
+    path('authentication/', include('django.contrib.auth.urls')),
+    path('authentication/',include('authentication.urls')),
 ]
   

@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     #third-party library
     'bootstrap_toolkit',
     'crispy_forms',
+    'django_filters',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +132,17 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap'
+
+def FILTERS_VERBOSE_LOOKUPS():
+    from django_filters.conf import DEFAULTS
+
+    verbose_lookups = DEFAULTS['VERBOSE_LOOKUPS'].copy()
+    verbose_lookups.update({
+        'exact': (''),
+        'iexact': (''),
+        'contains': (''),
+        'icontains': (''),
+        'contact_person': (''),
+    })
+    return verbose_lookups
+
