@@ -15,12 +15,51 @@ from .models import Delivered_Material
 #from dentalapp.models import Material
 from .forms import MaterialForm
 from .models import Material
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CreateUserForm
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+def registerPage(request):
+    form = CreateUserForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dentalapp:login')
+
+    context = {'form':form}
+    return render(request, 'dentalapp/register.html', context)
+
+def loginPage(request):
+
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('dentalapp:dentalapp')
+        #else:
+            #messages.info(request, "Username or Password is incorrect")
+
+    context = {}
+    return render(request, 'dentalapp/login.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('dentalapp:login')
+
+@login_required(login_url='dentalapp:login')
 def dentalapp(request):
     return render(request, 'dentalapp/home.html')
 
-
+@login_required(login_url='dentalapp:login')
 def supplierList(request):
     suppliers = Supplier.objects.all()
 
@@ -31,6 +70,7 @@ def supplierList(request):
     context = {'supplierList' : suppliers, 'myFilter': myFilter}
     return render(request,"dentalapp/SupplierList.html", context)
 
+@login_required(login_url='dentalapp:login')
 def supplierForm(request,id=0):
     model = Supplier
     form_class = SupplierForm
@@ -51,14 +91,18 @@ def supplierForm(request,id=0):
             form.save()
         return redirect('/supplierList')
 
+@login_required(login_url='dentalapp:login')
 def supplierDelete(request,id):
     supplier = Supplier.objects.get(pk=id)
     supplier.delete()
     return redirect('/supplierList')
 
+@login_required(login_url='dentalapp:login')
 def customerList(request):
     context = {'customerList' : Customer.objects.all()}
     return render(request,"dentalapp/CustomerList.html", context)
+
+@login_required(login_url='dentalapp:login')
 def customerForm(request,id=0):
     model = Customer
     form_class = CustomerForm
@@ -78,13 +122,19 @@ def customerForm(request,id=0):
         if form.is_valid():
             form.save()
         return redirect('/customerList')
+
+@login_required(login_url='dentalapp:login')
 def customerDelete(request,id):
     customer = Customer.objects.get(pk=id)
     customer.delete()
     return redirect('/customerList')
+
+@login_required(login_url='dentalapp:login')
 def materialList(request):
     context = {'materialList' : Material.objects.all()}
     return render(request,"dentalapp/MaterialList.html", context)
+
+@login_required(login_url='dentalapp:login')
 def materialForm(request,id=0):
     model = Material
     form_class = MaterialForm
@@ -104,16 +154,22 @@ def materialForm(request,id=0):
         if form.is_valid():
             form.save()
         return redirect('/materialList')
+
+@login_required(login_url='dentalapp:login')
 def materialDelete(request,id):
     material = Material.objects.get(pk=id)
     material.delete()
     return redirect('/materialList')
+
+@login_required(login_url='dentalapp:login')
 def deliveryList(request):
     context = {'deliveryList' : Delivered_Material.objects.all()}
     return render(request,"dentalapp/deliveryList.html", context)
 #def deliveryForm(request):
     #form = Delivered_MaterialForm()
     #return render(request,"dentalapp/deliveryForm.html",{'form':form})
+
+@login_required(login_url='dentalapp:login')
 def deliveryForm(request,id=0):
     model = Delivered_Material
     form_class = Delivered_MaterialForm
@@ -133,6 +189,8 @@ def deliveryForm(request,id=0):
         if form.is_valid():   
             form.save()           
         return redirect('/deliveryList')
+
+@login_required(login_url='dentalapp:login')
 def deliveryDelete(request,id):
     delivery = Delivered_Material.objects.get(pk=id)
     delivery.delete()

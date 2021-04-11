@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'bootstrap_toolkit',
     'crispy_forms',
     'django_filters',
-    'authentication',
 ]
 
 MIDDLEWARE = [
