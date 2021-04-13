@@ -6,6 +6,9 @@ from .models import Supplier
 import json
 from django.http import JsonResponse
 from .filters import SupplierFilter
+from .filters import CustomerFilter
+from .filters import MaterialFilter
+from .filters import DeliveryFilter
 #from dentalapp.models import Customer
 from .models import Customer
 from .forms import CustomerForm
@@ -18,6 +21,8 @@ from .models import Material
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CreateUserForm
 
+from django.contrib import messages
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -29,6 +34,9 @@ def registerPage(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user)
+
             return redirect('dentalapp:login')
 
     context = {'form':form}
@@ -45,8 +53,8 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             return redirect('dentalapp:dentalapp')
-        #else:
-            #messages.info(request, "Username or Password is incorrect")
+        else:
+            messages.info(request, "Username or Password is incorrect")
 
     context = {}
     return render(request, 'dentalapp/login.html', context)
@@ -99,7 +107,12 @@ def supplierDelete(request,id):
 
 @login_required(login_url='dentalapp:login')
 def customerList(request):
-    context = {'customerList' : Customer.objects.all()}
+    customers = Customer.objects.all()
+
+    myFilter = CustomerFilter(request.GET, queryset=customers)
+    customers = myFilter.qs
+
+    context = {'customerList' : customers, 'myFilter':myFilter}
     return render(request,"dentalapp/CustomerList.html", context)
 
 @login_required(login_url='dentalapp:login')
@@ -131,7 +144,12 @@ def customerDelete(request,id):
 
 @login_required(login_url='dentalapp:login')
 def materialList(request):
-    context = {'materialList' : Material.objects.all()}
+    materials = Material.objects.all()
+
+    myFilter = MaterialFilter(request.GET, queryset=materials)
+    materials = myFilter.qs
+
+    context = {'materialList' : materials, 'myFilter':myFilter}
     return render(request,"dentalapp/MaterialList.html", context)
 
 @login_required(login_url='dentalapp:login')
@@ -163,7 +181,11 @@ def materialDelete(request,id):
 
 @login_required(login_url='dentalapp:login')
 def deliveryList(request):
-    context = {'deliveryList' : Delivered_Material.objects.all()}
+    deliveries = Delivered_Material.objects.all()
+    myFilter = DeliveryFilter(request.GET, queryset=deliveries)
+    deliveries = myFilter.qs
+
+    context = {'deliveryList' : deliveries, 'myFilter': myFilter}
     return render(request,"dentalapp/deliveryList.html", context)
 #def deliveryForm(request):
     #form = Delivered_MaterialForm()

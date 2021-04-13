@@ -37,7 +37,7 @@ class Material(models.Model):
         ('Perishable', 'Perishable'),
         ('Non-Perishable', 'Non-Perishable')
     ]
-    material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
+    material_type = models.CharField(max_length=25, choices=m_type)
     threshold_value_unit = models.CharField(max_length=10, default=None)
     threshold_value = models.IntegerField(default=None)
     current_quantity = models.IntegerField(default=None)
@@ -46,7 +46,7 @@ class Material(models.Model):
     ('Mid', 'In-Supply (Med)'),
     ('High', 'In-Supply (High)'),
     ]
-    supply_status = models.CharField(max_length=20, choices=Supply, default='Low')
+    supply_status = models.CharField(max_length=20, choices=Supply)
    
     def __str__(self):
         return str(self.material_name)

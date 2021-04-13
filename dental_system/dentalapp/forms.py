@@ -67,6 +67,15 @@ class Delivered_MaterialForm(forms.ModelForm):
             'delivery_date': 'Delivery Date',
             'parcel_number': 'Parcel Number',
         }
+
+        widgets = {
+            'supplier': forms.Select(attrs={'class': 'form-control'}),
+            'material': forms.Select(attrs={'class': 'form-control'}),
+            'quantity_restock': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+            'delivery_date': forms.DateInput(attrs={'class': 'form-control'}),
+            'parcel_number': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
     def __init__(self,*args,**kwargs):
         super(Delivered_MaterialForm,self).__init__(*args, **kwargs)
         self.fields['parcel_number'].required=False
@@ -81,4 +90,12 @@ class MaterialForm(forms.ModelForm):
             'threshold_value_unit': 'Threshold Value Unit',
             'threshold_value': 'Threshold Value',
             'current_quantity': 'Current Quantity',
+        }
+
+        widgets = {
+            'material_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'material_type': forms.Select(attrs={'class': 'form-control'}),
+            'threshold_value_unit': forms.TextInput(attrs={'class': 'form-control'}),
+            'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+            'current_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
         }

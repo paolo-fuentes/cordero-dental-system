@@ -6,79 +6,47 @@
 {%block content %}
 <h1 class="pageHeading">View Materials</h1>
 
-<div class="searchContainer">
-    <div class="searchBar form-group">
-        <input type="text" class="form-control" id="searchField" placeholder="Search">
-    </div>
+<form method="get" style=>
+    {{myFilter.form}}
 
-</div>
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
 
 <div class="table-container">
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Material Name</th>
+                <th>Material Type</th>
+                <th>Threshold Value Unit</th>
+                <th>Threshold Value</th>
+                <th>Current Quantity</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in materialList %}
+            <tr>
+                <td data-heading="Material Name">{{material.material_name}}</td>
+                <td data-heading="Material Type">{{material.material_type}}</td>
+                <td data-heading="Threshold Value">{{material.threshold_value}}</td>
+                <td data-heading="Threshold Value Unit">{{material.threshold_value_unit}}</td>
+                <td data-heading="Current Quantity">{{material.current_quantity}}</td>
+                <td data-heading="Edit Material">
+                    <a class="" href="{% url 'dentalapp:material_update' material.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                </td>
+                <td data-heading="Delete Material">
+                    {% csrf_token %}
+                    <a class="" href="{% url 'dentalapp:material_delete' material.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     
-    <div class="app-table">
-        <table class = "table table-borderless">
-
-                <thead class= "border-bottom font-weight-bold">
-                    <tr>
-                        <th>Material Name</th>
-                        <th>Material Type</th>
-                        <th>Threshold Value Unit</th>
-                        <th>Threshold Value</th>
-                        <th>Current Quantity</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </div>
-
-            <tbody>
-                {% for material in materialList %}
-                <tr>
-                    <td data-heading="Material Name">{{material.material_name}}</td>
-                    <td data-heading="Material Type">{{material.material_type}}</td>
-                    <td data-heading="Threshold Value">{{material.threshold_value}}</td>
-                    <td data-heading="Threshold Value Unit">{{material.threshold_value_unit}}</td>
-                    <td data-heading="Current Quantity">{{material.current_quantity}}</td>
-                    <td data-heading="Edit Material">
-                        <a class="" href="{% url 'dentalapp:material_update' material.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
-                    </td>
-                    <td data-heading="Delete Material">
-                        {% csrf_token %}
-                        <!-- <form action="{% url 'dentalapp:material_delete' material.id %}" method='post'> -->
-                            <!--<button type = 'submit' class='btn'>-->
-                                <a class="" href="{% url 'dentalapp:material_delete' material.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
-                            <!--</button>-->
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        
-        </table>
-    </div>
-
-    <div class="table-output">
-
-        <table class = "table table-borderless">
-            <thead class= "border-bottom font-weight-bold">
-                <tr>
-                    <th>Material Name</th>
-                    <th>Material Type</th>
-                    <th>Threshold Value</th>
-                    <th>Threshold Value Unit</th>                
-                    <th>Current Quantity</th>
-                </tr>
-            </thead>
-            <tbody class="table-body">
-                
-                
-            </tbody>
-        
-        </table>
-
-
-    </div>
+    </table>
 </div>
+
 
 <script src="{% static 'js/searchSupplier.js' %}"></script>
 

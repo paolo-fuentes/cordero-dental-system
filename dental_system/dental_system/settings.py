@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bootstrap_toolkit',
     'crispy_forms',
     'django_filters',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,7 @@ def FILTERS_VERBOSE_LOOKUPS():
     })
     return verbose_lookups
 
+# Use BOOTSTRAP3 if you are using Bootstrap 3
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}

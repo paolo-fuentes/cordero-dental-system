@@ -6,57 +6,47 @@
 {%block content %}
 <h1 class="pageHeading">View Deliveries</h1>
 
-<div class="searchContainer">
-    <div class="searchBar form-group">
-        <input type="text" class="form-control" id="searchField" placeholder="Search">
-    </div>
+<form method="get" style=>
+    {{myFilter.form}}
 
-</div>
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
 
 <div class="table-container">
-    
-    <div class="app-table">
-        <table class = "table table-borderless">
-
-                <thead class= "border-bottom font-weight-bold">
-                    <tr>
-                        <th>Supplier</th>
-                        <th>Date</th>
-                        <th>Delivered Materials</th>
-                        <th>Quantity</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </div>
-
-            <tbody>
-                {% for delivery in deliveryList %}
-                <tr>
-                    <td data-heading="Supplier">{{delivery.supplier}}</td>
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Supplier</th>
+                <th>Date</th>
+                <th>Delivered Materials</th>
+                <th>Quantity</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for delivery in deliveryList %}
+            <tr>
+                <td data-heading="Supplier">{{delivery.supplier}}</td>
                     <td data-heading="Date">{{delivery.delivery_date}}</td>
                     <td data-heading="Delivered Materials">{{delivery.material.material_name}}</td>
                     <td data-heading="Quantity">{{delivery.quantity_restock}}</td>
-                    <td data-heading="Edit">
-                        <a class="" href="{% url 'dentalapp:delivery_update' delivery.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
-                    </td>
-
-                    <td data-heading="Delete">
-                        {% csrf_token %}
-                        <a class="" href="{% url 'dentalapp:delivery_delete' delivery.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
-                    </td>
-
-                </tr>
-                {% endfor %}
-
-            </tbody>
-        
-        </table>
-    </div>
+                <td data-heading="Edit Delivery">
+                    <a class="" href="{% url 'dentalapp:delivery_update' delivery.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                </td>
+                <td data-heading="Delete Delivery">
+                    {% csrf_token %}
+                    <a class="" href="{% url 'dentalapp:delivery_delete' delivery.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     
+    </table>
 </div>
 
-<script src="{% static 'js/searchCustomer.js' %}"></script>
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
 
 <!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
 
