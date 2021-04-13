@@ -1,0 +1,49 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+<h1 class="pageHeading">View Customers</h1>
+
+<form method="get" style=>
+    {{myFilter.form}}
+
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+<div class="table-container">
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Customer Name</th>
+                <th>Contact Number</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customerList %}
+            <tr>
+                <td data-heading="Contact Person">{{customer.customer_name}}</td>
+                <td data-heading="Contact Number">{{customer.contact_number}}</td>
+                <td data-heading="Edit Customer">
+                    <a class="" href="{% url 'dentalapp:customer_update' customer.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                </td>
+                <td data-heading="Delete Customer">
+                    {% csrf_token %}
+                    <a class="" href="{% url 'dentalapp:customer_delete' customer.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}
