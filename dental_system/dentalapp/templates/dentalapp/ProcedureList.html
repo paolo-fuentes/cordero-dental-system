@@ -1,0 +1,54 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+<h1 class="pageHeading">View Procedure</h1>
+
+<form method="get" style=>
+    {{myFilter.form}}
+
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+<div class="table-container">
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Procedure Name</th>
+                <th>Price</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for procedure in procedureList %}
+            <tr>
+                <td data-heading="Procedure Name">{{procedure.procedure_name}}</td>
+                <td data-heading="Price">PHP {{procedure.price}}</td>
+                <td data-heading="Add Required Material"><a href="{% url 'dentalapp:procedure_required_material_form' procedure.id %}">Add Required Material</a></td>
+                <td data-heading="View Required Material"><a href="{% url 'dentalapp:procedure_required_material_list' %}">View Required Materials</a></td>
+                <!-- <td data-heading="Threshold Value Unit">{{material.threshold_value_unit}}</td> -->
+                <td data-heading="Edit Procedure">
+                    <a class="" href="{% url 'dentalapp:procedure_update' procedure.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                </td>
+                <td data-heading="Delete Procedure">
+                    {% csrf_token %}
+                    <a class="" href="{% url 'dentalapp:procedure_delete' procedure.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}

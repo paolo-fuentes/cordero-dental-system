@@ -29,4 +29,18 @@ class DeliveryFilter(django_filters.FilterSet):
         fields = {
             'parcel_number': ['icontains'],
         }
+
+class ProcedureFilter(django_filters.FilterSet):
+    class Meta:
+        model = Procedure
+        fields = {
+            'procedure_name': ['icontains'],
+        }
+
+class Required_MaterialFilter(django_filters.FilterSet):
+    class Meta:
+        model = Required_Material
+        fields = {
+            'quantity': ['icontains'],
+        }
         
