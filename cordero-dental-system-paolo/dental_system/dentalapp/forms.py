@@ -4,8 +4,12 @@ from .models import Customer
 from .models import Material
 #from .models import Delivery
 from .models import Delivered_Material
+from .models import Procedure
+from .models import Required_Material
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from django.forms import ModelForm, inlineformset_factory
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -99,3 +103,26 @@ class MaterialForm(forms.ModelForm):
             'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
             'current_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
         }
+
+class ProcedureForm(forms.ModelForm):
+    class Meta:
+        model=Procedure
+        exclude = ()
+        fields = ('procedure_name', 'price')
+        labels = {
+            'procedure_name': 'Procedure Name',
+            'price': 'Price',
+        }
+
+        widgets = {
+            'procedure_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+        }
+
+class RequiredMaterialForm(forms.ModelForm):
+    class Meta:
+        model = Required_Material
+        fields = '__all__'
+
+#RequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), can_delete=True, extra=1)
+ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material','quantity'))

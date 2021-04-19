@@ -17,7 +17,7 @@
         <thead class= "border-bottom font-weight-bold">
             <tr>
                 <th>Supplier</th>
-                <th>Date</th>
+                <th>Delivered Date</th>
                 <th>Delivered Materials</th>
                 <th>Quantity</th>
                 <th></th>
@@ -28,7 +28,7 @@
             {% for delivery in deliveryList %}
             <tr>
                 <td data-heading="Supplier">{{delivery.supplier}}</td>
-                    <td data-heading="Date">{{delivery.delivery_date}}</td>
+                    <td data-heading="Delivered Date">{{delivery.delivery_date}}</td>
                     <td data-heading="Delivered Materials">{{delivery.material.material_name}}</td>
                     <td data-heading="Quantity">{{delivery.quantity_restock}}</td>
                 <td data-heading="Edit Delivery">

@@ -4,39 +4,36 @@
 
 
 {%block content %}
-<h1 class="pageHeading">View Materials</h1>
+<h1 class="pageHeading">Required Materials </h1>
+<h3 style="text-align:center;">{{p_obj.procedure_name}}</h3>
 
-<form method="get" style=>
+<!--<form method="get" style=>
     {{myFilter.form}}
 
     <button class="btn btn-primary" type="submit">Search</button>
-</form>
+</form>-->
 
 <div class="table-container">
     <table class = "table table-borderless">
         <thead class= "border-bottom font-weight-bold">
             <tr>
                 <th>Material Name</th>
-                <th>Material Type</th>
-                <th>Current Quantity</th>
-                <th>Status</th>
+                <th>Required Quantity</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for material in materialList %}
+            {% for requiredmaterial in procedure_material %}
             <tr>
-                <td data-heading="Material Name">{{material.material_name}}</td>
-                <td data-heading="Material Type">{{material.material_type}}</td>
-                <td data-heading="Current Quantity">{{material.supplydisplay}}</td>
-                <td data-heading="Current Quantity">{{material.get_supply_status_display}}</td>
+                <td data-heading="Material Name">{{requiredmaterial.material}}</td>
+                <td data-heading="Required Quantity">{{requiredmaterial.quantity}} {{requiredmaterial.material.threshold_value_unit}}</td>
                 <td data-heading="Edit Material">
-                    <a class="" href="{% url 'dentalapp:material_update' material.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                    <a class="" href="#"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
                 </td>
                 <td data-heading="Delete Material">
                     {% csrf_token %}
-                    <a class="" href="{% url 'dentalapp:material_delete' material.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                    <a class="" href="#"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}

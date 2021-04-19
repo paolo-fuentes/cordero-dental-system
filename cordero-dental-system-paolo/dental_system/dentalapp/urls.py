@@ -28,5 +28,12 @@ urlpatterns = [
     path('materialList',views.materialList, name="material_list"),
     path('materialForm',views.materialForm, name="material_form"),
     path('material<int:id>/',views.materialForm, name='material_update'),
-    path('materialdelete/<int:id>/',views.materialDelete, name='material_delete')
+    path('materialdelete/<int:id>/',views.materialDelete, name='material_delete'),
+
+    path('procedureList',views.procedureList, name="procedure_list"),
+    path('procedureForm',views.procedureForm, name="procedure_form"),
+    path('procedure<int:id>/',views.procedureForm, name='procedure_update'),
+    path('proceduredelete/<int:id>/',views.procedureDelete, name='procedure_delete'),
+    path('procedureRequiredMaterialsForm<int:pk>', views.ProcedureRequiredMaterialsForm, name='procedure_required_material_form'),
+    path('procedureRequiredMaterialsList<int:pk>',views.ProcedureRequiredMaterialsList, name="procedure_required_material_list"),
 ]

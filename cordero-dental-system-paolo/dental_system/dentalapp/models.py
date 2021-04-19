@@ -1,8 +1,6 @@
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
-from django.db.models.signals import post_save
-
 
 # Create your models here.
 
@@ -42,28 +40,28 @@ class Material(models.Model):
     material_type = models.CharField(max_length=25, choices=m_type)
     threshold_value_unit = models.CharField(max_length=10, default=None)
     threshold_value = models.IntegerField(default=None)
-    current_quantity = models.IntegerField(default=0)
-    Low = 'Low Supply'
-    Mid = 'In-Supply (Med)'
-    High = 'In-Supply (High)'
+    current_quantity = models.IntegerField(default=None)
     Supply =[
-    (Low,'Low Supply'),
-    (Mid, 'In-Supply (Med)'),
-    (High, 'In-Supply (High)'),
+    ('Low','Low Supply'),
+    ('Mid', 'In-Supply (Med)'),
+    ('High', 'In-Supply (High)'),
     ]
-    supply_status = models.CharField(max_length=20, choices=Supply, default=Low)
+    supply_status = models.CharField(max_length=20, choices=Supply)
    
     def __str__(self):
         return str(self.material_name)
-    
+
     def supplydisplay(self):
         return str(self.current_quantity) + " " + self.threshold_value_unit
 
-    #def status(self, *arg, **kwargs):
-        #super(Material, self).save(*arg, **kwargs)
-        #if self.current_quantity>50:
-            #self.supply_status = self.High
-
+    def save(self, *args, **kwargs):
+        if self.current_quantity>=self.threshold_value*2:
+            self.supply_status = "High" 
+        elif self.current_quantity>=self.threshold_value and self.current_quantity < self.threshold_value*2:
+            self.supply_status = "Mid"
+        else:
+            self.supply_status = "Low"
+        super().save(*args, **kwargs)
 
 class Delivered_Material(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete = models.SET_NULL, null=True)
@@ -87,5 +85,22 @@ class Delivered_Material(models.Model):
         super(Delivered_Material, self).save(*arg, **kwargs)
         self.material.current_quantity += self.quantity_restock
         self.material.save()
-    
+
+class Procedure(models.Model):
+    procedure_name = models.CharField(max_length=50, default=None)
+    price = models.IntegerField(default=None)
+    #procedure_material_name = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
+
+    def __str__(self):
+        return str(self.procedure_name)
+
+
+class Required_Material(models.Model):
+    procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True, related_name='procedure_required_material')
+    material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
+    quantity = models.CharField(max_length=50, default=None)
+    #quantity_unit = models.CharField(max_length=10, default=None)
+
+    def __str__(self):
+        return str(self.procedure)
 

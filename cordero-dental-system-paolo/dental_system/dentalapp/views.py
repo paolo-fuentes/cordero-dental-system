@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 #from dentalapp.models import Supplier
 from .forms import SupplierForm
 from .models import Supplier
@@ -9,22 +11,31 @@ from .filters import SupplierFilter
 from .filters import CustomerFilter
 from .filters import MaterialFilter
 from .filters import DeliveryFilter
+from .filters import Required_MaterialFilter
 #from dentalapp.models import Customer
 from .models import Customer
 from .forms import CustomerForm
 #from .models import Delivery
 from .forms import Delivered_MaterialForm
+from .forms import ProcedureForm
 from .models import Delivered_Material
 #from dentalapp.models import Material
 from .forms import MaterialForm
 from .models import Material
+from .models import Procedure
+from .models import Required_Material
+from .forms import RequiredMaterialForm
+
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CreateUserForm
 
 from django.contrib import messages
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
+from .forms import ProcedureRequiredMaterialFormSet
+
+from django.forms import inlineformset_factory
 
 # Create your views here.
 def registerPage(request):
@@ -204,7 +215,7 @@ def deliveryForm(request,id=0):
         return render(request,"dentalapp/deliveryForm.html",{'form':form})
     else:
         if id == 0:
-            form = Delivered_MaterialForm(request.POST)
+            form = Delivered_MaterialForm(request.POST) 
         else:
             delivery = Delivered_Material.objects.get(pk=id)     
             form = Delivered_MaterialForm(request.POST,instance=delivery)                        
@@ -217,3 +228,76 @@ def deliveryDelete(request,id):
     delivery = Delivered_Material.objects.get(pk=id)
     delivery.delete()
     return redirect('/deliveryList')
+
+#####
+
+@login_required(login_url='dentalapp:login')
+def procedureList(request):
+    procedures = Procedure.objects.all()
+
+    myFilter = MaterialFilter(request.GET, queryset=procedures)
+    procedures = myFilter.qs
+
+    context = {'procedureList' : procedures, 'myFilter':myFilter}
+    return render(request,"dentalapp/procedureList.html", context)
+
+@login_required(login_url='dentalapp:login')
+def procedureForm(request,id=0):
+    model = Procedure
+    form_class = ProcedureForm
+    if request.method == "GET":
+        if id == 0: 
+            form = ProcedureForm()
+        else:
+            procedure = Procedure.objects.get(pk=id)
+            form = ProcedureForm(instance=procedure)
+        return render(request,"dentalapp/ProcedureForm.html",{'form':form})
+    else:
+        if id == 0:
+            form = ProcedureForm(request.POST)
+        else:
+            procedure = Procedure.objects.get(pk=id)
+            form = ProcedureForm(request.POST,instance=procedure)
+        if form.is_valid():
+            form.save()
+        return redirect('/procedureList')
+
+@login_required(login_url='dentalapp:login')
+def procedureDelete(request,id):
+    procedure = Procedure.objects.get(pk=id)
+    procedure.delete()
+    return redirect('/ProcedureList')
+
+def ProcedureRequiredMaterialsForm(request, pk):
+    ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), extra=10)
+    procedure = Procedure.objects.get(id=pk)
+    formset = ProcedureRequiredMaterialFormSet(queryset=Required_Material.objects.none(), instance=procedure)
+    #form = RequiredMaterialForm(initial={'procedure':procedure})
+    if request.method == 'POST':
+        formset = ProcedureRequiredMaterialFormSet(request.POST, instance=procedure)
+        #form = RequiredMaterialForm(request.POST)
+        if formset.is_valid():
+            formset.save()
+            return redirect('/procedureList')
+
+    context = {'formset':formset}
+    return render(request, "dentalapp/ProcedureRequiredMaterialForm.html", context)
+
+#def ProcedureRequiredMaterialsList(request):
+    #required_materials = Required_Material.objects.all()
+
+    #myFilter = Required_MaterialFilter(request.GET, queryset=required_materials)
+    #required_materials = myFilter.qs
+
+    #context = {'requiredMaterialList' : required_materials, 'myFilter':myFilter}
+    #return render(request,"dentalapp/ProcedureRequiredMaterialList.html", context)
+
+def ProcedureRequiredMaterialsList(request,pk):
+    procedure_material = Required_Material.objects.filter(procedure__pk=pk)
+    procedure = Procedure.objects.get(pk=pk)
+    p_obj = get_object_or_404(Procedure, pk=pk)
+    #gtotal = sum( d.solver() for d in OrderLine.objects.filter(ORD__cust_order__name = cust_order.name))
+    return render(request,"dentalapp/ProcedureRequiredMaterialList.html",{'procedure_material':procedure_material,'p_obj':p_obj,'procedure':procedure})
+
+    
+    
