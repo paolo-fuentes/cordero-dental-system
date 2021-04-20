@@ -35,5 +35,7 @@ urlpatterns = [
     path('procedure<int:id>/',views.procedureForm, name='procedure_update'),
     path('proceduredelete/<int:id>/',views.procedureDelete, name='procedure_delete'),
     path('procedureRequiredMaterialsForm<int:pk>', views.ProcedureRequiredMaterialsForm, name='procedure_required_material_form'),
-    path('procedureRequiredMaterialsList',views.ProcedureRequiredMaterialsList, name="procedure_required_material_list"),
+    path('updateProcedureRequiredMaterials/<str:pk>/', views.updateProcedureRequiredMaterials, name="procedure_required_materials_update"),
+    path('deleteProcedureRequiredMaterials/<int:id>/', views.deleteProcedureRequiredMaterials, name="procedure_required_materials_delete"),
+    path('procedureRequiredMaterialsList<int:pk>',views.ProcedureRequiredMaterialsList, name="procedure_required_material_list"),
 ]

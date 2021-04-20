@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'bootstrap_toolkit',
     'crispy_forms',
     'django_filters',
-    'bootstrap_datepicker_plus',
+    #'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

@@ -63,12 +63,13 @@ class CustomerForm(forms.ModelForm):
 class Delivered_MaterialForm(forms.ModelForm):
     class Meta:
         model=Delivered_Material
-        fields = ('supplier', 'material','quantity_restock', 'delivery_date','parcel_number')
+        fields = ('supplier', 'material','quantity_restock', 'delivery_date', 'expiry_date', 'parcel_number')
         labels = {
             'supplier': 'Supplier',
             'material': 'Delivered Material',
             'quantity_restock': 'Restock Quantity',
             'delivery_date': 'Delivery Date',
+            'expiry_date': 'Expiry Date',
             'parcel_number': 'Parcel Number',
         }
 
@@ -87,18 +88,26 @@ class Delivered_MaterialForm(forms.ModelForm):
 class MaterialForm(forms.ModelForm):
     class Meta:
         model=Material
-        fields = ('material_name', 'material_type','threshold_value_unit','threshold_value','current_quantity')
+        fields = ('material_name', 'material_type','threshold_value_unit','threshold_value','current_quantity', 'expiry_date')
         labels = {
             'material_name': 'Material Name',
             'material_type': 'Material Type',
-            'threshold_value_unit': 'Threshold Value Unit',
+            'expiry_date': 'Expiry Date',
             'threshold_value': 'Threshold Value',
+            'threshold_value_unit': 'Threshold Value Unit',
             'current_quantity': 'Current Quantity',
+            
         }
+
+        m_type = [
+            ('Non-Perishable', 'Non-Perishable'),
+            ('Perishable', 'Perishable')
+        ]
 
         widgets = {
             'material_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'material_type': forms.Select(attrs={'class': 'form-control'}),
+            'material_type': forms.RadioSelect(choices=m_type),
+            'expiry_date': forms.DateInput(attrs={'class': 'form-control'}),
             'threshold_value_unit': forms.TextInput(attrs={'class': 'form-control'}),
             'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
             'current_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
@@ -122,7 +131,16 @@ class ProcedureForm(forms.ModelForm):
 class RequiredMaterialForm(forms.ModelForm):
     class Meta:
         model = Required_Material
-        fields = '__all__'
+        fields = ('material', 'quantity')
+        labels = {
+            'material': 'Material',
+            'quantity': 'Quantity',
+        }
+
+        widgets = {
+            'material': forms.Select(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+        }
 
 #RequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), can_delete=True, extra=1)
-ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material','quantity', 'quantity_unit'))
+ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material','quantity'))

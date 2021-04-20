@@ -30,7 +30,7 @@
                 <td data-heading="Procedure Name">{{procedure.procedure_name}}</td>
                 <td data-heading="Price">PHP {{procedure.price}}</td>
                 <td data-heading="Add Required Material"><a href="{% url 'dentalapp:procedure_required_material_form' procedure.id %}">Add Required Material</a></td>
-                <td data-heading="View Required Material"><a href="{% url 'dentalapp:procedure_required_material_list' %}">View Required Materials</a></td>
+                <td data-heading="View Required Material"><a href="{% url 'dentalapp:procedure_required_material_list' pk=procedure.id %}">View Required Materials</a></td>
                 <!-- <td data-heading="Threshold Value Unit">{{material.threshold_value_unit}}</td> -->
                 <td data-heading="Edit Procedure">
                     <a class="" href="{% url 'dentalapp:procedure_update' procedure.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>

@@ -4,11 +4,11 @@
 
 
 {%block content %}
-<h1 class="pageHeading">View Materials</h1>
+<h1 class="pageHeading">Required Materials </h1>
+<h3 style="text-align:center;">{{p_obj.procedure_name}}</h3>
 
 <!--<form method="get" style=>
     {{myFilter.form}}
-
     <button class="btn btn-primary" type="submit">Search</button>
 </form>-->
 
@@ -23,16 +23,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for requiredmaterial in requiredMaterialList %}
+            {% for requiredmaterial in procedure_material %}
             <tr>
                 <td data-heading="Material Name">{{requiredmaterial.material}}</td>
-                <td data-heading="Required Quantity">{{requiredmaterial.quantity}} {{requiredmaterial.quantity_unit}}</td>
+                <td data-heading="Required Quantity">{{requiredmaterial.quantity}} {{requiredmaterial.material.threshold_value_unit}}</td>
                 <td data-heading="Edit Material">
-                    <a class="" href="#"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:procedure_required_materials_update' requiredmaterial.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
                 </td>
                 <td data-heading="Delete Material">
                     {% csrf_token %}
-                    <a class="" href="#"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:procedure_required_materials_delete' requiredmaterial.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}

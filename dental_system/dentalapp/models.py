@@ -34,13 +34,15 @@ class Material(models.Model):
     material_name=models.CharField(max_length=100, default=None)
     #deliveries = models.ManyToManyField('Delivery', through='Delivered_Material')
     m_type = [
-        ('Perishable', 'Perishable'),
-        ('Non-Perishable', 'Non-Perishable')
+        ('Non-Perishable', 'Non-Perishable'),
+        ('Perishable', 'Perishable')
     ]
-    material_type = models.CharField(max_length=25, choices=m_type)
-    threshold_value_unit = models.CharField(max_length=10, default=None)
+    material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
+    expiry_date=models.DateField(default=timezone.now)
     threshold_value = models.IntegerField(default=None)
+    threshold_value_unit = models.CharField(max_length=10, default=None)
     current_quantity = models.IntegerField(default=None)
+    
     Supply =[
     ('Low','Low Supply'),
     ('Mid', 'In-Supply (Med)'),
@@ -68,6 +70,7 @@ class Delivered_Material(models.Model):
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
     quantity_restock = models.IntegerField(default=None)
     delivery_date=models.DateField(default=timezone.now)
+    expiry_date=models.DateField(default=timezone.now)
     parcel_number = models.CharField(max_length=50, default=None)
    
 
@@ -99,8 +102,8 @@ class Required_Material(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True, related_name='procedure_required_material')
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
     quantity = models.CharField(max_length=50, default=None)
-    quantity_unit = models.CharField(max_length=10, default=None)
+
 
     def __str__(self):
-        return str(self.procedure)
+        return str(self.material)
 
