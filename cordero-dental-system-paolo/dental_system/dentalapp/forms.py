@@ -6,6 +6,8 @@ from .models import Material
 from .models import Delivered_Material
 from .models import Procedure
 from .models import Required_Material
+from .models import Reservation
+from .models import ReservationProcedure
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -124,5 +126,17 @@ class RequiredMaterialForm(forms.ModelForm):
         model = Required_Material
         fields = '__all__'
 
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+
+
+class ReservationProcedureForm(forms.ModelForm):
+    class Meta:
+        model = ReservationProcedure
+        fields = '__all__'
+
 #RequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), can_delete=True, extra=1)
 ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material','quantity'))
+ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation','procedure'))

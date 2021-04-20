@@ -20,6 +20,10 @@ class Supplier(models.Model):
 class Customer(models.Model):
     customer_name=models.CharField(max_length=40, default=None)
     contact_number=models.CharField(max_length=25, default=None)
+
+    def __str__(self):
+        return self.customer_name
+
     
 #class Delivery(models.Model):
     #supplier = models.ForeignKey(Supplier, to_field='contact_person', db_column='supplier', on_delete = models.SET_NULL, null=True)
@@ -104,3 +108,21 @@ class Required_Material(models.Model):
     def __str__(self):
         return str(self.procedure)
 
+
+class Reservation(models.Model):
+    customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True)
+    datetime = models.DateTimeField(default=timezone.now)
+
+class ReservationProcedure(models.Model):
+    reservation = models.ForeignKey(Reservation, on_delete = models.SET_NULL, null=True)
+    procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True)
+
+    #def save(self,*args, **kwargs):
+        #procedure = self.procedure.objects.get(id)
+        #req_materials = procedure.book_set.all()
+        #for i in req_materials:
+            #i.material.current_quantity -= i.quantity
+            #i.material.save()
+        #super().save(*args, **kwargs)
+        
+        

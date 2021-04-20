@@ -6,6 +6,8 @@ from .models import Delivered_Material
 from .models import Material
 from .models import Procedure
 from .models import Required_Material
+from .models import Reservation
+from .models import ReservationProcedure
 # Register your models here.
 
 class SupplierAdmin(admin.ModelAdmin):
@@ -33,6 +35,12 @@ class ProcedureAdmin(admin.ModelAdmin):
 class Required_MaterialAdmin(admin.ModelAdmin):
     list_display = ['procedure', 'material', 'quantity']
 
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ['customer', 'datetime']
+
+class ReservationProcedureAdmin(admin.ModelAdmin):
+    list_display = ['reservation', 'procedure']
+
 #class Delivered_MaterialAdmin(admin.ModelAdmin):
     #list_display=['delivery','material']
 admin.site.register(Supplier, SupplierAdmin)
@@ -42,3 +50,6 @@ admin.site.register(Material, MaterialAdmin)
 admin.site.register(Delivered_Material, Delivered_MaterialAdmin)
 admin.site.register(Procedure, ProcedureAdmin)
 admin.site.register(Required_Material, Required_MaterialAdmin)
+admin.site.register(Reservation, ReservationAdmin)
+admin.site.register(ReservationProcedure, ReservationProcedureAdmin)
+
