@@ -1,0 +1,52 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+<h1 class="pageHeading">Upcoming Appointments</h1>
+
+<!--<form method="get" style=>
+    {{myFilter.form}}
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>-->
+
+<div class="table-container">
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Customer</th>
+                <th>Time</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservationList %}
+            <tr>
+                <td data-heading="Customer">{{reservation.customer}}</td>
+                <td data-heading="Appointment Time">{{reservation.datetime}}</td>
+                <td data-heading="Add Required Material"><a href="{% url 'dentalapp:reservationProcedure_form' reservation.id %}">Add Procedures</a></td>
+                <td data-heading="View Required Material"><a href="{% url 'dentalapp:reservationProcedure_list' pk=reservation.id %}">View Procedures</a></td>
+                <td data-heading="Edit Reservation">
+                    <a class="" href="{% url 'dentalapp:reservation_update' reservation.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                </td>
+                <td data-heading="Delete Reservation">
+                    {% csrf_token %}
+                    <a class="" href="{% url 'dentalapp:reservation_delete' reservation.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}

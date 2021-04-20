@@ -6,6 +6,8 @@ from .models import Material
 from .models import Delivered_Material
 from .models import Procedure
 from .models import Required_Material
+from .models import Reservation
+from .models import ReservationProcedure
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -63,13 +65,12 @@ class CustomerForm(forms.ModelForm):
 class Delivered_MaterialForm(forms.ModelForm):
     class Meta:
         model=Delivered_Material
-        fields = ('supplier', 'material','quantity_restock', 'delivery_date', 'expiry_date', 'parcel_number')
+        fields = ('supplier', 'material','quantity_restock', 'delivery_date', 'parcel_number')
         labels = {
             'supplier': 'Supplier',
             'material': 'Delivered Material',
             'quantity_restock': 'Restock Quantity',
             'delivery_date': 'Delivery Date',
-            'expiry_date': 'Expiry Date',
             'parcel_number': 'Parcel Number',
         }
 
@@ -106,7 +107,7 @@ class MaterialForm(forms.ModelForm):
 
         widgets = {
             'material_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'material_type': forms.RadioSelect(choices=m_type),
+            'material_type': forms.RadioSelect(attrs={'class': "custom-radio-list"}, choices=m_type),
             'expiry_date': forms.DateInput(attrs={'class': 'form-control'}),
             'threshold_value_unit': forms.TextInput(attrs={'class': 'form-control'}),
             'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
@@ -142,5 +143,17 @@ class RequiredMaterialForm(forms.ModelForm):
             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
         }
 
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = '__all__'
+
+
+class ReservationProcedureForm(forms.ModelForm):
+    class Meta:
+        model = ReservationProcedure
+        fields = '__all__'
+
 #RequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), can_delete=True, extra=1)
 ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material','quantity'))
+ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation','procedure'))

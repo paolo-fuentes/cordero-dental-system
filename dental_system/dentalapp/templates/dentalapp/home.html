@@ -26,7 +26,13 @@
         </li>
 
         <li>
-            <a href="#">Reservation</a>
+            <a href="#" class="reservation-btn">Reservation
+            <span class="fas fa-caret-down"></span>
+            <ul class="reservation-show">
+                <li><a href="{% url 'dentalapp:reservation_list' %}">View Reservations</a></li>
+                <li><a href="{% url 'dentalapp:reservation_form' %}">Add Reservation</a></li>
+            </ul>
+            </a>
         </li>
 
         <li>
@@ -120,6 +126,10 @@
 
         $('.procedure-btn').click(function(){
             $('nav ul .procedure-show').toggleClass("show4");
+        });
+
+        $('.reservation-btn').click(function(){
+            $('nav ul .reservation-show').toggleClass("show5");
         });
 
         

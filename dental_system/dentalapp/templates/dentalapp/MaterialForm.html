@@ -63,6 +63,16 @@
     right: 0;
 }
 
+.custom-radio-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.field-container {
+    margin-bottom: 1.5rem;
+}
+
 </style>
 
 {% endblock %}
@@ -76,32 +86,32 @@
                     {% csrf_token %}
                     <!--{{ form.as_p }}-->
 
-                <div>
+                <div class="field-container">
                     <p>{{ form.material_name.label_tag }}</p>
                     {{ form.material_name }}
                 </div>
 
-                <div id="material-type">
+                <div id="material-type" class="field-container">
                     <p>{{ form.material_type.label_tag }}</p>
                     {{ form.material_type }}
                 </div>
 
-                <div id="toggle-expiry">
+                <div id="toggle-expiry" class="field-container">
                     <p>{{ form.expiry_date.label_tag }}</p>
                     {{ form.expiry_date }}
                 </div>
 
-                <div>
+                <div class="field-container">
                     <p>{{ form.threshold_value.label_tag }}</p>
                     {{ form.threshold_value }}
                 </div>
 
-                <div>
+                <div class="field-container">
                     <p>{{ form.threshold_value_unit.label_tag }}</p>
                     {{ form.threshold_value_unit }}
                 </div>
 
-                <div>
+                <div class="field-container">
                     <p>{{ form.current_quantity.label_tag }}</p>
                     {{ form.current_quantity }}
                 </div>
