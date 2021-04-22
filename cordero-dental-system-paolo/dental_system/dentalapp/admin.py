@@ -1,13 +1,5 @@
 from django.contrib import admin
-from .models import Supplier
-from .models import Customer
-#from .models import Delivery
-from .models import Delivered_Material
-from .models import Material
-from .models import Procedure
-from .models import Required_Material
-from .models import Reservation
-from .models import ReservationProcedure
+from .models import *
 # Register your models here.
 
 class SupplierAdmin(admin.ModelAdmin):
@@ -41,6 +33,12 @@ class ReservationAdmin(admin.ModelAdmin):
 class ReservationProcedureAdmin(admin.ModelAdmin):
     list_display = ['reservation', 'procedure']
 
+class CheckoutAdmin(admin.ModelAdmin):
+    list_display = ['invoice_number','reservation']
+
+class ExcessMaterialsAdmin(admin.ModelAdmin):
+    list_display = ['checkout', 'material', 'excess_quantity']
+
 #class Delivered_MaterialAdmin(admin.ModelAdmin):
     #list_display=['delivery','material']
 admin.site.register(Supplier, SupplierAdmin)
@@ -52,4 +50,6 @@ admin.site.register(Procedure, ProcedureAdmin)
 admin.site.register(Required_Material, Required_MaterialAdmin)
 admin.site.register(Reservation, ReservationAdmin)
 admin.site.register(ReservationProcedure, ReservationProcedureAdmin)
+admin.site.register(Checkout, CheckoutAdmin)
+admin.site.register(ExcessMaterials, ExcessMaterialsAdmin)
 

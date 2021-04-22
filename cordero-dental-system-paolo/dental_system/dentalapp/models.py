@@ -20,11 +20,10 @@ class Supplier(models.Model):
 class Customer(models.Model):
     customer_name=models.CharField(max_length=40, default=None)
     contact_number=models.CharField(max_length=25, default=None)
-
+    
     def __str__(self):
         return self.customer_name
-
-    
+        
 #class Delivery(models.Model):
     #supplier = models.ForeignKey(Supplier, to_field='contact_person', db_column='supplier', on_delete = models.SET_NULL, null=True)
     #delivery_date=models.DateField( default=timezone.now())
@@ -38,13 +37,15 @@ class Material(models.Model):
     material_name=models.CharField(max_length=100, default=None)
     #deliveries = models.ManyToManyField('Delivery', through='Delivered_Material')
     m_type = [
-        ('Perishable', 'Perishable'),
-        ('Non-Perishable', 'Non-Perishable')
+        ('Non-Perishable', 'Non-Perishable'),
+        ('Perishable', 'Perishable')
     ]
-    material_type = models.CharField(max_length=25, choices=m_type)
-    threshold_value_unit = models.CharField(max_length=10, default=None)
+    material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
+    expiry_date=models.DateField(default=timezone.now)
     threshold_value = models.IntegerField(default=None)
+    threshold_value_unit = models.CharField(max_length=10, default=None)
     current_quantity = models.IntegerField(default=None)
+    
     Supply =[
     ('Low','Low Supply'),
     ('Mid', 'In-Supply (Med)'),
@@ -102,27 +103,36 @@ class Procedure(models.Model):
 class Required_Material(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True, related_name='procedure_required_material')
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
-    quantity = models.CharField(max_length=50, default=None)
-    #quantity_unit = models.CharField(max_length=10, default=None)
+    quantity = models.IntegerField(default=None)
+
 
     def __str__(self):
-        return str(self.procedure)
-
+        return str(self.material)
 
 class Reservation(models.Model):
     customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True)
     datetime = models.DateTimeField(default=timezone.now)
+    status =[
+    ('Scheduled','Scheduled'),
+    ('Finished', 'Finished'),
+    ]
+    status = models.CharField(max_length=20, choices=status, default='Scheduled')
+
+    def __str__(self):
+        return (str(self.pk) +" " +str(self.customer))
+
 
 class ReservationProcedure(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete = models.SET_NULL, null=True)
     procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True)
 
-    #def save(self,*args, **kwargs):
-        #procedure = self.procedure.objects.get(id)
-        #req_materials = procedure.book_set.all()
-        #for i in req_materials:
-            #i.material.current_quantity -= i.quantity
-            #i.material.save()
-        #super().save(*args, **kwargs)
-        
-        
+class Checkout(models.Model):
+    invoice_number = models.CharField(max_length=50, default=None)
+    reservation = models.ForeignKey(Reservation, on_delete = models.SET_NULL, null=True)
+
+
+class ExcessMaterials(models.Model):
+    excess_quantity = models.IntegerField(default=None)
+    material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
+    checkout = models.ForeignKey(Checkout,on_delete=models.SET_NULL, null=True)
+

@@ -8,7 +8,6 @@
 
 <!--<form method="get" style=>
     {{myFilter.form}}
-
     <button class="btn btn-primary" type="submit">Search</button>
 </form>-->
 
@@ -16,8 +15,11 @@
     <table class = "table table-borderless">
         <thead class= "border-bottom font-weight-bold">
             <tr>
+                <th>Reservation Number</th>
                 <th>Customer</th>
                 <th>Time</th>
+                <th></th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -25,6 +27,7 @@
         <tbody>
             {% for reservation in reservationList %}
             <tr>
+                <td data-heading="Customer">{{reservation.id}}</td>
                 <td data-heading="Customer">{{reservation.customer}}</td>
                 <td data-heading="Appointment Time">{{reservation.datetime}}</td>
                 <td data-heading="Add Required Material"><a href="{% url 'dentalapp:reservationProcedure_form' reservation.id %}">Add Procedures</a></td>
@@ -34,7 +37,7 @@
                 </td>
                 <td data-heading="Delete Reservation">
                     {% csrf_token %}
-                    <a class="" href="{% url 'dentalapp:reservation_delete' reservation.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:reservation_finish' reservation.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}

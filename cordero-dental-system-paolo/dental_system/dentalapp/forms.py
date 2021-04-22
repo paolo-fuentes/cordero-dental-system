@@ -10,6 +10,8 @@ from .models import Reservation
 from .models import ReservationProcedure
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Checkout
+from .models import ExcessMaterials
 
 from django.forms import ModelForm, inlineformset_factory
 
@@ -65,7 +67,7 @@ class CustomerForm(forms.ModelForm):
 class Delivered_MaterialForm(forms.ModelForm):
     class Meta:
         model=Delivered_Material
-        fields = ('supplier', 'material','quantity_restock', 'delivery_date','parcel_number')
+        fields = ('supplier', 'material','quantity_restock', 'delivery_date', 'parcel_number')
         labels = {
             'supplier': 'Supplier',
             'material': 'Delivered Material',
@@ -89,18 +91,26 @@ class Delivered_MaterialForm(forms.ModelForm):
 class MaterialForm(forms.ModelForm):
     class Meta:
         model=Material
-        fields = ('material_name', 'material_type','threshold_value_unit','threshold_value','current_quantity')
+        fields = ('material_name', 'material_type','threshold_value_unit','threshold_value','current_quantity', 'expiry_date')
         labels = {
             'material_name': 'Material Name',
             'material_type': 'Material Type',
-            'threshold_value_unit': 'Threshold Value Unit',
+            'expiry_date': 'Expiry Date',
             'threshold_value': 'Threshold Value',
+            'threshold_value_unit': 'Threshold Value Unit',
             'current_quantity': 'Current Quantity',
+            
         }
+
+        m_type = [
+            ('Non-Perishable', 'Non-Perishable'),
+            ('Perishable', 'Perishable')
+        ]
 
         widgets = {
             'material_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'material_type': forms.Select(attrs={'class': 'form-control'}),
+            'material_type': forms.RadioSelect(attrs={'class': "custom-radio-list"}, choices=m_type),
+            'expiry_date': forms.DateInput(attrs={'class': 'form-control'}),
             'threshold_value_unit': forms.TextInput(attrs={'class': 'form-control'}),
             'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
             'current_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
@@ -124,19 +134,60 @@ class ProcedureForm(forms.ModelForm):
 class RequiredMaterialForm(forms.ModelForm):
     class Meta:
         model = Required_Material
-        fields = '__all__'
+        fields = ('material', 'quantity')
+        labels = {
+            'material': 'Material',
+            'quantity': 'Quantity',
+        }
+
+        widgets = {
+            'material': forms.Select(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+        }
 
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = '__all__'
-
+        fields = ('customer', 'datetime')
+        labels = {
+            'customer': 'Customer',
+            'datetime': 'Date of Appointment',
+        }
+        widgets = {
+            'customer': forms.Select(attrs={'class': 'form-control'}),
+            'datetime': forms.DateInput(attrs={'class': 'form-control'}),
+        }
 
 class ReservationProcedureForm(forms.ModelForm):
     class Meta:
         model = ReservationProcedure
         fields = '__all__'
 
+class CheckoutForm(forms.ModelForm):
+    class Meta:
+        model = Checkout
+        fields = ('invoice_number',)
+        labels = {
+            'invoice_number':'Invoice Number'
+        }
+        widgets = {
+            'invoice_number': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class ExcessMaterialForm(forms.ModelForm):
+    class Meta:
+        model = ExcessMaterials
+        fields = ('material', 'excess_quantity')
+        labels = {
+            'material': 'Material',
+            'excess_quantity': 'Excess Quantity',
+        }
+
+        widgets = {
+            'material': forms.Select(attrs={'class': 'form-control'}),
+            'excess_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+        }
 #RequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), can_delete=True, extra=1)
 ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material','quantity'))
 ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation','procedure'))
+ExcessMaterialsFormSet = inlineformset_factory(Checkout, ExcessMaterials, fields=('material','excess_quantity'))

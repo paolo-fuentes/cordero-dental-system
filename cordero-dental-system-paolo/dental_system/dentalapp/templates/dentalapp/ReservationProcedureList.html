@@ -1,17 +1,11 @@
-
-
-
 {% extends "dentalapp/home.html" %}
 {% load static %}
-
-
 
 {%block content %}
 <h1 class="pageHeading">Procedures </h1>
 
 <!--<form method="get" style=>
     {{myFilter.form}}
-
     <button class="btn btn-primary" type="submit">Search</button>
 </form>-->
 
@@ -21,18 +15,12 @@
             <tr>
                 <th>Procedure</th>
                 <th></th>
-                <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for r in reservation_procedure %}
             <tr>
-                <td data-heading="Material Name">{{r.procedure}}</td>
-                <td data-heading="Required Quantity">{{requiredmaterial.quantity}} {{requiredmaterial.material.threshold_value_unit}}</td>
-                <td data-heading="Edit Material">
-                    <a class="" href="#"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
-                </td>
+                <td data-heading="Procedure Name">{{r.procedure}}</td>
                 <td data-heading="Delete Material">
                     {% csrf_token %}
                     <a class="" href="#"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>

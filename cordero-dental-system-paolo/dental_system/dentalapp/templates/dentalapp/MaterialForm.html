@@ -63,6 +63,16 @@
     right: 0;
 }
 
+.custom-radio-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.field-container {
+    margin-bottom: 1.5rem;
+}
+
 </style>
 
 {% endblock %}
@@ -74,11 +84,41 @@
         <div class="formGroup">
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <!--{{ form.as_p }}-->
+
+                <div class="field-container">
+                    <p>{{ form.material_name.label_tag }}</p>
+                    {{ form.material_name }}
+                </div>
+
+                <div id="material-type" class="field-container">
+                    <p>{{ form.material_type.label_tag }}</p>
+                    {{ form.material_type }}
+                </div>
+
+                <div id="toggle-expiry" class="field-container">
+                    <p>{{ form.expiry_date.label_tag }}</p>
+                    {{ form.expiry_date }}
+                </div>
+
+                <div class="field-container">
+                    <p>{{ form.threshold_value.label_tag }}</p>
+                    {{ form.threshold_value }}
+                </div>
+
+                <div class="field-container">
+                    <p>{{ form.threshold_value_unit.label_tag }}</p>
+                    {{ form.threshold_value_unit }}
+                </div>
+
+                <div class="field-container">
+                    <p>{{ form.current_quantity.label_tag }}</p>
+                    {{ form.current_quantity }}
+                </div>
 
                     <div class="buttonContainer">
 
-                        <a class="buttonDesignNegative" href="{% url 'dentalapp:material_list' %}">Cancel</a>
+                        <a class="buttonDesignNegative" href="{% url 'dentalapp:customer_list' %}">Cancel</a>
 
                         <button type='submit' class='buttonDesignPositive'>Submit</button>
 
@@ -86,5 +126,20 @@
             </form>
         </div>
     </div>
+
+    <script>
+        $(function() {
+            $('#toggle-expiry').hide();
+            
+            $('input[name="material_type"]').on('click', function() {
+                if ($(this).val() == 'Perishable') {
+                    $('#toggle-expiry').show();
+                }
+                else {
+                    $('#toggle-expiry').hide();
+                }
+            });
+        })
+    </script>
 
 {% endblock content %}

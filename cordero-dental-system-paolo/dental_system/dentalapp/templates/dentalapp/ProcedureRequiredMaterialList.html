@@ -4,12 +4,70 @@
 
 
 {%block content %}
+<style>
+    .formContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 85vh;
+        margin-top: 2rem;
+    }
+    
+    .buttonDesignPositive {
+        border: 0;
+        padding: 16px 30px;
+        border-radius: 30px;
+        line-height: 1;
+        background: #3EAEB8;
+        color: #ffffff;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s linear;
+        margin: 1rem;
+    }
+    
+    .buttonDesignPositive:hover,
+    .buttonDesignPositive:focus {
+        background: #328c94;
+    }
+    
+    
+    .buttonDesignNegative{
+        text-decoration: none;
+        border: solid 1px #3EAEB8;
+        padding: 14px 30px;
+        border-radius: 30px;
+        line-height: 1;
+        background: #ffffff;
+        color: #3EAEB8;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s linear;
+        margin: 1rem;
+    }
+    
+    .buttonDesignNegative:hover,
+    .buttonDesignNegative:focus {
+        background: #3EAEB8;
+        color: #ffffff;
+    }
+    
+    .formGroup {
+        position: relative;
+    }
+    
+    .buttonContainer {
+        /*position: absolute;*/
+        right: 0;
+    }
+    
+    </style>
+
 <h1 class="pageHeading">Required Materials </h1>
 <h3 style="text-align:center;">{{p_obj.procedure_name}}</h3>
 
 <!--<form method="get" style=>
     {{myFilter.form}}
-
     <button class="btn btn-primary" type="submit">Search</button>
 </form>-->
 
@@ -29,17 +87,23 @@
                 <td data-heading="Material Name">{{requiredmaterial.material}}</td>
                 <td data-heading="Required Quantity">{{requiredmaterial.quantity}} {{requiredmaterial.material.threshold_value_unit}}</td>
                 <td data-heading="Edit Material">
-                    <a class="" href="#"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:procedure_required_materials_update' requiredmaterial.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
                 </td>
                 <td data-heading="Delete Material">
                     {% csrf_token %}
-                    <a class="" href="#"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:procedure_required_materials_delete' requiredmaterial.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     
     </table>
+</div>
+
+<div class="buttonContainer">
+
+    <a class="buttonDesignNegative" href="{% url 'dentalapp:procedure_list' %}">Back</a>
+
 </div>
 
 
