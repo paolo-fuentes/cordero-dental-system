@@ -23,7 +23,7 @@
                 <td data-heading="Procedure Name">{{r.procedure}}</td>
                 <td data-heading="Delete Material">
                     {% csrf_token %}
-                    <a class="" href="#"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:reservationProcedure_delete' r.pk %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}

@@ -22,6 +22,8 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -35,9 +37,12 @@
                 <td data-heading="Edit Reservation">
                     <a class="" href="{% url 'dentalapp:reservation_update' reservation.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
                 </td>
-                <td data-heading="Delete Reservation">
+                <td data-heading="Checkout">
                     {% csrf_token %}
-                    <a class="" href="{% url 'dentalapp:checkout_form' reservation.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:checkout_form' reservation.id %}">Checkout</a>
+                </td>
+                <td>
+                    <a class="" href="{% url 'dentalapp:cancel_reservation' reservation.id %}">Cancel Reservation</a>
                 </td>
             </tr>
             {% endfor %}

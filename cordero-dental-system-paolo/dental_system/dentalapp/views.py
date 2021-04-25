@@ -403,7 +403,7 @@ def ReservedProceduresForm(request, pk, id=0):
             for reservation_procedure in x:
                 required_materials = Required_Material.objects.filter(procedure = reservation_procedure.procedure)
                 for required_material in required_materials:
-                    print(required_material.material.material_name)
+                    #print(required_material.material.material_name)
                     y = Material.objects.get(material_name = required_material.material.material_name)
                     y.current_quantity -= required_material.quantity
                     y.save()
@@ -446,8 +446,14 @@ def ReservedProceduresForm(request, pk, id=0):
 @login_required(login_url='dentalapp:login')
 def reservationProcedureDelete(request,id):
     reservationProcedure = ReservationProcedure.objects.get(pk=id)
+    required_materials = Required_Material.objects.filter(procedure = reservationProcedure.procedure)
+    for i in required_materials:
+        y = Material.objects.get(material_name = i.material.material_name)
+        y.current_quantity += i.quantity
+        y.save()
+    #reservation.delete()
     reservationProcedure.delete()
-    return redirect('/reservationProcedureList')
+    return redirect('/reservationList')
 
 
 
@@ -514,4 +520,16 @@ def lowMtrls(request):
     expMtrls = Material.objects.filter(expiry_date=e)
     context = {'lowMtrls' : lowMtrls, 'expMtrls' : expMtrls}
     return render(request,'dentalapp/home2.html',context) 
+
+
+def cancelReservation(request,id):
+    reservation = Reservation.objects.get(pk=id)
+    r_procedures = ReservationProcedure.objects.get(reservation = reservation)
+    required_materials = Required_Material.objects.filter(procedure = r_procedures.procedure)
+    for i in required_materials:
+        y = Material.objects.get(material_name = i.material.material_name)
+        y.current_quantity += i.quantity
+        y.save()
+    reservation.delete()
+    return redirect('/reservationList')
 

@@ -50,6 +50,8 @@ urlpatterns = [
     path('checkoutForm<int:id>',views.checkoutForm, name="checkout_form"),
     path('checkoutList',views.checkoutList, name="checkout_list"),
     path('excessmaterialForm<int:pk>',views.excessmaterialForm,name="excess_material_form"),
+    path('reservation/<int:id>/',views.cancelReservation, name='cancel_reservation'),
+
     #path('updateExcessMaterials/<str:pk>/', views.updateExcessMaterials, name="excess_materials_update"),
     #path('deleteExcessMaterials/<int:id>/', views.deleteExcessMaterials, name="excess_materials_delete"),
     #path('procedureExcessMaterialsList<int:pk>',views.excessMaterialsList, name="excess_material_list"),
