@@ -17,12 +17,14 @@
 <!--<div class="toggleNavBtn">
     <span class="fas fa-bars"></span>
 </div> -->
+
+
 <body>
 
 <nav class="sidebar">
     <ul>
         <li>
-            <a href="#">Home</a>
+            <a href="{% url 'dentalapp:low_mtrls' %}">Home</a>
         </li>
 
         <li>
@@ -36,7 +38,12 @@
         </li>
 
         <li>
-            <a href="#">Inventory</a>
+            <a href="#" class='checkout-btn'>Checkouts
+                <span class="fas fa-caret-down"></span>
+            <ul class="checkout-show">
+                <li><a href="{% url 'dentalapp:checkout_list' %}">View Checkouts</a></li>
+            </ul>
+            </a>
         </li>
 
         <li>
@@ -130,6 +137,9 @@
 
         $('.reservation-btn').click(function(){
             $('nav ul .reservation-show').toggleClass("show5");
+        });
+        $('.checkout-btn').click(function(){
+            $('nav ul .checkout-show').toggleClass("show6");
         });
 
         

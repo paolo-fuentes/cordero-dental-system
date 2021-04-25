@@ -12,6 +12,7 @@ urlpatterns = [
 
 
     path('',views.dentalapp, name='dentalapp'),
+    path('lowmtrls', views.lowMtrls, name='low_mtrls'),
     path('supplierList',views.supplierList, name="supplier_list"),
     path('supplierForm',views.supplierForm, name="supplier_form"),
     path('<int:id>/',views.supplierForm, name='supplier_update'),
@@ -41,11 +42,18 @@ urlpatterns = [
     path('reservationList',views.reservationList, name="reservation_list"),
     path('reservationForm',views.reservationForm, name="reservation_form"),
     path('reservation<int:id>/',views.reservationForm, name='reservation_update'),
-    path('reservationdelete/<int:id>/',views.reservationFinished, name='reservation_finish'),
+    #path('reservationdelete/<int:id>/',views.reservationFinished, name='reservation_finish'),
     path('reservationProcedureList<int:pk>',views.reservationProcedureList, name="reservationProcedure_list"),
     path('reservationProcedureForm<int:pk>',views.ReservedProceduresForm, name="reservationProcedure_form"),
     #path('reservationProcedure<int:id>/',views.ReservedProceduresForm, name='reservationProcedure_update'),
     path('reservationProceduredelete/<int:id>/',views.reservationProcedureDelete, name='reservationProcedure_delete'),
-    path('checkoutForm',views.checkoutForm, name="checkout_form"),
+    path('checkoutForm<int:id>',views.checkoutForm, name="checkout_form"),
+    path('checkoutList',views.checkoutList, name="checkout_list"),
+    path('excessmaterialForm<int:pk>',views.excessmaterialForm,name="excess_material_form"),
+    #path('updateExcessMaterials/<str:pk>/', views.updateExcessMaterials, name="excess_materials_update"),
+    #path('deleteExcessMaterials/<int:id>/', views.deleteExcessMaterials, name="excess_materials_delete"),
+    #path('procedureExcessMaterialsList<int:pk>',views.excessMaterialsList, name="excess_material_list"),
+
+
 
 ]

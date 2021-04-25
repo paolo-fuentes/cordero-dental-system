@@ -129,6 +129,10 @@ nav ul .reservation-show.show5 {
     display: block;
 }
 
+nav ul .checkout-show.show6 {
+    display: block;
+}
+
 nav ul ul li {
     line-height: 42px;
     border-bottom: none;

@@ -46,7 +46,7 @@
     cursor: pointer;
     transition: all 0.3s linear;
     margin: 1rem;
-}n
+}
 
 .buttonDesignNegative:hover,
 .buttonDesignNegative:focus {
@@ -68,17 +68,21 @@
 {% endblock %}
 
 
-<h1 class="pageHeading">Add Procedure</h1>
+<h1 class="pageHeading">Add Excess Materials</h1>
 
     <div class="formContainer">
         <div class="formGroup">
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        {{form}}
+                        <hr>
+                    {% endfor %}
 
                     <div class="buttonContainer">
 
-                        <a class="buttonDesignNegative" href="{% url 'dentalapp:procedure_list' %}">Cancel</a>
+                        <a class="buttonDesignNegative" href="{% url 'dentalapp:checkout_list' %}">Cancel</a>
 
                         <button type='submit' class='buttonDesignPositive'>Submit</button>
 

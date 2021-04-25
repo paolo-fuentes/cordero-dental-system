@@ -37,7 +37,7 @@
                 </td>
                 <td data-heading="Delete Reservation">
                     {% csrf_token %}
-                    <a class="" href="{% url 'dentalapp:reservation_finish' reservation.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                    <a class="" href="{% url 'dentalapp:checkout_form' reservation.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}

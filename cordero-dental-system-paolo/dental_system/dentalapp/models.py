@@ -95,7 +95,6 @@ class Procedure(models.Model):
     procedure_name = models.CharField(max_length=50, default=None)
     price = models.IntegerField(default=None)
     #procedure_material_name = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
-
     def __str__(self):
         return str(self.procedure_name)
 

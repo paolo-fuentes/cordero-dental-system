@@ -31,6 +31,8 @@ from .forms import ReservationForm
 from .forms import ReservationProcedureForm
 from .forms import CheckoutForm
 from .models import Checkout
+from .models import ExcessMaterials
+from .forms import ExcessMaterialForm
 
 
 from django.contrib.auth.forms import UserCreationForm
@@ -41,6 +43,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .forms import ProcedureRequiredMaterialFormSet
+from .forms import ExcessMaterialsFormSet
+import datetime
+
 
 from django.forms import inlineformset_factory
 
@@ -365,12 +370,12 @@ def reservationForm(request,id=0):
 
 
 @login_required(login_url='dentalapp:login')
-def reservationFinished(request,id):
-    reservation = Reservation.objects.get(pk=id)
-    reservation.status='Finished'
+#def reservationFinished(request,id):
+    #reservation = Reservation.objects.get(pk=id)
+    #reservation.status='Finished'
     #reservation.delete()
-    reservation.save()
-    return redirect('/checkoutForm')
+    #reservation.save()
+    #return redirect('/checkoutForm')
 
 
 
@@ -386,16 +391,14 @@ def reservationProcedureList(request,pk):
 def ReservedProceduresForm(request, pk, id=0):
     ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5)
     reservation = Reservation.objects.get(id=pk)
-    #Procedure.objects.filter(id=3)
     formset = ReservationProceduresFormSet(queryset=ReservationProcedure.objects.none(), instance=reservation)
-    #form = RequiredMaterialForm(initial={'procedure':procedure})
+
     if request.method == 'POST':
         formset = ReservationProceduresFormSet(request.POST, instance=reservation)
-        #form = RequiredMaterialForm(request.POST)
+
         if formset.is_valid():
 
             x = formset.save()
-            #print(x)
 
             for reservation_procedure in x:
                 required_materials = Required_Material.objects.filter(procedure = reservation_procedure.procedure)
@@ -450,16 +453,65 @@ def reservationProcedureDelete(request,id):
 
 @login_required(login_url='dentalapp:login')
 def checkoutForm(request,id):
-    print(id)
+    #print(id)
     if request.method == "GET":
         form = CheckoutForm()
         return render(request,"dentalapp/CheckoutForm.html",{'form':form})
     else:
         form = CheckoutForm(request.POST)
+        checkout = form.save(commit=False)
         if form.is_valid():
+            reservation = Reservation.objects.get(pk=id)
+            checkout.reservation = reservation
             #Checkout = None
             #model = Checkout
             #reservation = Checkout.objects.get(reservation = id)
-            #Checkout.reservation = reservation
-            form.save()
-        return redirect('/reservationList')
+            #print(reservation)
+            #Checkout.reservation = id
+            # form.save()
+            reservation.status='Finished'
+            #reservation.delete()
+            reservation.save()
+            checkout.save()
+        return redirect('/checkoutList')
+
+def checkoutList(request):
+    checkouts = Checkout.objects.all()
+
+    #myFilter = MaterialFilter(request.GET, queryset=procedures)
+    #procedures = myFilter.qs
+
+    context = {'checkoutList' : checkouts}
+    return render(request,"dentalapp/CheckoutList.html", context)
+
+def excessmaterialForm(request,pk,id=0):
+    ExcessMaterialsFormSet = inlineformset_factory(Checkout, ExcessMaterials, fields=('material', 'excess_quantity'), extra=5)
+    checkout = Checkout.objects.get(id=pk)
+    formset = ExcessMaterialsFormSet(queryset=ExcessMaterials.objects.none(), instance = checkout)
+    if request.method =='POST':
+        formset = ExcessMaterialsFormSet(request.POST, instance=checkout)
+        if formset.is_valid():
+            x = formset.save()
+            for excess_material in x:
+                excess_materials = ExcessMaterials.objects.filter(checkout = excess_material.checkout)
+                for excess_materials in excess_materials:
+                    y = Material.objects.get(material_name = excess_material.material.material_name)
+                    y.current_quantity -= excess_material.excess_quantity
+                    y.save()
+            return redirect('/checkoutList')
+    context = {'formset':formset}
+    return render(request, "dentalapp/ExcessForm.html", context)
+
+#                     <td data-heading="View Additional Materials Used"><a class="" href="{% url 'dentalapp:excess_material_list' checkout.id %}"></a></td>
+
+def lowMtrls(request):
+    lowMtrls = Material.objects.filter(supply_status='Low')
+    date = datetime.date.today()
+    start_week = date - datetime.timedelta(date.weekday())
+    end_week = start_week + datetime.timedelta(7)
+    s = str(start_week)
+    e = str(end_week)
+    expMtrls = Material.objects.filter(expiry_date=e)
+    context = {'lowMtrls' : lowMtrls, 'expMtrls' : expMtrls}
+    return render(request,'dentalapp/home2.html',context) 
+
