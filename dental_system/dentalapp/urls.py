@@ -41,9 +41,10 @@ urlpatterns = [
     path('reservationList',views.reservationList, name="reservation_list"),
     path('reservationForm',views.reservationForm, name="reservation_form"),
     path('reservation<int:id>/',views.reservationForm, name='reservation_update'),
-    path('reservationdelete/<int:id>/',views.reservationDelete, name='reservation_delete'),
+    path('reservationdelete/<int:id>/',views.reservationFinished, name='reservation_finish'),
     path('reservationProcedureList<int:pk>',views.reservationProcedureList, name="reservationProcedure_list"),
     path('reservationProcedureForm<int:pk>',views.ReservedProceduresForm, name="reservationProcedure_form"),
     #path('reservationProcedure<int:id>/',views.ReservedProceduresForm, name='reservationProcedure_update'),
     path('reservationProceduredelete/<int:id>/',views.reservationProcedureDelete, name='reservationProcedure_delete'),
+    path('checkoutForm/<str:pk>/',views.checkoutForm, name="checkout_form"),
 ]

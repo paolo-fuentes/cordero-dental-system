@@ -2,34 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-#from dentalapp.models import Supplier
-from .forms import SupplierForm
-from .models import Supplier
 import json
 from django.http import JsonResponse
-from .filters import SupplierFilter
-from .filters import CustomerFilter
-from .filters import MaterialFilter
-from .filters import DeliveryFilter
-from .filters import Required_MaterialFilter
-#from dentalapp.models import Customer
-from .models import Customer
-from .forms import CustomerForm
-#from .models import Delivery
-from .forms import Delivered_MaterialForm
-from .forms import ProcedureForm
-from .models import Delivered_Material
-#from dentalapp.models import Material
-from .forms import MaterialForm
-from .models import Material
-from .models import Procedure
-from .models import Required_Material
-from .forms import RequiredMaterialForm
-from .models import Reservation
-from .models import ReservationProcedure
-from .forms import ReservationForm
-from .forms import ReservationProcedureForm
 
+from .models import *
+from .forms import *
+from .filters import *
 
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CreateUserForm
@@ -37,10 +15,6 @@ from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
-from .forms import ProcedureRequiredMaterialFormSet
-
-from django.forms import inlineformset_factory
 
 # Create your views here.
 def registerPage(request):
@@ -240,7 +214,7 @@ def deliveryDelete(request,id):
 def procedureList(request):
     procedures = Procedure.objects.all()
 
-    myFilter = MaterialFilter(request.GET, queryset=procedures)
+    myFilter = ProcedureFilter(request.GET, queryset=procedures)
     procedures = myFilter.qs
 
     context = {'procedureList' : procedures, 'myFilter':myFilter}
@@ -275,7 +249,7 @@ def procedureDelete(request,id):
 
 @login_required(login_url='dentalapp:login')
 def ProcedureRequiredMaterialsForm(request, pk):
-    ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), extra=10)
+    ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity', 'quantity_unit'), extra=10, widgets = {'material': forms.Select(attrs={'class': 'form-control'}),'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}), 'quantity_unit': forms.TextInput(attrs={'class': 'form-control', 'min':"0"})})
     procedure = Procedure.objects.get(id=pk)
     formset = ProcedureRequiredMaterialFormSet(queryset=Required_Material.objects.none(), instance=procedure)
     #form = RequiredMaterialForm(initial={'procedure':procedure})
@@ -301,10 +275,6 @@ def updateProcedureRequiredMaterials(request, pk):
 
     context = {'form':form}
     return render(request, 'dentalapp/updateProcedureRequiredMaterials.html', context)
-
-	
-
-
 
 def deleteProcedureRequiredMaterials(request, id):
 	requiredmaterial = Required_Material.objects.get(pk=id)
@@ -360,12 +330,24 @@ def reservationForm(request,id=0):
         return redirect('/reservationList')
 
 
-
 @login_required(login_url='dentalapp:login')
-def reservationDelete(request,id):
+def reservationFinished(request,id):
     reservation = Reservation.objects.get(pk=id)
-    reservation.delete()
-    return redirect('/reservationList')
+    reservation.status='Finished'
+    #reservation.delete()
+    reservation.save()
+
+    #reservationID = Reservation().objects.get(id=pk)
+    form = CheckoutForm()
+
+    if request.method == "POST":
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/procedureList')
+
+    context = {'form':form}
+    return render(request, 'dentalapp/CheckoutForm.html', context)
 
 
 
@@ -379,7 +361,7 @@ def reservationProcedureList(request,pk):
 
 @login_required(login_url='dentalapp:login')
 def ReservedProceduresForm(request, pk, id=0):
-    ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5)
+    ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5, widgets = {'procedure': forms.Select(attrs={'class': 'form-control'})})
     reservation = Reservation.objects.get(id=pk)
     #Procedure.objects.filter(id=3)
     formset = ReservationProceduresFormSet(queryset=ReservationProcedure.objects.none(), instance=reservation)
@@ -440,3 +422,18 @@ def reservationProcedureDelete(request,id):
     reservationProcedure = ReservationProcedure.objects.get(pk=id)
     reservationProcedure.delete()
     return redirect('/reservationProcedureList')
+
+
+@login_required(login_url='dentalapp:login')
+def checkoutForm(request, pk):
+    requiredmaterial = Required_Material.objects.get(id=pk)
+    form = RequiredMaterialForm(instance=requiredmaterial)
+
+    if request.method == "POST":
+        form = RequiredMaterialForm(request.POST, instance=requiredmaterial)
+        if form.is_valid():
+            form.save()
+            return redirect('/procedureList')
+
+    context = {'form':form}
+    return render(request, 'dentalapp/updateProcedureRequiredMaterials.html', context)

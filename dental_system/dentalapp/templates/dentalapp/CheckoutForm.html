@@ -68,18 +68,13 @@
 {% endblock %}
 
 
-<h1 class="pageHeading">Add Procedure</h1>
+<h1 class="pageHeading">Checkout</h1>
 
     <div class="formContainer">
         <div class="formGroup">
-            <form action="" method="post" autocomplete="off" class="form-inline">
+            <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
-                    {{ formset.management_form }}
-                    {% for form in formset %}
-                        {{form}}
-                        <br>
-                        <br>
-                    {% endfor %}
+                    {{ form.as_p }}
 
                     <div class="buttonContainer">
 

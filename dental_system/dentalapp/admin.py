@@ -25,13 +25,20 @@ class ProcedureAdmin(admin.ModelAdmin):
     list_display = ['procedure_name', 'price']
 
 class Required_MaterialAdmin(admin.ModelAdmin):
-    list_display = ['procedure', 'material', 'quantity']
+    list_display = ['procedure', 'material', 'quantity', 'quantity_unit']
 
 class ReservationAdmin(admin.ModelAdmin):
     list_display = ['customer', 'datetime']
 
 class ReservationProcedureAdmin(admin.ModelAdmin):
     list_display = ['reservation', 'procedure']
+
+class CheckoutAdmin(admin.ModelAdmin):
+    list_display = ['invoice_number','reservation']
+
+class ExcessMaterialsAdmin(admin.ModelAdmin):
+    list_display = ['checkout', 'material', 'excess_quantity']
+
 
 #class Delivered_MaterialAdmin(admin.ModelAdmin):
     #list_display=['delivery','material']
@@ -44,3 +51,5 @@ admin.site.register(Procedure, ProcedureAdmin)
 admin.site.register(Required_Material, Required_MaterialAdmin)
 admin.site.register(Reservation, ReservationAdmin)
 admin.site.register(ReservationProcedure, ReservationProcedureAdmin)
+admin.site.register(Checkout, CheckoutAdmin)
+admin.site.register(ExcessMaterials, ExcessMaterialsAdmin)

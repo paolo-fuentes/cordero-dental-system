@@ -14,6 +14,7 @@ body{
     text-decoration: underline;
     text-decoration-color: #3EAEB8;
     text-decoration-thickness: 5px;
+    padding: 1rem 0 1rem 0;
 }
 
 .toggleNavBtn {
@@ -167,7 +168,7 @@ nav ul li a:hover span {
 
 .table-container {
     /*padding-left: 20rem; */
-    padding-top: 5rem;
+    padding-top: 1rem;
     font-family: "Roboto", sans-serif;
     overflow-x: auto;
 }

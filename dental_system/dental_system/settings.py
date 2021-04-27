@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dentalapp.apps.DentalappConfig',
 
-    #third-party library
+    #third-party libraries
     'bootstrap_toolkit',
     'crispy_forms',
     'django_filters',

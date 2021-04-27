@@ -68,16 +68,19 @@
 {% endblock %}
 
 
-<h1 class="pageHeading">Add Procedure</h1>
+<h1 class="pageHeading">Add Required Materials</h1>
 
     <div class="formContainer">
         <div class="formGroup">
+            
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
                     {{ formset.management_form }}
                     {% for form in formset %}
-                        {{form}}
-                        <hr>
+                        {{ form }}
+                        <br>
+                        <br>
+                        <br>
                     {% endfor %}
 
                     <div class="buttonContainer">
