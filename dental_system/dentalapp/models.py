@@ -112,6 +112,14 @@ class Required_Material(models.Model):
 class Reservation(models.Model):
     customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True)
     datetime = models.DateTimeField(default=timezone.now)
+    status =[
+    ('Scheduled','Scheduled'),
+    ('Finished', 'Finished'),
+    ]
+    status = models.CharField(max_length=20, choices=status, default='Scheduled')
+
+    def __str__(self):
+        return (str(self.pk) +" " +str(self.customer))
 
 class ReservationProcedure(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete = models.SET_NULL, null=True)

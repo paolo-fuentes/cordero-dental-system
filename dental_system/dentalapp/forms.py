@@ -141,7 +141,13 @@ class RequiredMaterialForm(forms.ModelForm):
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = '__all__'
+        fields = {'customer', 'datetime', 'status'}
+
+        widgets = {
+            'customer': forms.Select(attrs={'class': 'form-control'}),
+            'datetime': forms.DateInput(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 
 class ReservationProcedureForm(forms.ModelForm):

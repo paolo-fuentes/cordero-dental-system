@@ -453,7 +453,8 @@ def checkoutList(request):
     return render(request,"dentalapp/CheckoutList.html", context)
 
 def excessmaterialForm(request,pk,id=0):
-    ExcessMaterialsFormSet = inlineformset_factory(Checkout, ExcessMaterials, fields=('material', 'excess_quantity'), extra=5)
+    ExcessMaterialsFormSet = inlineformset_factory(Checkout, ExcessMaterials, fields=('material', 'excess_quantity'), extra=5, widgets = {'material': forms.Select(attrs={'class': 'form-control', }), 'excess_quantity': forms.TextInput(attrs={'class': 'form-control', 'min':"0"})})
+    reservation = Reservation.objects.get(id=pk)
     checkout = Checkout.objects.get(id=pk)
     formset = ExcessMaterialsFormSet(queryset=ExcessMaterials.objects.none(), instance = checkout)
     if request.method =='POST':

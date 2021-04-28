@@ -4,56 +4,22 @@
 
 
 {%block content %}
-
-{% block styles %}
-<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
-
-<style>
-
-.form-container {
-    /*display: inline-block;*/
-    text-align: right;
-    width: 90%;
-}
-
-.buttonDesignPositive {
-    border: 0;
-    padding: 16px 30px;
-    border-radius: 30px;
-    line-height: 1;
-    background: #3EAEB8;
-    color: #ffffff;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.3s linear;
-    margin: 1rem;
-}
-
-.buttonDesignPositive:hover,
-.buttonDesignPositive:focus {
-    background: #328c94;
-}
-
-</style>
-
-{% endblock %}
-
-
 <h1 class="pageHeading">Upcoming Appointments</h1>
 
-<!-- <div class="form-container">
-    <form method="get" style=>
-        {{myFilter.form}}
-        <button class="buttonDesignPositive" type="submit">Search</button>
-    </form>
-</div> -->
+<!--<form method="get" style=>
+    {{myFilter.form}}
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>-->
 
 <div class="table-container">
     <table class = "table table-borderless">
         <thead class= "border-bottom font-weight-bold">
             <tr>
+                <th>Reservation Number</th>
                 <th>Customer</th>
                 <th>Time</th>
+                <th></th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -63,16 +29,20 @@
         <tbody>
             {% for reservation in reservationList %}
             <tr>
+                <td data-heading="Customer">{{reservation.id}}</td>
                 <td data-heading="Customer">{{reservation.customer}}</td>
                 <td data-heading="Appointment Time">{{reservation.datetime}}</td>
                 <td data-heading="Add Required Material"><a href="{% url 'dentalapp:reservationProcedure_form' reservation.id %}" style="color:#3EAEB8;">Add Procedures</a></td>
                 <td data-heading="View Required Material"><a href="{% url 'dentalapp:reservationProcedure_list' pk=reservation.id %}" style="color:#3EAEB8;">View Procedures</a></td>
+                <td data-heading="Checkout">
+                    {% csrf_token %}
+                    <a class="" href="{% url 'dentalapp:checkout_form' reservation.id %}" style="color:#3EAEB8;">Checkout</a>
+                </td>
+                <td>
+                    <a class="" href="{% url 'dentalapp:cancel_reservation' reservation.id %}" style="color:#3EAEB8;">Cancel Reservation</a>
+                </td>
                 <td data-heading="Edit Reservation">
                     <a class="" href="{% url 'dentalapp:reservation_update' reservation.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
-                </td>
-                <td data-heading="Delete Reservation">
-                    {% csrf_token %}
-                    <a class="" href="{% url 'dentalapp:reservation_finish' reservation.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}
