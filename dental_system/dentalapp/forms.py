@@ -147,7 +147,52 @@ class ReservationForm(forms.ModelForm):
 class ReservationProcedureForm(forms.ModelForm):
     class Meta:
         model = ReservationProcedure
-        fields = '__all__'
+        fields = ('procedure',)
+        labels = {
+            'procedure':'Procedure',
+        }
+        #exclude = ['procedure']
+        #widgets = {
+            #'procedure': forms.Select(attrs={'class': 'form-control'},choices=CHOICES),
+            #'anything': forms.Select(choices=choices)
+            #'datetime': forms.DateInput(attrs={'class': 'form-control'}),
+        #}
+    def __init__(self, *args, **kwargs):
+        super(ReservationProcedureForm, self).__init__(*args, **kwargs)
+        procedures = Procedure.objects.all()
+        CHOICES = []
+        for i in procedures:
+                m=0
+                x = Required_Material.objects.filter(procedure=i)
+                for z in x:
+                    if z.material.supply_status == 'Low':
+                        m+=1
+                if m==0:
+                    CHOICES.append((i.procedure_name,i.procedure_name))
+        print(CHOICES)
+        self.fields['procedure'].choices = CHOICES
+
+       
+       
+       
+       
+       
+       
+       
+            # # this is pseudo code but you should get all variants
+            # # then get the product related to each variant
+            # #variants = Variant.objects.all()
+            # #products = [(i.product.id, i.product.name) for i in variants]
+            # CHOICES = []
+            # for i in procedures:
+            #     m=0
+            #     x = Required_Material.objects.filter(procedure=i)
+            #     for z in x:
+            #         if z.material.supply_status == 'Low':
+            #             m+=1
+            #     if m==0:
+            #         CHOICES.append((i.procedure_name,i.procedure_name))
+            # print(CHOICES)
 
 class CheckoutForm(forms.ModelForm):
     class Meta:

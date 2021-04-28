@@ -55,7 +55,7 @@ def logoutUser(request):
 
 @login_required(login_url='dentalapp:login')
 def dentalapp(request):
-    return render(request, 'dentalapp/home.html')
+    return render(request, 'dentalapp/home2.html')
 
 @login_required(login_url='dentalapp:login')
 def supplierList(request):
@@ -300,7 +300,8 @@ def ProcedureRequiredMaterialsList(request,pk):
 
 @login_required(login_url='dentalapp:login')
 def reservationList(request):
-    reservation = Reservation.objects.all()
+    reservation = Reservation.objects.filter(status = 'Scheduled')	
+    #required_materials = Required_Material.objects.filter(procedure = reservation_procedure.procedure)
 
     #myFilter = ReservationFilter(request.GET, queryset=reservation)
     #reservation = myFilter.qs
@@ -330,25 +331,13 @@ def reservationForm(request,id=0):
         return redirect('/reservationList')
 
 
-@login_required(login_url='dentalapp:login')
-def reservationFinished(request,id):
-    reservation = Reservation.objects.get(pk=id)
-    reservation.status='Finished'
-    #reservation.delete()
-    reservation.save()
-
-    #reservationID = Reservation().objects.get(id=pk)
-    form = CheckoutForm()
-
-    if request.method == "POST":
-        form = CheckoutForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/procedureList')
-
-    context = {'form':form}
-    return render(request, 'dentalapp/CheckoutForm.html', context)
-
+@login_required(login_url='dentalapp:login')	
+#def reservationFinished(request,id):	
+    #reservation = Reservation.objects.get(pk=id)	
+    #reservation.status='Finished'	
+    #reservation.delete()	
+    #reservation.save()	
+    #return redirect('/checkoutForm')
 
 
 @login_required(login_url='dentalapp:login')
@@ -417,23 +406,96 @@ def ReservedProceduresForm(request, pk, id=0):
         #return redirect('/reservationList')
 
 
-@login_required(login_url='dentalapp:login')
-def reservationProcedureDelete(request,id):
-    reservationProcedure = ReservationProcedure.objects.get(pk=id)
-    reservationProcedure.delete()
-    return redirect('/reservationProcedureList')
+@login_required(login_url='dentalapp:login')	
+def reservationProcedureDelete(request,id):	
+    reservationProcedure = ReservationProcedure.objects.get(pk=id)	
+    required_materials = Required_Material.objects.filter(procedure = reservationProcedure.procedure)	
+    for i in required_materials:	
+        y = Material.objects.get(material_name = i.material.material_name)	
+        y.current_quantity += i.quantity	
+        y.save()	
+    #reservation.delete()	
+    reservationProcedure.delete()	
+    return redirect('/reservationList')
 
 
 @login_required(login_url='dentalapp:login')
-def checkoutForm(request, pk):
-    requiredmaterial = Required_Material.objects.get(id=pk)
-    form = RequiredMaterialForm(instance=requiredmaterial)
-
-    if request.method == "POST":
-        form = RequiredMaterialForm(request.POST, instance=requiredmaterial)
+def checkoutForm(request,id):
+    #print(id)
+    if request.method == "GET":
+        form = CheckoutForm()
+        return render(request,"dentalapp/CheckoutForm.html",{'form':form})
+    else:
+        form = CheckoutForm(request.POST)
+        checkout = form.save(commit=False)
         if form.is_valid():
-            form.save()
-            return redirect('/procedureList')
+            reservation = Reservation.objects.get(pk=id)
+            checkout.reservation = reservation
+            #Checkout = None
+            #model = Checkout
+            #reservation = Checkout.objects.get(reservation = id)
+            #print(reservation)
+            #Checkout.reservation = id
+            # form.save()
+            reservation.status='Finished'
+            #reservation.delete()
+            reservation.save()
+            checkout.save()
+        return redirect('/checkoutList')
 
-    context = {'form':form}
-    return render(request, 'dentalapp/updateProcedureRequiredMaterials.html', context)
+def checkoutList(request):
+    checkouts = Checkout.objects.all()
+
+    #myFilter = MaterialFilter(request.GET, queryset=procedures)
+    #procedures = myFilter.qs
+
+    context = {'checkoutList' : checkouts}
+    return render(request,"dentalapp/CheckoutList.html", context)
+
+def excessmaterialForm(request,pk,id=0):
+    ExcessMaterialsFormSet = inlineformset_factory(Checkout, ExcessMaterials, fields=('material', 'excess_quantity'), extra=5)
+    checkout = Checkout.objects.get(id=pk)
+    formset = ExcessMaterialsFormSet(queryset=ExcessMaterials.objects.none(), instance = checkout)
+    if request.method =='POST':
+        formset = ExcessMaterialsFormSet(request.POST, instance=checkout)
+        if formset.is_valid():
+            x = formset.save()
+            for excess_material in x:
+                excess_materials = ExcessMaterials.objects.filter(checkout = excess_material.checkout)
+                for excess_materials in excess_materials:
+                    y = Material.objects.get(material_name = excess_material.material.material_name)
+                    y.current_quantity -= excess_material.excess_quantity
+                    y.save()
+            return redirect('/checkoutList')
+    context = {'formset':formset}
+    return render(request, "dentalapp/ExcessForm.html", context)
+
+#                     <td data-heading="View Additional Materials Used"><a class="" href="{% url 'dentalapp:excess_material_list' checkout.id %}"></a></td>
+
+def lowMtrls(request):
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    if (current_month ==12):
+        next_month = 1
+        current_year2 = current_year + 1
+    else:
+        next_month = int(datetime.now().month)+1
+        current_year2 = current_year
+    lowMtrls = Material.objects.filter(supply_status='Low')
+    expMtrls = Material.objects.filter(expiry_date__year=current_year).filter(expiry_date__month= current_month)
+    expMtrls2 = Material.objects.filter(expiry_date__year=current_year2).filter(expiry_date__month= next_month)
+
+    context = {'lowMtrls' : lowMtrls, 'expMtrls' : expMtrls,'expMtrls2' : expMtrls2}
+    return render(request,'dentalapp/home2.html',context) 
+
+
+def cancelReservation(request,id):
+    reservation = Reservation.objects.get(pk=id)
+    r_procedures = ReservationProcedure.objects.get(reservation = reservation)
+    required_materials = Required_Material.objects.filter(procedure = r_procedures.procedure)
+    for i in required_materials:
+        y = Material.objects.get(material_name = i.material.material_name)
+        y.current_quantity += i.quantity
+        y.save()
+    reservation.delete()
+    return redirect('/reservationList')

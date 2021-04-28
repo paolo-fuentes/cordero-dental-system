@@ -12,11 +12,11 @@ urlpatterns = [
 
 
     path('',views.dentalapp, name='dentalapp'),
+    path('lowmtrls', views.lowMtrls, name='low_mtrls'),
     path('supplierList',views.supplierList, name="supplier_list"),
     path('supplierForm',views.supplierForm, name="supplier_form"),
     path('<int:id>/',views.supplierForm, name='supplier_update'),
     path('supplierdelete/<int:id>/',views.supplierDelete, name='supplier_delete'),
-    #path('search-supplier',csrf_exempt(views.search_supplier), name='search_supplier'),
     path('customerList',views.customerList, name="customer_list"),
     path('customerForm',views.customerForm, name="customer_form"),
     path('customer<int:id>/',views.customerForm, name='customer_update'),
@@ -41,10 +41,20 @@ urlpatterns = [
     path('reservationList',views.reservationList, name="reservation_list"),
     path('reservationForm',views.reservationForm, name="reservation_form"),
     path('reservation<int:id>/',views.reservationForm, name='reservation_update'),
-    path('reservationdelete/<int:id>/',views.reservationFinished, name='reservation_finish'),
+    #path('reservationdelete/<int:id>/',views.reservationFinished, name='reservation_finish'),
     path('reservationProcedureList<int:pk>',views.reservationProcedureList, name="reservationProcedure_list"),
     path('reservationProcedureForm<int:pk>',views.ReservedProceduresForm, name="reservationProcedure_form"),
     #path('reservationProcedure<int:id>/',views.ReservedProceduresForm, name='reservationProcedure_update'),
     path('reservationProceduredelete/<int:id>/',views.reservationProcedureDelete, name='reservationProcedure_delete'),
-    path('checkoutForm/<str:pk>/',views.checkoutForm, name="checkout_form"),
+    path('checkoutForm<int:id>',views.checkoutForm, name="checkout_form"),
+    path('checkoutList',views.checkoutList, name="checkout_list"),
+    path('excessmaterialForm<int:pk>',views.excessmaterialForm,name="excess_material_form"),
+    path('reservation/<int:id>/',views.cancelReservation, name='cancel_reservation'),
+
+    #path('updateExcessMaterials/<str:pk>/', views.updateExcessMaterials, name="excess_materials_update"),
+    #path('deleteExcessMaterials/<int:id>/', views.deleteExcessMaterials, name="excess_materials_delete"),
+    #path('procedureExcessMaterialsList<int:pk>',views.excessMaterialsList, name="excess_material_list"),
+
+
+
 ]
