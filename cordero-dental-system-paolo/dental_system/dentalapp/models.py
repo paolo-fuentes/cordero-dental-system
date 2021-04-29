@@ -23,7 +23,7 @@ class Customer(models.Model):
     
     def __str__(self):
         return self.customer_name
-        
+
 #class Delivery(models.Model):
     #supplier = models.ForeignKey(Supplier, to_field='contact_person', db_column='supplier', on_delete = models.SET_NULL, null=True)
     #delivery_date=models.DateField( default=timezone.now())
@@ -52,7 +52,7 @@ class Material(models.Model):
     ('High', 'In-Supply (High)'),
     ]
     supply_status = models.CharField(max_length=20, choices=Supply)
-   
+
     def __str__(self):
         return str(self.material_name)
 
@@ -74,7 +74,7 @@ class Delivered_Material(models.Model):
     quantity_restock = models.IntegerField(default=None)
     delivery_date=models.DateField(default=timezone.now)
     parcel_number = models.CharField(max_length=50, default=None)
-   
+
 
     def __str__(self):
         return str(self.supplier)
@@ -95,6 +95,7 @@ class Procedure(models.Model):
     procedure_name = models.CharField(max_length=50, default=None)
     price = models.IntegerField(default=None)
     #procedure_material_name = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
+
     def __str__(self):
         return str(self.procedure_name)
 
@@ -103,7 +104,7 @@ class Required_Material(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True, related_name='procedure_required_material')
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
     quantity = models.IntegerField(default=None)
-
+    #quantity_unit = models.CharField(max_length=50, default=None)
 
     def __str__(self):
         return str(self.material)
@@ -114,24 +115,22 @@ class Reservation(models.Model):
     status =[
     ('Scheduled','Scheduled'),
     ('Finished', 'Finished'),
+    ('Cancelled','Cancelled')
     ]
     status = models.CharField(max_length=20, choices=status, default='Scheduled')
 
     def __str__(self):
         return (str(self.pk) +" " +str(self.customer))
 
-
 class ReservationProcedure(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete = models.SET_NULL, null=True)
     procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True)
 
 class Checkout(models.Model):
-    invoice_number = models.CharField(max_length=50, default=None)
+    invoice_number = models.CharField(max_length=50, default=None, null=True)
     reservation = models.ForeignKey(Reservation, on_delete = models.SET_NULL, null=True)
-
 
 class ExcessMaterials(models.Model):
     excess_quantity = models.IntegerField(default=None)
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
     checkout = models.ForeignKey(Checkout,on_delete=models.SET_NULL, null=True)
-

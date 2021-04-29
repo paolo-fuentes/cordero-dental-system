@@ -32,17 +32,17 @@
                 <td data-heading="Customer">{{reservation.id}}</td>
                 <td data-heading="Customer">{{reservation.customer}}</td>
                 <td data-heading="Appointment Time">{{reservation.datetime}}</td>
-                <td data-heading="Add Required Material"><a href="{% url 'dentalapp:reservationProcedure_form' reservation.id %}">Add Procedures</a></td>
-                <td data-heading="View Required Material"><a href="{% url 'dentalapp:reservationProcedure_list' pk=reservation.id %}">View Procedures</a></td>
-                <td data-heading="Edit Reservation">
-                    <a class="" href="{% url 'dentalapp:reservation_update' reservation.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
-                </td>
+                <td data-heading="Add Required Material"><a href="{% url 'dentalapp:reservationProcedure_form' reservation.id %}" style="color:#3EAEB8;">Add Procedures</a></td>
+                <td data-heading="View Required Material"><a href="{% url 'dentalapp:reservationProcedure_list' pk=reservation.id %}" style="color:#3EAEB8;">View Procedures</a></td>
                 <td data-heading="Checkout">
                     {% csrf_token %}
-                    <a class="" href="{% url 'dentalapp:checkout_form' reservation.id %}">Checkout</a>
+                    <a class="" href="{% url 'dentalapp:checkout_form' reservation.id %}" style="color:#3EAEB8;">Checkout</a>
                 </td>
                 <td>
-                    <a class="" href="{% url 'dentalapp:cancel_reservation' reservation.id %}">Cancel Reservation</a>
+                    <a class="" href="{% url 'dentalapp:cancel_reservation' reservation.id %}" style="color:#3EAEB8;">Cancel Reservation</a>
+                </td>
+                <td data-heading="Edit Reservation">
+                    <a class="" href="{% url 'dentalapp:reservation_update' reservation.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
                 </td>
             </tr>
             {% endfor %}

@@ -72,12 +72,13 @@
 
     <div class="formContainer">
         <div class="formGroup">
-            <form action="" method="post" autocomplete="off">
+            <form action="" method="post" autocomplete="off" class="form-inline">
                     {% csrf_token %}
                     {{ formset.management_form }}
                     {% for form in formset %}
                         {{form}}
-                        <hr>
+                        <br>
+                        <br>
                     {% endfor %}
 
                     <div class="buttonContainer">

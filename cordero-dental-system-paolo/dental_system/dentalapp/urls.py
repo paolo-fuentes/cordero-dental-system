@@ -17,7 +17,6 @@ urlpatterns = [
     path('supplierForm',views.supplierForm, name="supplier_form"),
     path('<int:id>/',views.supplierForm, name='supplier_update'),
     path('supplierdelete/<int:id>/',views.supplierDelete, name='supplier_delete'),
-    #path('search-supplier',csrf_exempt(views.search_supplier), name='search_supplier'),
     path('customerList',views.customerList, name="customer_list"),
     path('customerForm',views.customerForm, name="customer_form"),
     path('customer<int:id>/',views.customerForm, name='customer_update'),

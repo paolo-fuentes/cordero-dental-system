@@ -4,13 +4,9 @@
 
 
 {%block content %}
-<h1 class="pageHeading">Items to be Replenished</h1>
+<h1 style="text-align: center;padding: 1rem 0 1rem 0;">Welcome to Cordero Dental System</h1>
 
-<form method="get" style=>
-    {{myFilter.form}}
-
-    <button class="btn btn-primary" type="submit">Search</button>
-</form>
+<h2 class="pageHeading">Restock List</h2>
 
 <div class="table-container">
     <table>
@@ -36,13 +32,15 @@
 </div>
 <br>
 <br>
-<!-- <div class="table-container">
+
+<h2 class="pageHeading">Nearing Expiry</h2>
+<div class="table-container">
     <table>
         <thead class= "border-bottom font-weight-bold">
             <tr>
                 <th>Material Name</th>
                 <th>Stock Level</th>
-                <th>Status</th>
+                <th>Expiry Date</th>
             </tr>
         </thead>
         <tbody>
@@ -52,12 +50,23 @@
                     <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
                     <td data-heading="Status">{{mat.expiry_date}}</td>
                     {% csrf_token %}
+            
             </tr>
             {% endfor %}
+            {% for mat in expMtrls2 %}
+            <tr>
+                <td data-heading="Material Name">{{mat.material_name}}</td>
+                    <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
+                    <td data-heading="Status">{{mat.expiry_date}}</td>
+                    {% csrf_token %}
+            
+            </tr>
+            {% endfor %}
+            
         </tbody>
     
     </table>
-</div> -->
+</div> 
 
 
 <script src="{% static 'js/searchSupplier.js' %}"></script>
@@ -65,7 +74,3 @@
 <!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
 
 {% endblock content %}
-
-
-
-

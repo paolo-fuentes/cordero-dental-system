@@ -39,6 +39,7 @@ class CheckoutAdmin(admin.ModelAdmin):
 class ExcessMaterialsAdmin(admin.ModelAdmin):
     list_display = ['checkout', 'material', 'excess_quantity']
 
+
 #class Delivered_MaterialAdmin(admin.ModelAdmin):
     #list_display=['delivery','material']
 admin.site.register(Supplier, SupplierAdmin)
@@ -52,4 +53,3 @@ admin.site.register(Reservation, ReservationAdmin)
 admin.site.register(ReservationProcedure, ReservationProcedureAdmin)
 admin.site.register(Checkout, CheckoutAdmin)
 admin.site.register(ExcessMaterials, ExcessMaterialsAdmin)
-
