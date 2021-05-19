@@ -1,6 +1,9 @@
 from django.db import models
-from datetime import datetime
+#from datetime import datetime
+import datetime
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+
 
 # Create your models here.
 
@@ -34,7 +37,7 @@ class Customer(models.Model):
         #return str(self.supplier)
 
 class Material(models.Model):
-    material_name=models.CharField(max_length=100, default=None)
+    material_name=models.CharField(max_length=100, default=None, unique=True)
     #deliveries = models.ManyToManyField('Delivery', through='Delivered_Material')
     m_type = [
         ('Non-Perishable', 'Non-Perishable'),
@@ -42,7 +45,7 @@ class Material(models.Model):
     ]
     material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
     expiry_date=models.DateField(default=timezone.now)
-    threshold_value = models.IntegerField(default=None)
+    threshold_value = models.IntegerField(default=None, max_length=5)
     threshold_value_unit = models.CharField(max_length=10, default=None)
     current_quantity = models.IntegerField(default=None)
     
@@ -67,6 +70,11 @@ class Material(models.Model):
         else:
             self.supply_status = "Low"
         super().save(*args, **kwargs)
+
+    # def save(self, *args, **kwargs):
+    #      if self.expiry_date < datetime.date.today():
+    #          raise ValidationError("The date cannot be in the past!")
+    #      super(Material, self).save(*args, **kwargs)
 
 class Delivered_Material(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete = models.SET_NULL, null=True)
@@ -103,7 +111,7 @@ class Procedure(models.Model):
 class Required_Material(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True, related_name='procedure_required_material')
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
-    quantity = models.IntegerField(default=None)
+    quantity = models.IntegerField(default=None, max_length=8)
     #quantity_unit = models.CharField(max_length=50, default=None)
 
     def __str__(self):

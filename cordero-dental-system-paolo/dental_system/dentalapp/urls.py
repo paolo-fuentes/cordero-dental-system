@@ -11,7 +11,7 @@ urlpatterns = [
     path('logout/',views.logoutUser, name='logout'),
 
 
-    path('',views.dentalapp, name='dentalapp'),
+    path('',views.lowMtrls, name='dentalapp'),
     path('lowmtrls', views.lowMtrls, name='low_mtrls'),
     path('supplierList',views.supplierList, name="supplier_list"),
     path('supplierForm',views.supplierForm, name="supplier_form"),

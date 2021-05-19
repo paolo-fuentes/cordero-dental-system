@@ -97,13 +97,19 @@
                 </div>
 
                 <div id="toggle-expiry" class="field-container">
-                    <p>{{ form.expiry_date.label_tag }}</p>
+                   <p>{{ form.expiry_date.label_tag }}</p>
                     {{ form.expiry_date }}
+                    {% for message in messages %}
+                    <div class="text-danger">Invalid Date Input</div>
+                    {% endfor %}
                 </div>
 
                 <div class="field-container">
                     <p>{{ form.threshold_value.label_tag }}</p>
                     {{ form.threshold_value }}
+                    {% for message in messages %}
+                    <div class="text-danger">Invalid length (max: 5 characters)</div>
+                    {% endfor %}
                 </div>
 
                 <div class="field-container">
