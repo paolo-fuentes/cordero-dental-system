@@ -83,6 +83,19 @@ class MaterialForm(forms.ModelForm):
     class Meta:
         model=Material
         fields = ('material_name', 'material_type','threshold_value_unit','threshold_value','current_quantity', 'expiry_date')
+        
+        def clean_threshold_value(self):
+            t_value = self.clean_threshold_value.get('threshold_value')
+            if len(t_value) > 5:
+                raise forms.ValidationError('no')
+            return t_value
+
+        def clean_date(self):
+            date  = self.cleaned_data.get("expiry_date")
+            if len(date) > 5:
+                raise forms.ValidationError("not valid date")
+            return date
+
         labels = {
             'material_name': 'Material Name',
             'material_type': 'Material Type',
@@ -103,7 +116,7 @@ class MaterialForm(forms.ModelForm):
             'material_type': forms.RadioSelect(attrs={'class': "custom-radio-list"}, choices=m_type),
             'expiry_date': forms.DateInput(attrs={'class': 'form-control'}),
             'threshold_value_unit': forms.TextInput(attrs={'class': 'form-control'}),
-            'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+            'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0",'maxlength':'5'}),
             'current_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
         }
 
@@ -125,29 +138,29 @@ class ProcedureForm(forms.ModelForm):
 class RequiredMaterialForm(forms.ModelForm):
     class Meta:
         model = Required_Material
-        fields = ('material', 'quantity', 'quantity_unit')
+        fields = ('material', 'quantity')
         labels = {
             'material': 'Material',
             'quantity': 'Quantity',
-            'quantity_unit': 'Quantity Unit'
         }
 
         widgets = {
             'material': forms.Select(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
-            'quantity_unit': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = {'customer', 'datetime', 'status'}
+        fields = {'customer', 'datetime'}
+        labels = {
+            'customer': 'Customer',
+            'datetime': 'Date and Time'
+        }
 
         widgets = {
             'customer': forms.Select(attrs={'class': 'form-control'}),
-            'datetime': forms.DateInput(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
-        }
+            'datetime': forms.DateInput(attrs={'class': 'form-control'}),        }
 
 
 class ReservationProcedureForm(forms.ModelForm):

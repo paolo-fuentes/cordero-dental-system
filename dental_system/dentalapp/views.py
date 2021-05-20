@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import json
+import datetime
 from django.http import JsonResponse
 
 from .models import *
@@ -44,7 +45,7 @@ def loginPage(request):
             login(request, user)
             return redirect('dentalapp:dentalapp')
         else:
-            messages.info(request, "Username or Password is incorrect")
+            messages.error(request, "Username or Password is incorrect")
 
     context = {}
     return render(request, 'dentalapp/login.html', context)
@@ -134,7 +135,7 @@ def customerDelete(request,id):
 
 @login_required(login_url='dentalapp:login')
 def materialList(request):
-    materials = Material.objects.all()
+    materials = Material.objects.all().order_by('material_name')
 
     myFilter = MaterialFilter(request.GET, queryset=materials)
     materials = myFilter.qs
@@ -161,7 +162,28 @@ def materialForm(request,id=0):
             form = MaterialForm(request.POST,instance=material)
         if form.is_valid():
             form.save()
-        return redirect('/materialList')
+            return redirect('/materialList')
+        else:
+            #print(form.errors)
+            messages.error(request, 'error')
+            #form = MaterialForm()
+            #if len(request.POST['expiry_date']) > 10:
+            #    return redirect('/materialList')
+            
+            ##if len(request.POST['threshold_value']) > 5:
+            #return redirect('/deliveryList')
+
+        #context = {
+        #    'form': form
+        #}
+        #return render(request,"dentalapp/MaterialForm.html",context)
+        #else:
+        #    if len(request.POST['expiry_date']) > 10:
+        #        messages.info(request, 'Invalid Date')
+            
+        #    if len(request.POST['expiry_date']) > 5:
+        #        messages.info(request, 'Too long')
+        return redirect('/materialForm')
 
 @login_required(login_url='dentalapp:login')
 def materialDelete(request,id):
@@ -198,9 +220,12 @@ def deliveryForm(request,id=0):
         else:
             delivery = Delivered_Material.objects.get(pk=id)     
             form = Delivered_MaterialForm(request.POST,instance=delivery)                        
-        if form.is_valid():   
-            form.save()           
-        return redirect('/deliveryList')
+        if form.is_valid():
+            form.save()
+            return redirect('/deliveryList')
+        else:
+            messages.error(request, 'error')
+        return redirect('/deliveryForm')
 
 @login_required(login_url='dentalapp:login')
 def deliveryDelete(request,id):
@@ -249,19 +274,51 @@ def procedureDelete(request,id):
 
 @login_required(login_url='dentalapp:login')
 def ProcedureRequiredMaterialsForm(request, pk):
-    ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity', 'quantity_unit'), extra=10, widgets = {'material': forms.Select(attrs={'class': 'form-control'}),'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}), 'quantity_unit': forms.TextInput(attrs={'class': 'form-control', 'min':"0"})})
-    procedure = Procedure.objects.get(id=pk)
-    formset = ProcedureRequiredMaterialFormSet(queryset=Required_Material.objects.none(), instance=procedure)
-    #form = RequiredMaterialForm(initial={'procedure':procedure})
-    if request.method == 'POST':
-        formset = ProcedureRequiredMaterialFormSet(request.POST, instance=procedure)
-        #form = RequiredMaterialForm(request.POST)
-        if formset.is_valid():
-            formset.save()
-            return redirect('/procedureList')
-
-    context = {'formset':formset}
-    return render(request, "dentalapp/ProcedureRequiredMaterialForm.html", context)
+    # ProcedureRequiredMaterialFormSet = inlineformset_factory(Procedure, Required_Material, fields=('material', 'quantity'), extra=10, widgets = {'material': forms.Select(attrs={'class': 'form-control'}),'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"})})
+    # procedure = Procedure.objects.get(id=pk)
+    # formset = ProcedureRequiredMaterialFormSet(queryset=Required_Material.objects.none(), instance=procedure)
+    # #form = RequiredMaterialForm(initial={'procedure':procedure})
+    # if request.method == 'POST':
+    #     formset = ProcedureRequiredMaterialFormSet(request.POST, instance=procedure)
+    #     #form = RequiredMaterialForm(request.POST)
+    #     if formset.is_valid():
+    #         formset.save()
+    #         return redirect('/procedureList')
+    # messages.error(request, 'Error')
+    # context = {'formset':formset}
+    # return render(request, "dentalapp/ProcedureRequiredMaterialForm.html", context)
+    RequiredMaterial = Material.objects.all()
+    item_list = []
+    for i in RequiredMaterial:
+        item_list.append(i.pk)
+    if(request.method == "POST"):
+        #payment_type = request.POST.get("PaymentType")
+        #order = Order.objects.create(paymentType=payment_type)
+        #total = 0
+        
+        for x in item_list:
+            quantity_input = "quantity " + str(x)
+            item_input = "itemInput " + str(x)
+            # make an if statement if any of the items in the order have 0 quantity
+            quantity = int(request.POST.get(quantity_input))
+            if quantity != 0:
+                item_pk = request.POST.get(item_input)
+                
+                item = Material.objects.get(pk=item_pk)
+                #line_total = item.price * quantity
+                procedure = Procedure.objects.get(id=pk)
+                required_material = Required_Material.objects.create(
+                    procedure=procedure, material=item, quantity=quantity
+                )
+                #item.item_stock -= quantity
+                #item.save()
+                #total += line_total
+        
+        #order.total = total
+        #order.save()
+        
+        return redirect('/procedureList')
+    return render(request,'dentalapp/ProcedureRequiredMaterialForm.html',{'RequiredMaterial':RequiredMaterial})
 
 def updateProcedureRequiredMaterials(request, pk):
     requiredmaterial = Required_Material.objects.get(id=pk)
@@ -350,7 +407,7 @@ def reservationProcedureList(request,pk):
 
 @login_required(login_url='dentalapp:login')
 def ReservedProceduresForm(request, pk, id=0):
-    ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5, widgets = {'procedure': forms.Select(attrs={'class': 'form-control'})})
+    #ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5, widgets = {'procedure': forms.Select(attrs={'class': 'form-control'})})
     reservation = Reservation.objects.get(id=pk)
     #Procedure.objects.filter(id=3)
     formset = ReservationProceduresFormSet(queryset=ReservationProcedure.objects.none(), instance=reservation)
@@ -443,8 +500,9 @@ def checkoutForm(request,id):
             checkout.save()
         return redirect('/checkoutList')
 
+@login_required(login_url='dentalapp:login')	
 def checkoutList(request):
-    checkouts = Checkout.objects.all()
+    checkouts = Checkout.objects.filter(reservation__status__contains="Finished")
 
     #myFilter = MaterialFilter(request.GET, queryset=procedures)
     #procedures = myFilter.qs
@@ -452,44 +510,80 @@ def checkoutList(request):
     context = {'checkoutList' : checkouts}
     return render(request,"dentalapp/CheckoutList.html", context)
 
+@login_required(login_url='dentalapp:login')	
 def excessmaterialForm(request,pk,id=0):
-    ExcessMaterialsFormSet = inlineformset_factory(Checkout, ExcessMaterials, fields=('material', 'excess_quantity'), extra=5, widgets = {'material': forms.Select(attrs={'class': 'form-control', }), 'excess_quantity': forms.TextInput(attrs={'class': 'form-control', 'min':"0"})})
-    reservation = Reservation.objects.get(id=pk)
-    checkout = Checkout.objects.get(id=pk)
-    formset = ExcessMaterialsFormSet(queryset=ExcessMaterials.objects.none(), instance = checkout)
-    if request.method =='POST':
-        formset = ExcessMaterialsFormSet(request.POST, instance=checkout)
-        if formset.is_valid():
-            x = formset.save()
-            for excess_material in x:
-                excess_materials = ExcessMaterials.objects.filter(checkout = excess_material.checkout)
-                for excess_materials in excess_materials:
-                    y = Material.objects.get(material_name = excess_material.material.material_name)
-                    y.current_quantity -= excess_material.excess_quantity
-                    y.save()
-            return redirect('/checkoutList')
-    context = {'formset':formset}
-    return render(request, "dentalapp/ExcessForm.html", context)
+    #ExcessMaterialsFormSet = inlineformset_factory(Checkout, ExcessMaterials, fields=('material', 'excess_quantity'), extra=5, widgets = {'material': forms.Select(attrs={'class': 'form-control', }), 'excess_quantity': forms.TextInput(attrs={'class': 'form-control', 'min':"0"})})
+    #reservation = Reservation.objects.get(id=pk)
+    #reservation = get_object_or_404(Reservation, id=pk)
+    #checkout = Checkout.objects.get(pk=pk)
+    #formset = ExcessMaterialsFormSet(queryset=ExcessMaterials.objects.none(), instance = checkout)
+    #if request.method =='POST':
+    #    formset = ExcessMaterialsFormSet(request.POST, instance=checkout)
+    #    if formset.is_valid():
+    #        x = formset.save()
+    #        for excess_material in x:
+    #            excess_materials = ExcessMaterials.objects.filter(checkout = excess_material.checkout)
+    #            for excess_materials in excess_materials:
+    #                y = Material.objects.get(material_name = excess_material.material.material_name)
+    #                y.current_quantity -= excess_material.excess_quantity
+    #                y.save()
+    #        return redirect('/checkoutList')
+    #context = {'formset':formset}
+
+    ExcessMaterial = Material.objects.all()
+    item_list = []
+    for i in ExcessMaterial:
+        item_list.append(i.pk)
+    if(request.method == "POST"):
+        #payment_type = request.POST.get("PaymentType")
+        #order = Order.objects.create(paymentType=payment_type)
+        #total = 0
+        
+        for x in item_list:
+            excess_quantity_input = "quantity " + str(x)
+            item_input = "itemInput " + str(x)
+            # make an if statement if any of the items in the order have 0 quantity
+            excess_quantity = int(request.POST.get(excess_quantity_input))
+            if excess_quantity != 0:
+                item_pk = request.POST.get(item_input)
+                
+                item = Material.objects.get(pk=item_pk)
+                #line_total = item.price * quantity
+                checkout = Checkout.objects.get(id=pk)
+                excess_material = ExcessMaterials.objects.create(
+                    excess_quantity=excess_quantity, material=item, checkout=checkout
+                )
+                #item.item_stock -= quantity
+                #item.save()
+                #total += line_total
+        
+        #order.total = total
+        #order.save()
+        
+        return redirect('/procedureList')
+    return render(request,'dentalapp/ExcessForm.html',{'ExcessMaterial':ExcessMaterial})
+    #return render(request, "dentalapp/ExcessForm.html", context)
 
 #                     <td data-heading="View Additional Materials Used"><a class="" href="{% url 'dentalapp:excess_material_list' checkout.id %}"></a></td>
 
+@login_required(login_url='dentalapp:login')
 def lowMtrls(request):
-    current_month = datetime.now().month
-    current_year = datetime.now().year
+    current_month = datetime.datetime.now().month
+    current_year = datetime.datetime.now().year
     if (current_month ==12):
         next_month = 1
         current_year2 = current_year + 1
     else:
-        next_month = int(datetime.now().month)+1
+        next_month = int(datetime.datetime.now().month)+1
         current_year2 = current_year
     lowMtrls = Material.objects.filter(supply_status='Low')
-    expMtrls = Material.objects.filter(expiry_date__year=current_year).filter(expiry_date__month= current_month)
-    expMtrls2 = Material.objects.filter(expiry_date__year=current_year2).filter(expiry_date__month= next_month)
+    expMtrls = Material.objects.filter(expiry_date__year=current_year).filter(expiry_date__month= current_month).filter(material_type='Perishable')
+    expMtrls2 = Material.objects.filter(expiry_date__year=current_year2).filter(expiry_date__month= next_month).filter(material_type="Perishable")
 
     context = {'lowMtrls' : lowMtrls, 'expMtrls' : expMtrls,'expMtrls2' : expMtrls2}
     return render(request,'dentalapp/home2.html',context) 
 
-
+@login_required(login_url='dentalapp:login')
 def cancelReservation(request,id):
     reservation = Reservation.objects.get(pk=id)
     r_procedures = ReservationProcedure.objects.get(reservation = reservation)
@@ -498,5 +592,8 @@ def cancelReservation(request,id):
         y = Material.objects.get(material_name = i.material.material_name)
         y.current_quantity += i.quantity
         y.save()
-    reservation.delete()
+    reservation.status = 'Cancelled'
+    reservation.save()
+    #checkout = Checkout.objects.create(invoice = None, reservation=reservation)
+    #checkout.save(force_insert=True)
     return redirect('/reservationList')

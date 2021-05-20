@@ -75,6 +75,9 @@
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
                     {{ form.as_p }}
+                    {% for message in messages %}
+                        <div class="text-danger">Invalid Delivery Date</div>
+                    {% endfor %}
 
                     <div class="buttonContainer">
 

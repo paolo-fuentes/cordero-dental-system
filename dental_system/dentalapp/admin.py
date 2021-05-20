@@ -25,7 +25,7 @@ class ProcedureAdmin(admin.ModelAdmin):
     list_display = ['procedure_name', 'price']
 
 class Required_MaterialAdmin(admin.ModelAdmin):
-    list_display = ['procedure', 'material', 'quantity', 'quantity_unit']
+    list_display = ['procedure', 'material', 'quantity']
 
 class ReservationAdmin(admin.ModelAdmin):
     list_display = ['customer', 'datetime']

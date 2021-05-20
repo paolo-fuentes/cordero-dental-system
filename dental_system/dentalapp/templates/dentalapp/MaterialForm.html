@@ -86,6 +86,20 @@
                     {% csrf_token %}
                     <!--{{ form.as_p }}-->
 
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="text-danger">
+                                Invalid Form Submission. Please take note of the following:
+                                <ul>
+                                    <li class="text-danger">Enure that the item is not existing in the database</li>
+                                    <li class="text-danger">Date input must be valid (YY-MM-DD)</li>
+                                    <li class="text-danger">Threshold Value and Quantity must not exceed 8 characters</li>
+                                    <li class="text-danger">Threshold Value and Quantity must not be a negative number</li>
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
                 <div class="field-container">
                     <p>{{ form.material_name.label_tag }}</p>
                     {{ form.material_name }}
@@ -104,6 +118,11 @@
                 <div class="field-container">
                     <p>{{ form.threshold_value.label_tag }}</p>
                     {{ form.threshold_value }}
+                   <!-- {% if messages %}
+                        {% for message in messages %}
+                            <div class="text-danger">{{message}}</div>
+                        {% endfor %}
+                {% endif %}-->
                 </div>
 
                 <div class="field-container">
@@ -118,7 +137,7 @@
 
                     <div class="buttonContainer">
 
-                        <a class="buttonDesignNegative" href="{% url 'dentalapp:customer_list' %}">Cancel</a>
+                        <a class="buttonDesignNegative" href="{% url 'dentalapp:material_list' %}">Cancel</a>
 
                         <button type='submit' class='buttonDesignPositive'>Submit</button>
 
