@@ -91,10 +91,10 @@
                             <div class="text-danger">
                                 Invalid Form Submission. Please take note of the following:
                                 <ul>
-                                    <li class="text-danger">Enure that the item is not existing in the database</li>
+                                    <li class="text-danger">Ensure that the item is not existing in the database</li>
                                     <li class="text-danger">Date input must be valid (YY-MM-DD)</li>
+                                    <li class="text-danger">Ensure that the expiry date is set to the current or a later date</li>
                                     <li class="text-danger">Threshold Value and Quantity must not exceed 8 characters</li>
-                                    <li class="text-danger">Threshold Value and Quantity must not be a negative number</li>
                                 </ul>
                             </div>
                         {% endfor %}
@@ -111,18 +111,13 @@
                 </div>
 
                 <div id="toggle-expiry" class="field-container">
-                    <p>{{ form.expiry_date.label_tag }}</p>
+                   <p>{{ form.expiry_date.label_tag }}</p>
                     {{ form.expiry_date }}
                 </div>
 
                 <div class="field-container">
                     <p>{{ form.threshold_value.label_tag }}</p>
                     {{ form.threshold_value }}
-                   <!-- {% if messages %}
-                        {% for message in messages %}
-                            <div class="text-danger">{{message}}</div>
-                        {% endfor %}
-                {% endif %}-->
                 </div>
 
                 <div class="field-container">

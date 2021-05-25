@@ -101,7 +101,9 @@
                                         </label> 
                                         <div class=""> 
                                             <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
-                                            <input type="text" name="quantity {{i.pk}}" maxlength="300" class="textinput textInput form-control" id="id_name" value=0> 
+                                            <input type="number" 
+                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                            name="quantity {{i.pk}}" maxlength="8" min=0 class="textinput textInput form-control" id="id_name" value=0> 
                                         </div> 
                                     </div> 
                                 </td>

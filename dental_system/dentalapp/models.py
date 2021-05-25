@@ -3,7 +3,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator, MaxValueValidator
+#from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
@@ -38,6 +38,10 @@ class Customer(models.Model):
         #return str(self.supplier)
 
 class Material(models.Model):
+    def validate_date(expiry_date):
+        if expiry_date < timezone.now().date():
+            raise ValidationError("Date cannot be in the past")
+
     material_name=models.CharField(max_length=100, default=None, unique=True)
     #deliveries = models.ManyToManyField('Delivery', through='Delivered_Material')
     m_type = [
@@ -45,8 +49,8 @@ class Material(models.Model):
         ('Perishable', 'Perishable')
     ]
     material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
-    expiry_date=models.DateField(default=timezone.now, error_messages = {'required':"Invalid Date Input"})
-    threshold_value = models.IntegerField(default=None, validators=[MinValueValidator(0),MaxValueValidator(5)])
+    expiry_date=models.DateField(default=timezone.now, validators=[validate_date], error_messages = {'required':"Invalid Date Input"})
+    threshold_value = models.IntegerField(default=None)
     threshold_value_unit = models.CharField(max_length=10, default=None)
     current_quantity = models.IntegerField(default=None)
     

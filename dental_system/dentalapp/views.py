@@ -164,25 +164,7 @@ def materialForm(request,id=0):
             form.save()
             return redirect('/materialList')
         else:
-            #print(form.errors)
             messages.error(request, 'error')
-            #form = MaterialForm()
-            #if len(request.POST['expiry_date']) > 10:
-            #    return redirect('/materialList')
-            
-            ##if len(request.POST['threshold_value']) > 5:
-            #return redirect('/deliveryList')
-
-        #context = {
-        #    'form': form
-        #}
-        #return render(request,"dentalapp/MaterialForm.html",context)
-        #else:
-        #    if len(request.POST['expiry_date']) > 10:
-        #        messages.info(request, 'Invalid Date')
-            
-        #    if len(request.POST['expiry_date']) > 5:
-        #        messages.info(request, 'Too long')
         return redirect('/materialForm')
 
 @login_required(login_url='dentalapp:login')
@@ -407,8 +389,10 @@ def reservationProcedureList(request,pk):
 
 @login_required(login_url='dentalapp:login')
 def ReservedProceduresForm(request, pk, id=0):
-    #ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5, widgets = {'procedure': forms.Select(attrs={'class': 'form-control'})})
+    ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5, widgets = {'procedure': forms.Select(attrs={'class': 'form-control'})})
     reservation = Reservation.objects.get(id=pk)
+    material = Material.objects.filter(supply_status=="Low")
+    #material = Material.objects.all()
     #Procedure.objects.filter(id=3)
     formset = ReservationProceduresFormSet(queryset=ReservationProcedure.objects.none(), instance=reservation)
     #form = RequiredMaterialForm(initial={'procedure':procedure})
@@ -416,10 +400,8 @@ def ReservedProceduresForm(request, pk, id=0):
         formset = ReservationProceduresFormSet(request.POST, instance=reservation)
         #form = RequiredMaterialForm(request.POST)
         if formset.is_valid():
-
             x = formset.save()
             #print(x)
-
             for reservation_procedure in x:
                 required_materials = Required_Material.objects.filter(procedure = reservation_procedure.procedure)
                 for required_material in required_materials:
@@ -427,9 +409,7 @@ def ReservedProceduresForm(request, pk, id=0):
                     y = Material.objects.get(material_name = required_material.material.material_name)
                     y.current_quantity -= int(required_material.quantity)
                     y.save()
-
             return redirect('/reservationList')
-
     context = {'formset':formset}
     return render(request, "dentalapp/ReservationProcedureForm.html", context)
     #model = ReservationProcedure
