@@ -14,13 +14,15 @@
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: #3EAEB8 !important;
+			/*background: #3EAEB8 !important;*/
+			background: #fff;
 		}
 		.user_card {
 			width: 350px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: #fff;
+			/*background: #fff;*/
+			background: #3EAEB8;
 			position: relative;
 			display: flex;
 			justify-content: center;
@@ -38,14 +40,15 @@
 		}
 
 		#form-title{
-			color: #000;
+			color: #fff;
 			
 		}
 
 		.login_btn {
 			width: 100%;
-			background: #3EAEB8 !important;
-			color: white !important;
+			/*background: #3EAEB8 !important;*/
+			background: #fff !important;
+			color: #3EAEB8 !important;
 		}
 		.login_btn:focus {
 			box-shadow: none !important;
@@ -113,7 +116,7 @@
 		
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
-						Don't have an account? <a href="{% url 'dentalapp:register' %}" class="ml-2">Sign Up</a>
+						<p style="color:#fff">Don't have an account?</p> <a href="{% url 'dentalapp:register' %}" class="ml-2">Sign Up</a>
 					</div>
 			
 				</div>

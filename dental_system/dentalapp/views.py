@@ -391,7 +391,18 @@ def reservationProcedureList(request,pk):
 def ReservedProceduresForm(request, pk, id=0):
     ReservationProceduresFormSet = inlineformset_factory(Reservation, ReservationProcedure, fields=('reservation', 'procedure'), extra=5, widgets = {'procedure': forms.Select(attrs={'class': 'form-control'})})
     reservation = Reservation.objects.get(id=pk)
-    material = Material.objects.filter(supply_status=="Low")
+    #material = Material.objects.filter(supply_status="Low")
+    avail_procedure = Required_Material.objects.select_related('procedure').exclude(material__supply_status="Low")
+    print(avail_procedure)
+    procedureArray = []
+    for i in avail_procedure:
+        print(i.procedure)
+        if i.procedure != None:
+            procedureArray.append(i.procedure)
+    newArray = list(dict.fromkeys(procedureArray))
+    for i in newArray:
+        print(i)
+    
     #material = Material.objects.all()
     #Procedure.objects.filter(id=3)
     formset = ReservationProceduresFormSet(queryset=ReservationProcedure.objects.none(), instance=reservation)
@@ -401,8 +412,9 @@ def ReservedProceduresForm(request, pk, id=0):
         #form = RequiredMaterialForm(request.POST)
         if formset.is_valid():
             x = formset.save()
-            #print(x)
+            print(x)
             for reservation_procedure in x:
+                print(reservation_procedure)
                 required_materials = Required_Material.objects.filter(procedure = reservation_procedure.procedure)
                 for required_material in required_materials:
                     print(required_material.material.material_name)
@@ -411,7 +423,7 @@ def ReservedProceduresForm(request, pk, id=0):
                     y.save()
             return redirect('/reservationList')
     context = {'formset':formset}
-    return render(request, "dentalapp/ReservationProcedureForm.html", context)
+    return render(request, "dentalapp/ReservationProcedureForm.html", {'newArray':newArray})
     #model = ReservationProcedure
     #form_class = ReservationProcedureForm
 

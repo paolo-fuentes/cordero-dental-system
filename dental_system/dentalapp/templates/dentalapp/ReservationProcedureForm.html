@@ -72,23 +72,56 @@
 
     <div class="formContainer">
         <div class="formGroup">
-            <form action="" method="post" autocomplete="off" class="form-inline">
-                    {% csrf_token %}
-                    {{ formset.management_form }}
-                    {% for form in formset %}
-                        {{form}}
-                        <br>
-                        <br>
-                    {% endfor %}
+            <form action="" method='POST' autocomplete="off">
+                <div class="jumbotron">
+                    <h1 class="display-4"></h1>
+                    <p class="lead">Please input the required materials needed for the procedure and its corresponding quantity.</p>
+                    <hr class="my-4">
+                    <p></p>
+                        <input type="hidden" name="csrfmiddlewaretoken" value="r1xprejYguEsWCj4LCoIEBhaUUmbUmQYNoR6NhmSrRRoYHsvLu87bNok1skABXMG">
+        
+                        <input type="hidden" name="csrfmiddlewaretoken" value="aaNHo1ie68VPFeJJGet4UFBGJ2p5Qagcwx7oK4l8hv8LHjSaG6dtrRIQQAnuxLcU">
+    
+                <div class="row">
+                <div class="col-12">
+    
+                    <table class="table table-striped">
+                        <thead>
+                            <th scope="col"> Name </th>
+                            <th scope="col"> Quantity </th>
+                        </thead>
+                        <tbody>
+                            {% for i in newArray %}
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle;"> {{ i }} </td>
+                                <td>            
+                                    <div id="div_id_name" class="form-group"> 
+                                        <label for="id_name">
+                                        </label> 
+                                        <div class=""> 
+                                            <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
+                                            <input type="number" 
+                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                            name="quantity {{i.pk}}" maxlength="8" min=0 class="textinput textInput form-control" id="id_name" value=0> 
+                                        </div>
+                                    </div> 
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+    
+                </div>
+            </form>
 
                     <div class="buttonContainer">
 
-                        <a class="buttonDesignNegative" href="{% url 'dentalapp:reservation_list' %}">Cancel</a>
+                        <a class="buttonDesignNegative" href="{% url 'dentalapp:procedure_list' %}">Cancel</a>
 
                         <button type='submit' class='buttonDesignPositive'>Submit</button>
 
                     </div>
-            </form>
+            {% csrf_token %}                
         </div>
     </div>
 
