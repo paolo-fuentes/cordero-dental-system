@@ -83,18 +83,6 @@ class MaterialForm(forms.ModelForm):
     class Meta:
         model=Material
         fields = ('material_name', 'material_type','threshold_value_unit','threshold_value','current_quantity', 'expiry_date')
-        
-        # def clean_threshold_value(self):
-        #     t_value = self.clean_threshold_value.get('threshold_value')
-        #     if t_value == '':
-        #         raise forms.ValidationError('no')
-        #     return t_value
-
-        # def clean_date(self, *args, **kwargs):
-        #     date  = self.cleaned_data.get("expiry_date")
-        #     if not "2021-05-18" in date:
-        #         raise forms.ValidationError("not valid date")
-        #     return date
 
         labels = {
             'material_name': 'Material Name',

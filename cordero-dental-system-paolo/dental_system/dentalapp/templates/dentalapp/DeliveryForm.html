@@ -74,7 +74,12 @@
         <div class="formGroup">
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
+                    {% for message in messages %}
+                        <div class="text-danger">Date input must be valid (YY-MM-DD)</div>
+                    {% endfor %}
+
                     {{ form.as_p }}
+                    
 
                     <div class="buttonContainer">
 

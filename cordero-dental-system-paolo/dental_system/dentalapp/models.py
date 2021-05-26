@@ -3,6 +3,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+#from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
@@ -37,6 +38,10 @@ class Customer(models.Model):
         #return str(self.supplier)
 
 class Material(models.Model):
+    def validate_date(expiry_date):
+        if expiry_date < timezone.now().date():
+            raise ValidationError("Date cannot be in the past")
+
     material_name=models.CharField(max_length=100, default=None, unique=True)
     #deliveries = models.ManyToManyField('Delivery', through='Delivered_Material')
     m_type = [
@@ -44,8 +49,8 @@ class Material(models.Model):
         ('Perishable', 'Perishable')
     ]
     material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
-    expiry_date=models.DateField(default=timezone.now)
-    threshold_value = models.IntegerField(default=None, max_length=5)
+    expiry_date=models.DateField(default=timezone.now, validators=[validate_date], error_messages = {'required':"Invalid Date Input"})
+    threshold_value = models.IntegerField(default=None)
     threshold_value_unit = models.CharField(max_length=10, default=None)
     current_quantity = models.IntegerField(default=None)
     
@@ -77,10 +82,15 @@ class Material(models.Model):
     #      super(Material, self).save(*args, **kwargs)
 
 class Delivered_Material(models.Model):
+
+    def validate_date(delivery_date):
+        if delivery_date < timezone.now().date():
+            raise ValidationError("Date cannot be in the past")
+
     supplier = models.ForeignKey(Supplier, on_delete = models.SET_NULL, null=True)
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
     quantity_restock = models.IntegerField(default=None)
-    delivery_date=models.DateField(default=timezone.now)
+    delivery_date=models.DateField(default=timezone.now, validators=[validate_date])
     parcel_number = models.CharField(max_length=50, default=None)
 
 
@@ -111,7 +121,7 @@ class Procedure(models.Model):
 class Required_Material(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete = models.SET_NULL, null=True, related_name='procedure_required_material')
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
-    quantity = models.IntegerField(default=None, max_length=8)
+    quantity = models.IntegerField(default=None)
     #quantity_unit = models.CharField(max_length=50, default=None)
 
     def __str__(self):
