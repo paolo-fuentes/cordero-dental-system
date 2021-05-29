@@ -28,7 +28,7 @@ SECRET_KEY = '3srr70ud&&w!)t__rh6b5p0q&##uk!wvxex8jrgdqd90y*t6=t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['https://denttest.herokuapp.com/', '127.0.0.1', 'localhost']
 
 
 # Application definition
