@@ -1,0 +1,90 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+
+{% block styles %}
+<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
+
+<style>
+
+.form-container {
+    /*display: inline-block;*/
+    text-align: right;
+    width: 90%;
+}
+
+.buttonDesignPositive {
+    border: 0;
+    padding: 16px 30px;
+    border-radius: 30px;
+    line-height: 1;
+    background: #3EAEB8;
+    color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    margin: 1rem;
+}
+
+.buttonDesignPositive:hover,
+.buttonDesignPositive:focus {
+    background: #328c94;
+}
+
+</style>
+
+{% endblock %}
+
+
+<h1 class="pageHeading">View Procedure</h1>
+
+<div class="form-container">
+    <form method="get" style=>
+        {{myFilter.form}}
+        <button class="buttonDesignPositive" type="submit">Search</button>
+    </form>
+</div>
+
+<div class="table-container">
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Procedure Name</th>
+                <th>Price</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for procedure in procedureList %}
+            <tr>
+                <td data-heading="Procedure Name">{{procedure.procedure_name}}</td>
+                <td data-heading="Price">PHP {{procedure.price}}</td>
+                <td data-heading="Add Required Material"><a href="{% url 'dentalapp:procedure_required_material_form' procedure.id %}" style="color:#3EAEB8;">Add Required Material</a></td>
+                <td data-heading="View Required Material"><a href="{% url 'dentalapp:procedure_required_material_list' pk=procedure.id %}" style="color:#3EAEB8;">View Required Materials</a></td>
+                <!-- <td data-heading="Threshold Value Unit">{{material.threshold_value_unit}}</td> -->
+                <td data-heading="Edit Procedure">
+                    <a class="" href="{% url 'dentalapp:procedure_update' procedure.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
+                </td>
+                <td data-heading="Delete Procedure">
+                    {% csrf_token %}
+                    <a class="" href="{% url 'dentalapp:procedure_delete' procedure.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}

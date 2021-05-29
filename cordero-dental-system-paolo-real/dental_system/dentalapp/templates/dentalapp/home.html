@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang='en'>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cordero Dental Systems</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<script src="https://kit.fontawesome.com/a86e09740c.js" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+<!-- <div>
+     <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:supplier_list' %}">Suppliers</a>
+</div>
+-->
+
+<!--<div class="toggleNavBtn">
+    <span class="fas fa-bars"></span>
+</div> -->
+
+
+<body>
+
+<nav class="sidebar">
+    <ul>
+        <li>
+            <a href="{% url 'dentalapp:low_mtrls' %}">Home</a>
+        </li>
+
+        <li>
+            <a href="#" class="reservation-btn">Reservation
+            <span class="fas fa-caret-down"></span>
+            <ul class="reservation-show">
+                <li><a href="{% url 'dentalapp:reservation_list' %}">View Reservations</a></li>
+                <li><a href="{% url 'dentalapp:reservation_form' %}">Add Reservation</a></li>
+            </ul>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class='checkout-btn'>Checkouts
+                <span class="fas fa-caret-down"></span>
+            <ul class="checkout-show">
+                <li><a href="{% url 'dentalapp:checkout_list' %}">View Checkouts</a></li>
+            </ul>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="procedure-btn">Procedures
+                <span class="fas fa-caret-down"></span>
+            </a>
+            <ul class="procedure-show">
+                <li><a href="{% url 'dentalapp:procedure_list' %}">View Procedures</a></li>
+                <li><a href="{% url 'dentalapp:procedure_form' %}">Add Procedure</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="supplier-btn">Suppliers
+                <span class="fas fa-caret-down"></span>
+            </a>
+            <ul class="feat-show">
+                <li><a href="{% url 'dentalapp:supplier_list' %}">View Suppliers</a></li>
+                <li><a href="{% url 'dentalapp:supplier_form' %}">Add Supplier</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="mat-btn">Materials
+                <span class="fas fa-caret-down fourth"></span>
+            </a>
+            <ul class="mat-show">
+                <li><a href="{% url 'dentalapp:material_list' %}">View Materials</a></li>
+                <li><a href="{% url 'dentalapp:material_form' %}">Add Materials</a></li>
+            </ul>
+        </li>
+        <li>
+        </li>
+
+        <li>
+            <a href="#" class="delivery-btn">Deliveries
+                <span class="fas fa-caret-down"></span>
+            </a>
+            <ul class="delivery-show">
+                <li><a href="{% url 'dentalapp:delivery_list' %}">View Deliveries</a></li>
+                <li><a href="{% url 'dentalapp:delivery_form' %}">Add Delivery</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="cus-btn">Customers
+                <span class="fas fa-caret-down third"></span>
+            </a>
+            <ul class="cus-show">
+                <li><a href="{% url 'dentalapp:customer_list' %}">View Customers</a></li>
+                <li><a href="{% url 'dentalapp:customer_form' %}">Add Customer</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="{% url 'dentalapp:logout' %}">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="toggle" onclick="toggleMenu()"></div>
+
+
+
+    {% block content %}
+    {% endblock content %}
+
+    <script>
+        $('.toggleNavBtn').click(function(){
+            $(this).toggleClass("click");
+            $('.sidebar').toggleClass("show");
+        });
+        $('.supplier-btn').click(function(){
+            $('nav ul .feat-show').toggleClass("show");
+        });
+
+        $('.delivery-btn').click(function(){
+            $('nav ul .delivery-show').toggleClass("show2");
+        });
+
+        $('.cus-btn').click(function(){
+            $('nav ul .cus-show').toggleClass("show1");
+        });
+        $('.mat-btn').click(function(){
+            $('nav ul .mat-show').toggleClass("show3");
+        });
+
+        $('.procedure-btn').click(function(){
+            $('nav ul .procedure-show').toggleClass("show4");
+        });
+
+        $('.reservation-btn').click(function(){
+            $('nav ul .reservation-show').toggleClass("show5");
+        });
+        $('.checkout-btn').click(function(){
+            $('nav ul .checkout-show').toggleClass("show6");
+        });
+
+        
+
+        function toggleMenu(){
+            let sidebar = document.querySelector('.sidebar');
+            let toggle = document.querySelector('.toggle');
+            
+            sidebar.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
