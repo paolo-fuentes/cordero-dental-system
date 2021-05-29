@@ -1,0 +1,159 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+{%block content %}
+<!--{% load crispy_forms_tags %} -->
+
+{% block styles %}
+<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
+
+<style>
+.formContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 85vh;
+    margin-top: 2rem;
+}
+
+.buttonDesignPositive {
+    border: 0;
+    padding: 16px 30px;
+    border-radius: 30px;
+    line-height: 1;
+    background: #3EAEB8;
+    color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    margin: 1rem;
+}
+
+.buttonDesignPositive:hover,
+.buttonDesignPositive:focus {
+    background: #328c94;
+}
+
+
+.buttonDesignNegative{
+    text-decoration: none;
+    border: solid 1px #3EAEB8;
+    padding: 14px 30px;
+    border-radius: 30px;
+    line-height: 1;
+    background: #ffffff;
+    color: #3EAEB8;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    margin: 1rem;
+}
+
+.buttonDesignNegative:hover,
+.buttonDesignNegative:focus {
+    background: #3EAEB8;
+    color: #ffffff;
+}
+
+.formGroup {
+    position: relative;
+}
+
+.buttonContainer {
+    /*position: absolute;*/
+    right: 0;
+}
+
+.custom-radio-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.field-container {
+    margin-bottom: 1.5rem;
+}
+
+</style>
+
+{% endblock %}
+
+
+<h1 class="pageHeading">Add Material</h1>
+
+    <div class="formContainer">
+        <div class="formGroup">
+            <form action="" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <!--{{ form.as_p }}-->
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="text-danger">
+                                Invalid Form Submission. Please take note of the following:
+                                <ul>
+                                    <li class="text-danger">Ensure that the item is not existing in the database</li>
+                                    <li class="text-danger">Date input must be valid (YY-MM-DD)</li>
+                                    <li class="text-danger">Ensure that the expiry date is set to the current or a later date</li>
+                                    <li class="text-danger">Threshold Value and Quantity must not exceed 8 characters</li>
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                <div class="field-container">
+                    <p>{{ form.material_name.label_tag }}</p>
+                    {{ form.material_name }}
+                </div>
+
+                <div id="material-type" class="field-container">
+                    <p>{{ form.material_type.label_tag }}</p>
+                    {{ form.material_type }}
+                </div>
+
+                <div id="toggle-expiry" class="field-container">
+                   <p>{{ form.expiry_date.label_tag }}</p>
+                    {{ form.expiry_date }}
+                </div>
+
+                <div class="field-container">
+                    <p>{{ form.threshold_value.label_tag }}</p>
+                    {{ form.threshold_value }}
+                </div>
+
+                <div class="field-container">
+                    <p>{{ form.threshold_value_unit.label_tag }}</p>
+                    {{ form.threshold_value_unit }}
+                </div>
+
+                <div class="field-container">
+                    <p>{{ form.current_quantity.label_tag }}</p>
+                    {{ form.current_quantity }}
+                </div>
+
+                    <div class="buttonContainer">
+
+                        <a class="buttonDesignNegative" href="{% url 'dentalapp:material_list' %}">Cancel</a>
+
+                        <button type='submit' class='buttonDesignPositive'>Submit</button>
+
+                    </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $('#toggle-expiry').hide();
+            
+            $('input[name="material_type"]').on('click', function() {
+                if ($(this).val() == 'Perishable') {
+                    $('#toggle-expiry').show();
+                }
+                else {
+                    $('#toggle-expiry').hide();
+                }
+            });
+        })
+    </script>
+
+{% endblock content %}

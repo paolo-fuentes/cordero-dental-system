@@ -1,0 +1,76 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+<h1 style="text-align: center;padding: 1rem 0 1rem 0;">Welcome to Cordero Dental System</h1>
+
+<h2 class="pageHeading">Restock List</h2>
+
+<div class="table-container">
+    <table>
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Material Name</th>
+                <th>Stock Level</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mat in lowMtrls %}
+            <tr>
+                <td data-heading="Material Name">{{mat.material_name}}</td>
+                    <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
+                    <td data-heading="Status">{{mat.supply_status}}</td>
+                    {% csrf_token %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+<br>
+<br>
+
+<h2 class="pageHeading">Nearing Expiry</h2>
+<div class="table-container">
+    <table>
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Material Name</th>
+                <th>Stock Level</th>
+                <th>Expiry Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mat in expMtrls %}
+            <tr>
+                <td data-heading="Material Name">{{mat.material_name}}</td>
+                    <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
+                    <td data-heading="Status">{{mat.expiry_date}}</td>
+                    {% csrf_token %}
+            
+            </tr>
+            {% endfor %}
+            {% for mat in expMtrls2 %}
+            <tr>
+                <td data-heading="Material Name">{{mat.material_name}}</td>
+                    <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
+                    <td data-heading="Status">{{mat.expiry_date}}</td>
+                    {% csrf_token %}
+            
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    
+    </table>
+</div> 
+
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}
