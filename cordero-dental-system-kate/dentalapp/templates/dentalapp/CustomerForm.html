@@ -76,6 +76,17 @@
         <div class="formGroup">
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="text-danger">
+                                Invalid Form Submission. Please take note of the following:
+                                <ul>
+                                    <li class="text-danger">Customer Name must not exceed 50 characters</li>
+                                    <li class="text-danger">Contact Number must not exceed 15 characters</li>
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     {{ form.as_p }}
 
                     <div class="buttonContainer">

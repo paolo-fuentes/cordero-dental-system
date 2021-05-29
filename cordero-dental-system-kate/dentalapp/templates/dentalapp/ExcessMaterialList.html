@@ -1,0 +1,108 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+<style>
+    .formContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 85vh;
+        margin-top: 2rem;
+    }
+    
+    .buttonDesignPositive {
+        border: 0;
+        padding: 16px 30px;
+        border-radius: 30px;
+        line-height: 1;
+        background: #3EAEB8;
+        color: #ffffff;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s linear;
+        margin: 1rem;
+    }
+    
+    .buttonDesignPositive:hover,
+    .buttonDesignPositive:focus {
+        background: #328c94;
+    }
+    
+    
+    .buttonDesignNegative{
+        text-decoration: none;
+        border: solid 1px #3EAEB8;
+        padding: 14px 30px;
+        border-radius: 30px;
+        line-height: 1;
+        background: #ffffff;
+        color: #3EAEB8;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s linear;
+        margin: 1rem;
+    }
+    
+    .buttonDesignNegative:hover,
+    .buttonDesignNegative:focus {
+        background: #3EAEB8;
+        color: #ffffff;
+    }
+    
+    .formGroup {
+        position: relative;
+    }
+    
+    .buttonContainer {
+        /*position: absolute;*/
+        margin-top: 2rem;
+        text-align: right;
+        width: 90%;
+    }
+    .padding{
+        padding-bottom: 80px;
+    } 
+    
+    </style>
+
+<h1 class="pageHeading">Required Materials </h1>
+<h3 style="text-align:center;">{{p_obj.procedure_name}}</h3>
+
+<!--<form method="get" style=>
+    {{myFilter.form}}
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>-->
+
+<div class="table-container">
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Excess Materials</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in excess_material %}
+            <tr>
+                <td data-heading="Excess Materials">{{e.format}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+
+<div class="buttonContainer">
+
+    <a class="buttonDesignNegative" href="{% url 'dentalapp:checkout_list' %}">Back</a>
+
+</div>
+<div class = "padding"></div>
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}

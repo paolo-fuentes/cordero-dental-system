@@ -125,7 +125,10 @@ def customerForm(request,id=0):
             form = CustomerForm(request.POST,instance=customer)
         if form.is_valid():
             form.save()
-        return redirect('/customerList')
+            return redirect('/customerList')
+        else:
+            messages.error(request, 'error')
+            return redirect('/customerForm')
 
 @login_required(login_url='dentalapp:login')
 def customerDelete(request,id):
@@ -633,3 +636,14 @@ def cancelReservation(request,id):
     #checkout = Checkout.objects.create(invoice = None, reservation=reservation)
     #checkout.save(force_insert=True)
     return redirect('/reservationList')
+
+@login_required(login_url='dentalapp:login')
+def ExcessList(request,pk):
+    excess_material = ExcessMaterials.objects.filter(checkout__pk=pk)
+    check = Checkout.objects.get(pk=pk)
+    e_obj = get_object_or_404(Checkout, pk=pk)
+    #gtotal = sum( d.solver() for d in OrderLine.objects.filter(ORD__cust_order__name = cust_order.name))
+    return render(request,"dentalapp/ExcessMaterialList.html",{'excess_material':excess_material,'e_obj':e_obj,'check':check})
+
+
+

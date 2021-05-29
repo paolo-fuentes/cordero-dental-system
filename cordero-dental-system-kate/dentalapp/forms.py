@@ -26,7 +26,7 @@ class SupplierForm(forms.ModelForm):
         }
 
         widgets = {
-            'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact_number': forms.NumberInput(attrs={'class': 'form-control'}),
             'business_name': forms.TextInput(attrs={'class': 'form-control'}),
             'contact_person': forms.TextInput(attrs={'class': 'form-control'}),
             'address1': forms.TextInput(attrs={'class': 'form-control'}),
@@ -51,8 +51,8 @@ class CustomerForm(forms.ModelForm):
         }
 
         widgets = {
-            'customer_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'customer_name': forms.TextInput(attrs={'class': 'form-control', 'maxlength':'50'}),
+            'contact_number': forms.NumberInput(attrs={'class': 'form-control', 'maxlength':'15'}),
         }
 
 class Delivered_MaterialForm(forms.ModelForm):
@@ -104,7 +104,7 @@ class MaterialForm(forms.ModelForm):
             'material_type': forms.RadioSelect(attrs={'class': "custom-radio-list"}, choices=m_type),
             'expiry_date': forms.DateInput(attrs={'class': 'form-control'}),
             'threshold_value_unit': forms.TextInput(attrs={'class': 'form-control'}),
-            'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0",'maxlength':'5'}),
+            'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0",'maxlength':'8'}),
             'current_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
         }
 
@@ -136,6 +136,7 @@ class RequiredMaterialForm(forms.ModelForm):
             'material': forms.Select(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
         }
+
 
 class ReservationForm(forms.ModelForm):
     class Meta:

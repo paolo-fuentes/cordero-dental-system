@@ -30,7 +30,7 @@
                     <td data-heading="Customer">{{checkout.reservation.customer}}</td>
                     <td data-heading="Add Excess Materials"><a href="{% url 'dentalapp:excess_material_form' checkout.id %}"style="color:#3EAEB8;">Add Excess Materials</a></td>
                 </td>
-                <td data-heading="View Excess Materials"><a href=""style="color:#3EAEB8;">View Excess Materials</a></td>
+                <td data-heading="View Excess Materials"><a href="{% url 'dentalapp:Excess_list' checkout.id %}"style="color:#3EAEB8;">View Excess Materials</a></td>
                     {% csrf_token %}
                 </td>
             </tr>
