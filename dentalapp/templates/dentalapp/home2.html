@@ -1,0 +1,105 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+{% block styles %}
+<style>
+.low {
+    color: #f14444;
+
+}
+
+.high {
+    color: #00a50e;
+
+}
+
+.mid {
+    color: #eeb509;
+}
+.padding{
+    padding-bottom: 80px;
+}
+
+</style>
+{% endblock %}
+
+<h2 class="pageHeading">Restock List</h2>
+
+<div class="table-container">
+    <table>
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Material Name</th>
+                <th>Stock Level</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mat in lowMtrls %}
+            <tr>
+                <td data-heading="Material Name">{{mat.material_name}}</td>
+                    <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
+                    <td data-heading="Current Quantity">
+                        {% if mat.supply_status == "Low" %}
+                        <span class="low"> 
+                        {% elif mat.supply_status == "High" %} 
+                        <span class="high">
+                        {% elif mat.supply_status == "Mid" %} 
+                        <span class="mid">
+                        {% endif %}
+                            {{mat.get_supply_status_display}}</td>
+                        </span>
+                    {% csrf_token %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+<br>
+<br>
+
+<h2 class="pageHeading">Nearing Expiry</h2>
+<div class="table-container">
+    <table>
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Material Name</th>
+                <th>Stock Level</th>
+                <th>Expiry Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mat in expMtrls %}
+            <tr>
+                <td data-heading="Material Name">{{mat.material_name}}</td>
+                    <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
+                    <td data-heading="Status">{{mat.expiry_date}}</td>
+                    {% csrf_token %}
+            
+            </tr>
+            {% endfor %}
+            {% for mat in expMtrls2 %}
+            <tr>
+                <td data-heading="Material Name">{{mat.material_name}}</td>
+                    <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
+                    <td data-heading="Status">{{mat.expiry_date}}</td>
+                    {% csrf_token %}
+            
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    
+    </table>
+</div> 
+
+<div class = "padding"></div>
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+
+{% endblock content %}
