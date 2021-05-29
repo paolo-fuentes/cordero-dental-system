@@ -15,7 +15,6 @@
 }
 .table-container {
     /*padding-left: 20rem; */
-    margin-top: -80px;
     font-family: "Roboto", sans-serif;
     overflow-x: auto;
     margin-bottom: 30px;
@@ -62,6 +61,7 @@
 
 .formGroup {
     position: relative;
+    margin-top: -200px;
 }
 
 .buttonContainer {
@@ -73,7 +73,7 @@ input.check {
             height: 20px;
 }
 .padding {
-    padding-bottom: 80px;
+    padding-bottom: 60px;
 } 
 
 </style>
@@ -81,51 +81,52 @@ input.check {
 {% endblock %}
 
 
-<h1 class="pageHeading">Add Procedure</h1>
+<h1 class="pageHeading">Add Reserved Procedures</h1>
 
     <div class="formContainer">
         <div class="formGroup">
             <form action="" method='POST' autocomplete="off">
                 <div class="jumbotron">
                     <h1 class="display-4"></h1>
-                    <p class="lead">Please input the required materials needed for the procedure and its corresponding quantity.</p>
-                    <hr class="my-4">
                         <input type="hidden" name="csrfmiddlewaretoken" value="r1xprejYguEsWCj4LCoIEBhaUUmbUmQYNoR6NhmSrRRoYHsvLu87bNok1skABXMG">
         
                         <input type="hidden" name="csrfmiddlewaretoken" value="aaNHo1ie68VPFeJJGet4UFBGJ2p5Qagcwx7oK4l8hv8LHjSaG6dtrRIQQAnuxLcU">
 
-                <div class="table-container">
-                    <table>
-                        <thead class= "border-bottom font-weight-bold">
-                            <tr>
-                                <th scope="col"> Name </th>
-                                <th scope="col"> Quantity </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in newArray %}
-                            <tr>
-                                <td style="text-align: center; vertical-align: middle;"> {{ i }} </td>
-            
-                                    <div id="div_id_name" class="form-group"> 
-                                        <label for="id_name">
-                                        </label> 
-                                        <td> 
-                                            <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
-                                            <!-- <input type="number" 
-                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                            name="quantity {{i.pk}}" maxlength="8" min=0 class="textinput textInput form-control" id="id_name" value=0>  -->
-                                            <input type="checkbox" class="check"name="quantity {{i.pk}}" value="1">
-                                        </td>
-                                    </div> 
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-    
+                    <div class="table-container">
+                        <table style="width:900px;">
+                            <thead class= "border-bottom font-weight-bold">
+                                <tr>
+                                    <th scope="col"> Procedure </th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in newArray %}
+                                <tr>
+                                    <td data-heading ="Procedure"> {{ i }} </td>
+                
+                                        <div id="div_id_name" class="form-group"> 
+                                            <label for="id_name">
+                                            </label> 
+                                            <td> 
+                                                <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
+                                                <!-- <input type="number" 
+                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                name="quantity {{i.pk}}" maxlength="8" min=0 class="textinput textInput form-control" id="id_name" value=0>  -->
+                                                <input type="checkbox" class="check"name="quantity {{i.pk}}" value="1">
+                                            </td>
+                                        </div> 
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </form>
+
+            <div class = "padding"></div>
+
 
                 <div class="buttonContainer">
 
@@ -134,6 +135,7 @@ input.check {
                     <button type='submit' class='buttonDesignPositive'>Submit</button>
 
                 </div>
+    
 
             {% csrf_token %}                
         </div>

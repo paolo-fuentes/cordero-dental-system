@@ -80,8 +80,7 @@
             <form action="" method='POST' autocomplete="off">
                 <div class="jumbotron">
                     <h1 class="display-4"></h1>
-                    <p class="lead">Please input the consumed excess materials for the procedure and its corresponding quantity.</p>
-                    <hr class="my-4">
+                    <p class="lead">Please input the consumed excess materials for the procedure and its corresponding quantity</p>
                         <input type="hidden" name="csrfmiddlewaretoken" value="r1xprejYguEsWCj4LCoIEBhaUUmbUmQYNoR6NhmSrRRoYHsvLu87bNok1skABXMG">
                         
                         <input type="hidden" name="csrfmiddlewaretoken" value="aaNHo1ie68VPFeJJGet4UFBGJ2p5Qagcwx7oK4l8hv8LHjSaG6dtrRIQQAnuxLcU">
@@ -90,21 +89,23 @@
                     <table>
                         <thead class= "border-bottom font-weight-bold">
                             <tr>
-                                <th scope="col"> Name </th>
-                                <th scope="col"> Quantity </th>
+                                <th scope="col"> Material Name </th>
+                                <th scope="col"> Excess Quantity </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for i in ExcessMaterial %}
                             <tr>
-                                <td style="text-align: center; vertical-align: middle;"> {{ i.material_name }} </td>
-                                <td>            
+                                <td data-heading="Material Name"> {{ i.material_name }} </td>
+                                <td data-heading="Excess Quantity">            
                                     <div id="div_id_name" class="form-group"> 
                                         <label for="id_name">
                                         </label> 
                                         <div class=""> 
                                             <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
                                             <input type="text" name="quantity {{i.pk}}" class="input" maxlength="30" id="id_name" value=0 size="5"> 
+                                            <span style="color:grey"> {{i.threshold_value_unit}}</span>
+
                                         </div> 
                                     </div> 
                                 </td>
@@ -114,7 +115,7 @@
                     </table>
                 </div>
             </form>
-
+            <div class = "padding"></div>
                     <div class="buttonContainer">
 
                         <a class="buttonDesignNegative" href="{% url 'dentalapp:checkout_list' %}">Cancel</a>

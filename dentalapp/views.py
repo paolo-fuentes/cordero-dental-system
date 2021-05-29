@@ -292,9 +292,7 @@ def ProcedureRequiredMaterialsForm(request, pk):
                 required_material = Required_Material.objects.create(
                     procedure=procedure, material=item, quantity=quantity
                 )
-                #item.item_stock -= quantity
-                #item.save()
-                #total += line_total
+
         
         #order.total = total
         #order.save()
@@ -585,14 +583,14 @@ def excessmaterialForm(request,pk,id=0):
                 excess_material = ExcessMaterials.objects.create(
                     excess_quantity=excess_quantity, material=item, checkout=checkout
                 )
-                #item.item_stock -= quantity
-                #item.save()
+                item.current_quantity -= excess_quantity
+                item.save()
                 #total += line_total
         
         #order.total = total
         #order.save()
         
-        return redirect('/procedureList')
+        return redirect('/checkoutList')
     return render(request,'dentalapp/ExcessForm.html',{'ExcessMaterial':ExcessMaterial})
     #return render(request, "dentalapp/ExcessForm.html", context)
 
