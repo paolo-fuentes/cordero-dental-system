@@ -1,0 +1,90 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+{%block content %}
+<!--{% load crispy_forms_tags %} -->
+
+{% block styles %}
+<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
+
+<style>
+.formContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 85vh;
+    margin-top: 2rem;
+}
+
+.buttonDesignPositive {
+    border: 0;
+    padding: 16px 30px;
+    border-radius: 30px;
+    line-height: 1;
+    background: #3EAEB8;
+    color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    margin: 1rem;
+}
+
+.buttonDesignPositive:hover,
+.buttonDesignPositive:focus {
+    background: #328c94;
+}
+
+
+.buttonDesignNegative{
+    text-decoration: none;
+    border: solid 1px #3EAEB8;
+    padding: 14px 30px;
+    border-radius: 30px;
+    line-height: 1;
+    background: #ffffff;
+    color: #3EAEB8;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s linear;
+    margin: 1rem;
+}
+
+.buttonDesignNegative:hover,
+.buttonDesignNegative:focus {
+    background: #3EAEB8;
+    color: #ffffff;
+}
+
+.formGroup {
+    position: relative;
+}
+
+.buttonContainer {
+    position: absolute;
+    right: 0;
+}
+
+</style>
+
+{% endblock %}
+
+
+<h1 class="pageHeading">Add Supplier</h1>
+
+    <div class="formContainer">
+        <div class="formGroup">
+            <form action="" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <div class="buttonContainer">
+
+                        <a class="buttonDesignNegative" href="{% url 'dentalapp:supplier_list' %}">Cancel</a>
+
+                        <button type='submit' class='buttonDesignPositive'>Submit</button>
+
+                    </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

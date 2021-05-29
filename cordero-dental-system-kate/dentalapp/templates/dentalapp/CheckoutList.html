@@ -1,0 +1,47 @@
+{% extends "dentalapp/home.html" %}
+{% load static %}
+
+
+
+{%block content %}
+{% block styles %}
+<style>
+    .padding{
+        padding-bottom: 80px;
+    }   
+</style>
+{% endblock %}
+<h1 class="pageHeading">View Checkouts</h1>
+
+<div class="table-container">
+    <table class = "table table-borderless">
+        <thead class= "border-bottom font-weight-bold">
+            <tr>
+                <th>Reservation Number</th>
+                <th>Customer</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for checkout in checkoutList %}
+            <tr>
+                <td data-heading="Reservation Number">{{checkout.reservation.pk}}</td>
+                    <td data-heading="Customer">{{checkout.reservation.customer}}</td>
+                    <td data-heading="Add Excess Materials"><a href="{% url 'dentalapp:excess_material_form' checkout.id %}"style="color:#3EAEB8;">Add Excess Materials</a></td>
+                </td>
+                <td data-heading="View Excess Materials"><a href=""style="color:#3EAEB8;">View Excess Materials</a></td>
+                    {% csrf_token %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+</div>
+<div class = "padding"></div>
+
+<script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
+{% endblock content %}
