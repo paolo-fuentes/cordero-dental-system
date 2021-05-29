@@ -51,7 +51,7 @@ class CustomerForm(forms.ModelForm):
         }
 
         widgets = {
-            'customer_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'customer_name': forms.TextInput(attrs={'class': 'form-control', 'list': 'datalist', 'placeholder': 'Enter Name here'}),
             'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
         }
 

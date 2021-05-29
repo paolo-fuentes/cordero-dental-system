@@ -18,6 +18,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 def registerPage(request):
     form = CreateUserForm()
 
@@ -110,6 +111,8 @@ def customerList(request):
 def customerForm(request,id=0):
     model = Customer
     form_class = CustomerForm
+    customers = Customer.objects.all()
+
     if request.method == "GET":
         if id == 0: 
             form = CustomerForm()

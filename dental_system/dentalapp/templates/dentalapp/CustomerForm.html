@@ -76,7 +76,22 @@
         <div class="formGroup">
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <!--{{ form.as_p }}-->
+
+                    <div class="field-container">
+                        <p>{{ form.customer_name.label_tag }}</p>
+                        {{ form.customer_name }}
+                        <datalist id="datalist">
+                            {% for i in customers %}
+                            <option>{{i.customer_name}}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+    
+                    <div id="material-type" class="field-container">
+                        <p>{{ form.contact_number.label_tag }}</p>
+                        {{ form.contact_number }}
+                    </div>
 
                     <div class="buttonContainer">
 
@@ -89,4 +104,5 @@
         </div>
     </div>
 
+   
 {% endblock content %}
