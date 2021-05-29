@@ -405,7 +405,7 @@ def ReservedProceduresForm(request, pk, id=0):
             procedureArray.append(i.procedure)
     newArray = list(dict.fromkeys(procedureArray))
     newArray= set(plist) - set(newArray)
-    print(newArray)
+    #print(newArray)
     #for i in newArray:
         #print(i)
     
@@ -440,16 +440,20 @@ def ReservedProceduresForm(request, pk, id=0):
                 res = Reservation.objects.get(id=pk)
                 reservation_procedure = ReservationProcedure.objects.create(
                     procedure=pro, reservation=res)
-                reserved_procedures.append(reservation_procedure)
-                newArray2 = list(dict.fromkeys(reserved_procedures))
-                for x in newArray2:
-                    required_materials = Required_Material.objects.filter(procedure = x.procedure)
-                    print(required_materials)
-                    for required_material in required_materials:
-                        print(required_material.material.material_name)
-                        y = Material.objects.get(material_name = required_material.material.material_name)
-                        y.current_quantity -= int(required_material.quantity)
-                        y.save()
+                #reserved_procedures.append(reservation_procedure)
+                #newArray2 = list(dict.fromkeys(reserved_procedures))
+                #print(newArray2)
+                #for x in newArray2:
+                required_materials = Required_Material.objects.filter(procedure = reservation_procedure.procedure)
+                #print(newArray2)
+                #print(required_materials)
+                for required_material in required_materials:
+                    #print(len(required_materials))
+                    #print(required_material.material.material_name)
+                    y = Material.objects.get(material_name = required_material.material.material_name)
+                    y.current_quantity -= int(required_material.quantity)
+                    y.save()
+                #reserved_procedures=[]
             # x = formset.save()
             # print(x)
             # for reservation_procedure in x:
@@ -617,14 +621,33 @@ def lowMtrls(request):
 @login_required(login_url='dentalapp:login')
 def cancelReservation(request,id):
     reservation = Reservation.objects.get(pk=id)
-    r_procedures = ReservationProcedure.objects.get(reservation = reservation)
-    required_materials = Required_Material.objects.filter(procedure = r_procedures.procedure)
-    for i in required_materials:
-        y = Material.objects.get(material_name = i.material.material_name)
-        y.current_quantity += i.quantity
-        y.save()
+    r = ReservationProcedure.objects.filter(reservation=reservation).exists()
+    if r ==  True:
+        r_procedures = ReservationProcedure.objects.filter(reservation = reservation)
+        for x in r_procedures:
+            required_materials = Required_Material.objects.filter(procedure = x.procedure)
+            for i in required_materials:
+                y = Material.objects.get(material_name = i.material.material_name)
+                y.current_quantity += i.quantity
+                y.save()
     reservation.status = 'Cancelled'
     reservation.save()
     #checkout = Checkout.objects.create(invoice = None, reservation=reservation)
     #checkout.save(force_insert=True)
     return redirect('/reservationList')
+
+
+# @login_required(login_url='dentalapp:login')
+# def cancelReservation(request,id):
+#     reservation = Reservation.objects.get(pk=id)
+#     r_procedures = ReservationProcedure.objects.get(reservation = reservation)
+#     required_materials = Required_Material.objects.filter(procedure = r_procedures.procedure)
+#     for i in required_materials:
+#         y = Material.objects.get(material_name = i.material.material_name)
+#         y.current_quantity += i.quantity
+#         y.save()
+#     reservation.status = 'Cancelled'
+#     reservation.save()
+#     #checkout = Checkout.objects.create(invoice = None, reservation=reservation)
+#     #checkout.save(force_insert=True)
+#     return redirect('/reservationList')
