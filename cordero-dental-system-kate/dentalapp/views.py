@@ -645,5 +645,8 @@ def ExcessList(request,pk):
     #gtotal = sum( d.solver() for d in OrderLine.objects.filter(ORD__cust_order__name = cust_order.name))
     return render(request,"dentalapp/ExcessMaterialList.html",{'excess_material':excess_material,'e_obj':e_obj,'check':check})
 
-
-
+@login_required(login_url='dentalapp:login')
+def excessDelete(request,id):
+    excess = ExcessMaterials.objects.get(pk=id)
+    excess.delete()
+    return redirect('/checkoutList')

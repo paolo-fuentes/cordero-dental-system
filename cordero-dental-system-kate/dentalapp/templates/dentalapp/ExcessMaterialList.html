@@ -81,12 +81,16 @@
         <thead class= "border-bottom font-weight-bold">
             <tr>
                 <th>Excess Materials</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for e in excess_material %}
             <tr>
                 <td data-heading="Excess Materials">{{e.format}}</td>
+                <td>
+                    <a class="" href="{% url 'dentalapp:excess_delete' e.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
