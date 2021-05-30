@@ -125,7 +125,10 @@ def customerForm(request,id=0):
             form = CustomerForm(request.POST,instance=customer)
         if form.is_valid():
             form.save()
-        return redirect('/customerList')
+            return redirect('/customerList')
+        else:
+            messages.error(request, 'error')
+            return redirect('/customerForm')
 
 @login_required(login_url='dentalapp:login')
 def customerDelete(request,id):
@@ -560,7 +563,7 @@ def excessmaterialForm(request,pk,id=0):
     #        return redirect('/checkoutList')
     #context = {'formset':formset}
 
-    ExcessMaterial = Material.objects.all()
+    ExcessMaterial = Material.objects.all().order_by('material_name')
     item_list = []
     for i in ExcessMaterial:
         item_list.append(i.pk)
@@ -633,3 +636,21 @@ def cancelReservation(request,id):
     #checkout = Checkout.objects.create(invoice = None, reservation=reservation)
     #checkout.save(force_insert=True)
     return redirect('/reservationList')
+
+@login_required(login_url='dentalapp:login')
+def ExcessList(request,pk):
+    excess_material = ExcessMaterials.objects.filter(checkout__pk=pk)
+    check = Checkout.objects.get(pk=pk)
+    e_obj = get_object_or_404(Checkout, pk=pk)
+    #gtotal = sum( d.solver() for d in OrderLine.objects.filter(ORD__cust_order__name = cust_order.name))
+    return render(request,"dentalapp/ExcessMaterialList.html",{'excess_material':excess_material,'e_obj':e_obj,'check':check})
+
+@login_required(login_url='dentalapp:login')
+def excessDelete(request,id):
+    excess = ExcessMaterials.objects.get(pk=id)
+    y = Material.objects.get(material_name = excess.material.material_name)	
+    y.current_quantity += excess.excess_quantity	
+    y.save()
+    excess.delete()
+
+    return redirect('/checkoutList')

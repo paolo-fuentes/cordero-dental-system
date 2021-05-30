@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError
 now = timezone.now()
 
 class Supplier(models.Model):
-    contact_number=models.CharField(max_length=25, default=None)
+    contact_number=models.IntegerField(default=None)
     business_name=models.CharField(max_length=50, default=None )
     contact_person=models.CharField(unique=True, max_length=40, default=None)
     address1=models.CharField(max_length=40,  default=None)
@@ -23,7 +23,7 @@ class Supplier(models.Model):
 
 class Customer(models.Model):
     customer_name=models.CharField(max_length=40, default=None)
-    contact_number=models.CharField(max_length=25, default=None)
+    contact_number=models.IntegerField(default=None)
     
     def __str__(self):
         return self.customer_name
@@ -130,9 +130,6 @@ class Required_Material(models.Model):
     def __str__(self):
         return str(self.material)
 
-    def rmsupplydisplay(self):
-        return str(self.quantity) + " " + self.material.threshold_value_unit
-
 class Reservation(models.Model):
     customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True)
     datetime = models.DateTimeField(default=timezone.now)
@@ -158,3 +155,5 @@ class ExcessMaterials(models.Model):
     excess_quantity = models.IntegerField(default=None)
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
     checkout = models.ForeignKey(Checkout,on_delete=models.SET_NULL, null=True)
+    def format(self):
+        return(str(self.excess_quantity)+" "+str(self.material.threshold_value_unit)+" of "+str(self.material)+" ")

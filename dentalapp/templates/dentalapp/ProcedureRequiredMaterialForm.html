@@ -62,11 +62,6 @@
     /*position: absolute;*/
     right: 0;
 }
-.input {
-    padding:5px;
-    margin-top: -10px;
-    border-radius:8px;
-}
 
 </style>
 
@@ -81,39 +76,42 @@
             <form action="" method='POST' autocomplete="off">
                 <div class="jumbotron">
                     <h1 class="display-4"></h1>
-                    <p class="lead">Please input the required materials needed for the procedure and its corresponding quantity</p>
+                    <p class="lead">Please input the required materials needed for the procedure and its corresponding quantity.</p>
+                    <hr class="my-4">
+                    <p></p>
                         <input type="hidden" name="csrfmiddlewaretoken" value="r1xprejYguEsWCj4LCoIEBhaUUmbUmQYNoR6NhmSrRRoYHsvLu87bNok1skABXMG">
         
                         <input type="hidden" name="csrfmiddlewaretoken" value="aaNHo1ie68VPFeJJGet4UFBGJ2p5Qagcwx7oK4l8hv8LHjSaG6dtrRIQQAnuxLcU">
     
-
-                <div class ="table-container">
-                    <table>
-                        <thead class ="border-bottom font-weight-bold">
-                            <tr>
-                                <th scope="col"> Material Name </th>
-                                <th scope="col"> Quantity </th>
-                            </tr>
+                <div class="row">
+                <div class="col-12">
+    
+                    <table class="table table-striped">
+                        <thead>
+                            <th scope="col"> Name </th>
+                            <th scope="col"> Quantity </th>
                         </thead>
                         <tbody>
                             {% for i in RequiredMaterial %}
                             <tr>
-                                <td data-heading="Material Name"> {{ i.material_name }} </td>
-                                <td data-heading="Quantity">            
+                                <td style="text-align: center; vertical-align: middle;"> {{ i.material_name }} </td>
+                                <td>            
                                     <div id="div_id_name" class="form-group"> 
                                         <label for="id_name">
                                         </label> 
                                         <div class=""> 
                                             <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
-                                            <input type="text" name="quantity {{i.pk}}" maxlength="30" class="input" id="id_name" value=0 size="5"> 
-                                            <span style="color:grey"> {{i.threshold_value_unit}}</span>
+                                            <input type="number" 
+                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                            name="quantity {{i.pk}}" maxlength="8" min=0 class="textinput textInput form-control" id="id_name" value=0 required> 
                                         </div> 
                                     </div> 
-                                </td>
+                                </td> 
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+    
                 </div>
             </form>
 

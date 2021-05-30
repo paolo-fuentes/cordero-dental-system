@@ -89,23 +89,21 @@
                     <table>
                         <thead class= "border-bottom font-weight-bold">
                             <tr>
-                                <th scope="col"> Material Name </th>
-                                <th scope="col"> Excess Quantity </th>
+                                <th scope="col"> Name </th>
+                                <th scope="col"> Quantity </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for i in ExcessMaterial %}
                             <tr>
-                                <td data-heading="Material Name"> {{ i.material_name }} </td>
-                                <td data-heading="Excess Quantity">            
+                                <td style="text-align: center; vertical-align: middle;"> {{ i.material_name }} </td>
+                                <td>            
                                     <div id="div_id_name" class="form-group"> 
                                         <label for="id_name">
                                         </label> 
                                         <div class=""> 
                                             <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
-                                            <input type="text" name="quantity {{i.pk}}" class="input" maxlength="30" id="id_name" value=0 size="5"> 
-                                            <span style="color:grey"> {{i.threshold_value_unit}}</span>
-
+                                            <input type="text" name="quantity {{i.pk}}" class="input" maxlength="30" id="id_name" value=0 size="5" required> 
                                         </div> 
                                     </div> 
                                 </td>
@@ -115,7 +113,7 @@
                     </table>
                 </div>
             </form>
-            <div class = "padding"></div>
+
                     <div class="buttonContainer">
 
                         <a class="buttonDesignNegative" href="{% url 'dentalapp:checkout_list' %}">Cancel</a>
