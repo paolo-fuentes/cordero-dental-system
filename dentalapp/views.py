@@ -184,7 +184,7 @@ def deliveryList(request):
     deliveries = myFilter.qs
 
     context = {'deliveryList' : deliveries, 'myFilter': myFilter}
-    return render(request,"dentalapp/deliverylist.html", context)
+    return render(request,"dentalapp/deliveryList.html", context)
 #def deliveryForm(request):
     #form = Delivered_MaterialForm()
     #return render(request,"dentalapp/deliveryForm.html",{'form':form})
