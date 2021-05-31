@@ -184,7 +184,7 @@ def deliveryList(request):
     deliveries = myFilter.qs
 
     context = {'deliveryList' : deliveries, 'myFilter': myFilter}
-    return render(request,"dentalapp/deliveryList.html", context)
+    return render(request,"dentalapp/DeliveryList.html", context)
 #def deliveryForm(request):
     #form = Delivered_MaterialForm()
     #return render(request,"dentalapp/deliveryForm.html",{'form':form})
@@ -229,7 +229,7 @@ def procedureList(request):
     procedures = myFilter.qs
 
     context = {'procedureList' : procedures, 'myFilter':myFilter}
-    return render(request,"dentalapp/procedureList.html", context)
+    return render(request,"dentalapp/ProcedureList.html", context)
 
 @login_required(login_url='dentalapp:login')
 def procedureForm(request,id=0):
