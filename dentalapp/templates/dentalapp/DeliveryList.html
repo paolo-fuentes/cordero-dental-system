@@ -65,6 +65,7 @@ input[type=text]:focus {
     <table class = "table table-borderless">
         <thead class= "border-bottom font-weight-bold">
             <tr>
+                <th>Parcel Number</th>
                 <th>Supplier</th>
                 <th>Delivered Date</th>
                 <th>Delivered Materials</th>
@@ -76,6 +77,7 @@ input[type=text]:focus {
         <tbody>
             {% for delivery in deliveryList %}
             <tr>
+                <td data-heading="Parcel Number">{{delivery.parcel_number}}</td>
                 <td data-heading="Supplier">{{delivery.supplier}}</td>
                     <td data-heading="Delivered Date">{{delivery.delivery_date}}</td>
                     <td data-heading="Delivered Materials">{{delivery.material.material_name}}</td>
