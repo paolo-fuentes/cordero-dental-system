@@ -1,13 +1,15 @@
 import django_filters
-
+from django.forms.widgets import TextInput
 from .models import *
 
 class SupplierFilter(django_filters.FilterSet):
+
     class Meta:
         model = Supplier
         fields = {
             'contact_person': ['icontains'],
         }
+
 
 class CustomerFilter(django_filters.FilterSet):
     class Meta:
@@ -36,11 +38,3 @@ class ProcedureFilter(django_filters.FilterSet):
         fields = {
             'procedure_name': ['icontains'],
         }
-
-class Required_MaterialFilter(django_filters.FilterSet):
-    class Meta:
-        model = Required_Material
-        fields = {
-            'quantity': ['icontains'],
-        }
-        

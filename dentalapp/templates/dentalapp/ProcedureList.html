@@ -34,6 +34,20 @@
     background: #328c94;
 }
 
+label[for="id_procedure_name__icontains"]
+{
+    display:none;
+}
+
+input[type=text] {
+  border: 3px solid #ccc;
+  padding: 6px 15px;
+  transition: 0.5s;
+}
+
+input[type=text]:focus {
+  border: 3px solid #555;
+}
 </style>
 
 {% endblock %}
@@ -84,6 +98,10 @@
 
 
 <script src="{% static 'js/searchSupplier.js' %}"></script>
+
+<script>
+    $('#id_procedure_name__icontains').attr("placeholder", "Search Procedure")
+</script>
 
 <!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->
 
