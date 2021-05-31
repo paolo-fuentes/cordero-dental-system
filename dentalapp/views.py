@@ -119,6 +119,7 @@ def customerForm(request,id=0):
         else:
             customer = Customer.objects.get(pk=id)
             form = CustomerForm(instance=customer)
+            
         return render(request,"dentalapp/CustomerForm.html",{'form':form})
     else:
         if id == 0:
@@ -183,7 +184,7 @@ def deliveryList(request):
     deliveries = myFilter.qs
 
     context = {'deliveryList' : deliveries, 'myFilter': myFilter}
-    return render(request,"dentalapp/deliveryList.html", context)
+    return render(request,"dentalapp/deliverylist.html", context)
 #def deliveryForm(request):
     #form = Delivered_MaterialForm()
     #return render(request,"dentalapp/deliveryForm.html",{'form':form})
