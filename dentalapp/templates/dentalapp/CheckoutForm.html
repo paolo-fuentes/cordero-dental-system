@@ -54,9 +54,6 @@
     color: #ffffff;
 }
 
-.formGroup {
-    position: relative;
-}
 
 .buttonContainer {
     /*position: absolute;*/
@@ -71,7 +68,7 @@
 <h1 class="pageHeading">Checkout</h1>
 
     <div class="formContainer">
-        <div class="formGroup">
+        <div>
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
                     {{ form.as_p }}

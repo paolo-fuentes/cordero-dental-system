@@ -53,10 +53,6 @@
     color: #ffffff;
 }
 
-.formGroup {
-    position: relative;
-}
-
 .buttonContainer {
     /*position: absolute;*/
     right: 0;
@@ -70,7 +66,7 @@
 <h1 class="pageHeading">Add Procedure</h1>
 
     <div class="formContainer">
-        <div class="formGroup">
+        <div>
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
                     {{ form.as_p }}
