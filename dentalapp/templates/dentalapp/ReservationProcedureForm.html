@@ -15,7 +15,6 @@
 }
 .table-container {
     /*padding-left: 20rem; */
-    margin-top: -80px;
     font-family: "Roboto", sans-serif;
     overflow-x: auto;
     margin-bottom: 30px;
@@ -82,8 +81,7 @@ input.check {
     <div class="formContainer">
         <div>
             <form action="" method='POST' autocomplete="off">
-                <div class="jumbotron">
-                    <h1 class="display-4"></h1>
+                <div>
                     <p class="lead">Please input the required materials needed for the procedure and its corresponding quantity</p>
                         <input type="hidden" name="csrfmiddlewaretoken" value="r1xprejYguEsWCj4LCoIEBhaUUmbUmQYNoR6NhmSrRRoYHsvLu87bNok1skABXMG">
         
@@ -100,18 +98,18 @@ input.check {
                         <tbody>
                             {% for i in newArray %}
                             <tr>
-                                <td> {{ i }} </td>
-
-                                    <div id="div_id_name" class="form-group"> 
+                                <td data-heading="Procedure Name"> {{ i }} </td>
+                                <td data-heading="Quantity">
+                                    <div id="div_id_name"> 
                                         <label for="id_name">
                                         </label> 
-                                        <td> 
+                                        <div> 
                                             <input type="hidden" name="itemInput {{i.pk}}" value={{i.pk}}>
                                             <!-- <input type="number" 
                                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                             name="quantity {{i.pk}}" maxlength="8" min=0 class="textinput textInput form-control" id="id_name" value=0>  -->
-                                            <input type="checkbox" class="check"name="quantity {{i.pk}}" value="1">
-                                        </td>
+                                            <input type="checkbox" class="check" name="quantity {{i.pk}}" value="1">
+                                        </div>
                                     </div> 
                                 </td>
                             </tr>
@@ -122,7 +120,7 @@ input.check {
                 </div>
             </form>
 
-                <div class="buttonContainer">
+                <div style="text-align: center;margin-top: 20px;">
 
                     <a class="buttonDesignNegative" href="{% url 'dentalapp:procedure_list' %}">Cancel</a>
 
