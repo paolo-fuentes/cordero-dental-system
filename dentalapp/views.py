@@ -199,7 +199,7 @@ def deliveryForm(request,id=0):
         else:
             delivery = Delivered_Material.objects.get(pk=id)           
             form = Delivered_MaterialForm(instance=delivery)      
-        return render(request,"dentalapp/deliveryForm.html",{'form':form})
+        return render(request,"dentalapp/DeliveryForm.html",{'form':form})
     else:
         if id == 0:
             form = Delivered_MaterialForm(request.POST) 
