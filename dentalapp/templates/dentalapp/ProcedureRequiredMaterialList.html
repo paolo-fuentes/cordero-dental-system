@@ -79,7 +79,6 @@
                 <th>Material Name</th>
                 <th>Required Quantity</th>
                 <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -87,9 +86,6 @@
             <tr>
                 <td data-heading="Material Name">{{requiredmaterial.material}}</td>
                 <td data-heading="Required Quantity">{{requiredmaterial.rmsupplydisplay}}</td>
-                <td data-heading="Edit Material">
-                    <a class="" href="{% url 'dentalapp:procedure_required_materials_update' requiredmaterial.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
-                </td>
                 <td data-heading="Delete Material">
                     {% csrf_token %}
                     <a class="" href="{% url 'dentalapp:procedure_required_materials_delete' requiredmaterial.id %}"><i class="fas fa-trash-alt fa-2x" style="color:black"></i></a>

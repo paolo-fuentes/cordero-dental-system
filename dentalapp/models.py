@@ -127,6 +127,10 @@ class Required_Material(models.Model):
     def __str__(self):
         return str(self.material)
 
+    def rmsupplydisplay(self):
+        return str(self.quantity) + " " + self.material.threshold_value_unit
+
+
 class Reservation(models.Model):
     customer = models.ForeignKey(Customer, on_delete = models.SET_NULL, null=True)
     datetime = models.DateTimeField(default=timezone.now)

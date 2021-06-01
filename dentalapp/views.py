@@ -304,18 +304,6 @@ def ProcedureRequiredMaterialsForm(request, pk):
         return redirect('/procedureList')
     return render(request,'dentalapp/ProcedureRequiredMaterialForm.html',{'RequiredMaterial':RequiredMaterial})
 
-def updateProcedureRequiredMaterials(request, pk):
-    requiredmaterial = Required_Material.objects.get(id=pk)
-    form = RequiredMaterialForm(instance=requiredmaterial)
-
-    if request.method == "POST":
-        form = RequiredMaterialForm(request.POST, instance=requiredmaterial)
-        if form.is_valid():
-            form.save()
-            return redirect('/procedureList')
-
-    context = {'form':form}
-    return render(request, 'dentalapp/ProcedureRequiredMaterialForm.html', context)
 
 def deleteProcedureRequiredMaterials(request, id):
 	requiredmaterial = Required_Material.objects.get(pk=id)
