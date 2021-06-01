@@ -4,7 +4,27 @@
 
 
 {%block content %}
-<h1 style="text-align: center;padding: 1rem 0 1rem 0;">Welcome to Cordero Dental System</h1>
+{% block styles %}
+<style>
+.low {
+    color: #f14444;
+
+}
+
+.high {
+    color: #00a50e;
+
+}
+
+.mid {
+    color: #eeb509;
+}
+.padding{
+    padding-bottom: 80px;
+}
+
+</style>
+{% endblock %}
 
 <h2 class="pageHeading">Restock List</h2>
 
@@ -22,7 +42,16 @@
             <tr>
                 <td data-heading="Material Name">{{mat.material_name}}</td>
                     <td data-heading="Current Stock">{{mat.supplydisplay}}</td>
-                    <td data-heading="Status">{{mat.supply_status}}</td>
+                    <td data-heading="Current Quantity">
+                        {% if mat.supply_status == "Low" %}
+                        <span class="low"> 
+                        {% elif mat.supply_status == "High" %} 
+                        <span class="high">
+                        {% elif mat.supply_status == "Mid" %} 
+                        <span class="mid">
+                        {% endif %}
+                            {{mat.get_supply_status_display}}</td>
+                        </span>
                     {% csrf_token %}
             </tr>
             {% endfor %}
@@ -68,7 +97,7 @@
     </table>
 </div> 
 
-
+<div class = "padding"></div>
 <script src="{% static 'js/searchSupplier.js' %}"></script>
 
 <!-- <a class="btn btn-primary btn=sm btn-block" href="{% url 'dentalapp:dentalapp' %}">Go Back to Home</a> -->

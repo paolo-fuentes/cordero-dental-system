@@ -11,14 +11,16 @@
 		html {
 			margin: 0;
 			padding: 0;
-			height: 100%;
-			background:#3EAEB8 !important;
+			height: 80%;
+			/*background: #3EAEB8 !important;*/
+			background: #fff;
 		}
 		.user_card {
 			width: 350px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: #ffffff;
+			/*background: #fff;*/
+			background: #3EAEB8;
 			position: relative;
 			display: flex;
 			justify-content: center;
@@ -36,12 +38,13 @@
 		}
 
 		#form-title{
-			color: #000;
+			color: #fff;
 		}
 		.login_btn {
 			width: 100%;
-			background: #3EAEB8 !important;
-			color: white !important;
+			/*background: #3EAEB8 !important;*/
+			background: #fff !important;
+			color: #3EAEB8 !important;
 		}
 		.login_btn:focus {
 			box-shadow: none !important;
@@ -62,10 +65,28 @@
 			outline: 0px !important;
 		}
 
+		.headerSection {
+			display: flex;
+			flex-direction: column;
+			align-items: center;       /* horizontally center child elements */
+			text-align: center; 
+		}
+
+		.headerImage {
+			margin-top: 1rem;
+			height: 5rem;
+			margin-bottom: 1rem;
+		}
+
 	</style>
 
 </head>
 <body>
+	<div class="headerSection">
+		<img class="headerImage" src="../static/images/clinicLogo.png"  alt="">
+		<h2>Cordero Dental System</h2>
+	</div>
+
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -111,7 +132,7 @@
                 
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
-						Already have an account? <a href="{% url 'dentalapp:login' %}" class="ml-2">Login</a>
+						<p style="color:#fff">Already have an account?</p> <a href="{% url 'dentalapp:login' %}" class="ml-2">Login</a>
 					</div>
 				</div>
 			</div>

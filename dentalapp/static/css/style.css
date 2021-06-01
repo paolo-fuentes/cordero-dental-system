@@ -11,10 +11,14 @@ body{
 
 .pageHeading {
     text-align: center;
-    text-decoration: underline;
-    text-decoration-color: #3EAEB8;
+    text-shadow: 2px 2px #bfc1c2;
     text-decoration-thickness: 5px;
     padding: 1rem 0 1rem 0;
+    font-family: BlueFont;
+    font-size: 38px;
+    margin-top:30px;
+    color: #04353a;
+    
 }
 
 .toggleNavBtn {
@@ -43,21 +47,28 @@ body{
 .toggleNavBtn.click span:before{
     content: '\f00d';
 }
+html{
+    height:100%;
+}
+body{
+    position: relative;
+    min-height: 100%;
+}
 
 .sidebar {
-    position: fixed;
-    width: 250px;
+    overflow: scroll;
+    position: absolute;
+    width: 280px;
     height: 100%;
-    left: -250px;
-    background-color: #3EAEB8;
+    left: -280px;
+    background-color: #308991;
     transition: left 0.4s ease;
 }
 
 .sidebar.show,
 .sidebar.active {
     left:0px;
-    background-color: #3EAEB8
-
+    background-color: #308991;
 }
 
 /* .navigation:hover {
@@ -181,13 +192,15 @@ nav ul li a:hover span {
     width: 80%;
     box-shadow: 0 4px 15px -8px rgba(0, 0, 0, 0.4);
     border-collapse: collapse;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
     margin-left: auto;
     margin-right: auto;
 }
 
 .table-container table thead tr{
     background: #3EAEB8;
-    color: #ffffff;
+    color: white;
 }
 
 .table-container table td,
@@ -198,6 +211,10 @@ nav ul li a:hover span {
 
 .table-container table tr {
     border-bottom: 2px solid #C4C4C4;
+}
+
+.table-container table tr:nth-of-type(even) {
+    background-color: #f3f3f3;
 }
 
 .searchContainer {
@@ -213,16 +230,17 @@ nav ul li a:hover span {
 
 .toggle {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background: #3EAEB8;
+    top: -5px;
+    left: 0;
+    width: 50px;
+    height: 40px;
+    background: transparent;
     cursor: pointer;
+    color:white;
 }
 
 .toggle.active {
-    background: #F6F5F7;
+    background: transparent;
 }
 
 .toggle:before {
@@ -267,7 +285,7 @@ nav ul li a:hover span {
 
 @media(max-width: 767px) {
     .sidebar {
-        left: -260px;
+        left: -280px;
     }
 
     .sidebar.active {

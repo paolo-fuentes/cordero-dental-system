@@ -18,88 +18,164 @@
     <span class="fas fa-bars"></span>
 </div> -->
 
+<style>
+    @font-face {
+        font-family:BlueFont;
+        src: url(static/fonts/blue.ttf);
+    }
+    @font-face {
+    font-family: 'Lemon Milk';
+    src: url(static/fonts/LEMONMILK-Light.otf);
+}
+.wrapper {
+  width: 100%;
+  margin: auto;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 3px 6px 4px #3EAEB8;
+  background-color: rgb(65, 65, 65);
 
+}
+
+.icon {
+  height: 24px;
+  width: 24px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.icon2 {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.logo {
+  height: 25px;
+  width: 25px;
+  display: none;
+}
+
+.text {
+  text-align: center;
+  margin: 13px;
+  font-size: 23px;
+  font-family:'Lemon Milk';
+  color:white;
+  letter-spacing: 7px;
+}
+.border { 
+    height: 10px; 
+    width:100%;
+    background-image: url(static/images/minus.png); 
+    background-repeat: repeat-x;
+    background-size: 100px; 
+    background-position: center; 
+    background-color: transparent; 
+    border: none; 
+    margin: auto; 
+}
+@media(max-width: 767px) {
+    .text {
+        display:none;
+    }
+    .logo {
+        display:block;
+    }
+}
+    
+</style>
+<div class = "wrapper">
+    <span class="text" >Cordero Dental Systems</span>
+    <img class = "logo" src = "{% static 'images/logo.png'%}">
+    
+</div>
 <body>
+
 
 <nav class="sidebar">
     <ul>
         <li>
-            <a href="{% url 'dentalapp:low_mtrls' %}">Home</a>
+            <a href="{% url 'dentalapp:low_mtrls' %}"><img class = icon src = "{% static 'images/home.png'%}">Home</a>
         </li>
 
         <li>
-            <a href="#" class="reservation-btn">Reservation
+            <a href="#" class="reservation-btn"><img class = icon src = "{% static 'images/reservation.png'%}">Reservation
             <span class="fas fa-caret-down"></span>
             <ul class="reservation-show">
-                <li><a href="{% url 'dentalapp:reservation_list' %}">View Reservations</a></li>
-                <li><a href="{% url 'dentalapp:reservation_form' %}">Add Reservation</a></li>
+                <li><a href="{% url 'dentalapp:reservation_list' %}"><img class = icon2 src = "{% static 'images/view.png'%}">View Reservations</a></li>
+                <li><a href="{% url 'dentalapp:reservation_form' %}"><img class = icon2 src = "{% static 'images/add.png'%}">Add Reservation</a></li>
             </ul>
             </a>
         </li>
 
         <li>
-            <a href="#" class='checkout-btn'>Checkouts
+            <a href="#" class='checkout-btn'><img class = icon src = "{% static 'images/checkout.png'%}">Checkouts
                 <span class="fas fa-caret-down"></span>
             <ul class="checkout-show">
-                <li><a href="{% url 'dentalapp:checkout_list' %}">View Checkouts</a></li>
+                <li><a href="{% url 'dentalapp:checkout_list' %}"><img class = icon2 src = "{% static 'images/view.png'%}">View Checkouts</a></li>
             </ul>
             </a>
         </li>
 
         <li>
-            <a href="#" class="procedure-btn">Procedures
+            <a href="#" class="procedure-btn"><img class = icon src = "{% static 'images/procedure.png'%}">Procedures
                 <span class="fas fa-caret-down"></span>
             </a>
             <ul class="procedure-show">
-                <li><a href="{% url 'dentalapp:procedure_list' %}">View Procedures</a></li>
-                <li><a href="{% url 'dentalapp:procedure_form' %}">Add Procedure</a></li>
+                <li><a href="{% url 'dentalapp:procedure_list' %}"><img class = icon2 src = "{% static 'images/view.png'%}">View Procedures</a></li>
+                <li><a href="{% url 'dentalapp:procedure_form' %}"><img class = icon2 src = "{% static 'images/add.png'%}">Add Procedure</a></li>
             </ul>
         </li>
 
         <li>
-            <a href="#" class="supplier-btn">Suppliers
+            <a href="#" class="supplier-btn"><img class = icon src = "{% static 'images/supplier.png'%}">Suppliers
                 <span class="fas fa-caret-down"></span>
             </a>
             <ul class="feat-show">
-                <li><a href="{% url 'dentalapp:supplier_list' %}">View Suppliers</a></li>
-                <li><a href="{% url 'dentalapp:supplier_form' %}">Add Supplier</a></li>
+                <li><a href="{% url 'dentalapp:supplier_list' %}"><img class = icon2 src = "{% static 'images/view.png'%}">View Suppliers</a></li>
+                <li><a href="{% url 'dentalapp:supplier_form' %}"><img class = icon2 src = "{% static 'images/add.png'%}">Add Supplier</a></li>
             </ul>
         </li>
 
         <li>
-            <a href="#" class="mat-btn">Materials
+            <a href="#" class="mat-btn"><img class = icon src = "{% static 'images/material.png'%}">Materials
                 <span class="fas fa-caret-down fourth"></span>
             </a>
             <ul class="mat-show">
-                <li><a href="{% url 'dentalapp:material_list' %}">View Materials</a></li>
-                <li><a href="{% url 'dentalapp:material_form' %}">Add Materials</a></li>
+                <li><a href="{% url 'dentalapp:material_list' %}"><img class = icon2 src = "{% static 'images/view.png'%}">View Materials</a></li>
+                <li><a href="{% url 'dentalapp:material_form' %}"><img class = icon2 src = "{% static 'images/add.png'%}">Add Material</a></li>
             </ul>
         </li>
         <li>
         </li>
 
         <li>
-            <a href="#" class="delivery-btn">Deliveries
+            <a href="#" class="delivery-btn"><img class = icon src = "{% static 'images/delivery.png'%}">Deliveries
                 <span class="fas fa-caret-down"></span>
             </a>
             <ul class="delivery-show">
-                <li><a href="{% url 'dentalapp:delivery_list' %}">View Deliveries</a></li>
-                <li><a href="{% url 'dentalapp:delivery_form' %}">Add Delivery</a></li>
+                <li><a href="{% url 'dentalapp:delivery_list' %}"><img class = icon2 src = "{% static 'images/view.png'%}">View Deliveries</a></li>
+                <li><a href="{% url 'dentalapp:delivery_form' %}"><img class = icon2 src = "{% static 'images/add.png'%}">Add Delivery</a></li>
             </ul>
         </li>
 
         <li>
-            <a href="#" class="cus-btn">Customers
+            <a href="#" class="cus-btn"><img class = icon src = "{% static 'images/customer.png'%}">Customers
                 <span class="fas fa-caret-down third"></span>
             </a>
             <ul class="cus-show">
-                <li><a href="{% url 'dentalapp:customer_list' %}">View Customers</a></li>
-                <li><a href="{% url 'dentalapp:customer_form' %}">Add Customer</a></li>
+                <li><a href="{% url 'dentalapp:customer_list' %}"><img class = icon2 src = "{% static 'images/view.png'%}">View Customers</a></li>
+                <li><a href="{% url 'dentalapp:customer_form' %}"><img class = icon2 src = "{% static 'images/add.png'%}">Add Customer</a></li>
             </ul>
         </li>
 
         <li>
-            <a href="{% url 'dentalapp:logout' %}">Logout</a>
+            <a href="{% url 'dentalapp:logout' %}"><img class = icon src = "{% static 'images/logout.png'%}">Logout</a>
         </li>
     </ul>
 </nav>
@@ -110,6 +186,7 @@
 
     {% block content %}
     {% endblock content %}
+
     <script>
         $('.toggleNavBtn').click(function(){
             $(this).toggleClass("click");
@@ -141,7 +218,6 @@
             $('nav ul .checkout-show').toggleClass("show6");
         });
 
-        
         
 
         function toggleMenu(){
