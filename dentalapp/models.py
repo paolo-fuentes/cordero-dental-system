@@ -156,3 +156,6 @@ class ExcessMaterials(models.Model):
     excess_quantity = models.IntegerField(default=None)
     material = models.ForeignKey(Material,on_delete=models.SET_NULL,null=True)
     checkout = models.ForeignKey(Checkout,on_delete=models.SET_NULL, null=True)
+    
+    def format(self):
+        return(str(self.excess_quantity)+" "+str(self.material.threshold_value_unit)+" of "+str(self.material)+" ")
