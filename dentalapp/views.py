@@ -79,6 +79,7 @@ def supplierForm(request,id=0):
         else:
             supplier = Supplier.objects.get(pk=id)
             form = SupplierForm(instance=supplier)
+            #comment
         return render(request,"dentalapp/SupplierForm.html",{'form':form})
     else:
         if id == 0:
