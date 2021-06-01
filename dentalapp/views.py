@@ -315,7 +315,7 @@ def updateProcedureRequiredMaterials(request, pk):
             return redirect('/procedureList')
 
     context = {'form':form}
-    return render(request, 'dentalapp/updateProcedureRequiredMaterials.html', context)
+    return render(request, 'dentalapp/ProcedureRequiredMaterialForm.html', context)
 
 def deleteProcedureRequiredMaterials(request, id):
 	requiredmaterial = Required_Material.objects.get(pk=id)
