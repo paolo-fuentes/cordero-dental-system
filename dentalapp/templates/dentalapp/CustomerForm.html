@@ -76,22 +76,18 @@
         <div class="formGroup">
             <form action="" method="post" autocomplete="off">
                     {% csrf_token %}
-                    <!--{{ form.as_p }}-->
-
-                    <div class="field-container">
-                        <p>{{ form.customer_name.label_tag }}</p>
-                        {{ form.customer_name }}
-                        <datalist id="datalist">
-                            {% for i in customers %}
-                            <option>{{i.customer_name}}</option>
-                            {% endfor %}
-                        </datalist>
-                    </div>
-    
-                    <div id="material-type" class="field-container">
-                        <p>{{ form.contact_number.label_tag }}</p>
-                        {{ form.contact_number }}
-                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="text-danger">
+                                Invalid Form Submission. Please take note of the following:
+                                <ul>
+                                    <li class="text-danger">Customer Name must not exceed 50 characters</li>
+                                    <li class="text-danger">Contact Number must not exceed 15 characters</li>
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.as_p }}
 
                     <div class="buttonContainer">
 
@@ -104,5 +100,4 @@
         </div>
     </div>
 
-   
 {% endblock content %}

@@ -2,6 +2,67 @@
 {% load static %}
 
 {%block content %}
+<style>
+    .formContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 85vh;
+        margin-top: 2rem;
+    }
+    
+    .buttonDesignPositive {
+        border: 0;
+        padding: 16px 30px;
+        border-radius: 30px;
+        line-height: 1;
+        background: #3EAEB8;
+        color: #ffffff;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s linear;
+        margin: 1rem;
+    }
+    
+    .buttonDesignPositive:hover,
+    .buttonDesignPositive:focus {
+        background: #328c94;
+    }
+    
+    
+    .buttonDesignNegative{
+        text-decoration: none;
+        border: solid 1px #3EAEB8;
+        padding: 14px 30px;
+        border-radius: 30px;
+        line-height: 1;
+        background: #ffffff;
+        color: #3EAEB8;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s linear;
+        margin: 1rem;
+    }
+    
+    .buttonDesignNegative:hover,
+    .buttonDesignNegative:focus {
+        background: #3EAEB8;
+        color: #ffffff;
+    }
+    
+    .formGroup {
+        position: relative;
+    }
+    
+    .buttonContainer {
+        /*position: absolute;*/
+        margin-top: 2rem;
+        text-align: right;
+        width: 90%;
+    }
+    
+    </style>
+    
 <h1 class="pageHeading">Procedures </h1>
 
 <!--<form method="get" style=>
@@ -30,6 +91,12 @@
         </tbody>
     
     </table>
+</div>
+
+<div class="buttonContainer">
+
+    <a class="buttonDesignNegative" href="{% url 'dentalapp:procedure_list' %}">Back</a>
+
 </div>
 
 
