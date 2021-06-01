@@ -60,7 +60,7 @@ def dentalapp(request):
 
 @login_required(login_url='dentalapp:login')
 def supplierList(request):
-    suppliers = Supplier.objects.all()
+    suppliers = Supplier.objects.all().order_by('contact_person')
 
     myFilter = SupplierFilter(request.GET, queryset=suppliers)
     suppliers = myFilter.qs
