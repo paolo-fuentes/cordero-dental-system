@@ -52,16 +52,15 @@
         color: #ffffff;
     }
     
-    .formGroup {
-        position: relative;
-    }
-    
     .buttonContainer {
         /*position: absolute;*/
         margin-top: 2rem;
         text-align: right;
         width: 90%;
     }
+    .padding{
+        padding-bottom: 80px;
+    } 
     
     </style>
 
@@ -87,7 +86,7 @@
             {% for requiredmaterial in procedure_material %}
             <tr>
                 <td data-heading="Material Name">{{requiredmaterial.material}}</td>
-                <td data-heading="Required Quantity">{{requiredmaterial.quantity}} {{requiredmaterial.quantity_unit}}</td>
+                <td data-heading="Required Quantity">{{requiredmaterial.rmsupplydisplay}}</td>
                 <td data-heading="Edit Material">
                     <a class="" href="{% url 'dentalapp:procedure_required_materials_update' requiredmaterial.id %}"><i class="fas fa-edit fa-2x" style="color:black"></i></a>
                 </td>
@@ -107,7 +106,7 @@
     <a class="buttonDesignNegative" href="{% url 'dentalapp:procedure_list' %}">Back</a>
 
 </div>
-
+<div class = "padding"></div>
 
 <script src="{% static 'js/searchSupplier.js' %}"></script>
 
